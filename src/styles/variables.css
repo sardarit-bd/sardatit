@@ -1,0 +1,18 @@
+:root {
+  --background: #ffffff;
+  --foreground: #203eec;
+  --foreground-accent: #00d4ff;
+  --text: #1d1e1c;
+  --text-accent: #e5e5e5;
+  --border: #808080;
+  --card: #f9fafb;
+  --primary: #2563eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+  --highlight: #ffce03;
+  --primary-foreground: #ffffff;
+  --muted: #f4f5f7;
+  --muted-foreground: #6b7280;
+  --card-foreground: #1d1e1c;
+}
