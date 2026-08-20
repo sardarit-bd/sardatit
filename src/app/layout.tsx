@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Sardar IT delivers end-to-end web development, software, branding, and digital marketing — one team, from idea to launch, with a client-first process.",
 };
-
+// asfasd
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
