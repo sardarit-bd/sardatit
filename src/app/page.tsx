@@ -1,5 +1,4 @@
 import CtaSection from "@/components/Cta";
-import LogoTicker from "@/components/LogoTicker";
 import Projects from "@/components/Projects";
 // import BreakThingsCta from "@/components/sections/BreakThingsCta";
 import { ImpactStats } from "@/components/sections/ImpactStats";
@@ -9,7 +8,7 @@ import ClientFeedbackAccordion from "@/components/sections/ClientFeedbackAccordi
 import CompanyGallerySection from "@/components/sections/CompanyGallerySection";
 import { ServiceShowcaseCard } from "@/components/WhyChooseUs";
 import { Hero } from "../components/Hero";
-import { TrustedBy } from "../components/TrustedBy";
+import TrustedBy from "../components/TrustedBy";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
       <Hero />
       <Showreel />
       <TrustedBy />
-      <LogoTicker />
       <ImpactStats />
       <Projects />
       <ServiceShowcaseCard />

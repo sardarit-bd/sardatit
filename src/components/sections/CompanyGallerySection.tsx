@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { FiArrowUpRight } from "react-icons/fi";
+import SectionHeader from "../ui/SectionHeader";
 
 const galleryImages = [
   {
@@ -57,38 +56,13 @@ export function CompanyGallerySection() {
   return (
     <section className="relative w-full bg-black py-20 lg:py-20 overflow-hidden text-white">
 
-      <div className="container mb-12 text-left relative z-10 flex justify-between items-center pb-3">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="text-xs font-semibold tracking-wide text-muted uppercase">
-            / Life at Sardar IT
-          </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4">
-            Moments & Company Culture
-          </h2>
-          <p className="text-white/60 max-w-2xl text-sm md:text-base lg:text-lg text-left">
-            Take a peek inside our company journey, everyday moments, vibrant workspace, and the awesome people behind Sardar IT.
-          </p>
-        </motion.div>
-        <div>
-          <Link
-            href="/contact"
-            className={`group inline-flex items-center gap-3 px-4 py-2.5 bg-white text-black font-semibold text-sm md:text-base hover:bg-[#133bd4] transition-all duration-300 hover:scale-[1.02] ${true ? "" : "shadow-xl shadow-slate-950/20"}`}
-          >
-            <span>Book a call</span>
-            <span className="flex items-center justify-center size-7 rounded-full bg-black/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-              <FiArrowUpRight className="text-base transition-transform group-hover:rotate-45" />
-            </span>
-          </Link>
-        </div>
+      <div className="container">
+        <SectionHeader tag={"Life at Sardar IT"} title1="Moments & Company Culture" title2="" pre={"Take a peek inside our company journey, everyday moments, vibrant workspace, and the awesome people behind Sardar IT."} isBgWhite={false} link={'/'} btn={'Book a call'} />
+
       </div>
 
       {/* Infinite Marquee Container (Right to Left) */}
-      <div className="relative w-full overflow-hidden flex items-center py-4">
+      <div className="relative w-full overflow-hidden flex items-center py-4 mt-14">
         {/* Left Gradient Fade Overlay */}
         <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 lg:w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none hidden" />
 

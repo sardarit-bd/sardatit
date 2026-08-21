@@ -18,7 +18,7 @@ export function AnimatedStat({ value, label, index }: AnimatedStatProps) {
 
   return (
     <div
-      className="w-full h-76 bg-white border border-gray-200 overflow-hidden md:hover:scale-105 transition-all duration-300 p-6 flex flex-col justify-between"
+      className="w-full h-76 bg-white border border-gray-200 overflow-hidden transition-all duration-300 p-6 flex flex-col justify-between"
       ref={ref}
     >
       <div className="w-full h-fit justify-center text-zinc-500 text-xl font-medium leading-5">

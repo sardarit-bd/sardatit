@@ -22,26 +22,26 @@ const navItems = [
 
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
-    <span className="relative block w-5 h-4" aria-hidden="true">
+    <span className="relative block w-6 h-5" aria-hidden="true">
       <span
         className={[
-          "absolute left-0 top-0 h-[1.5px] bg-current rounded-full",
+          "absolute left-0 top-0 h-[3px] bg-current rounded-full",
           "transition-all duration-300 ease-in-out",
-          isOpen ? "w-5 translate-y-1.75 rotate-45" : "w-4",
+          isOpen ? "w-6 translate-y-1.75 rotate-45" : "w-5",
         ].join(" ")}
       />
       <span
         className={[
-          "absolute left-0 top-1/2 -translate-y-1/2 h-[1.5px] w-5 bg-current rounded-full",
+          "absolute left-0 top-1/2 -translate-y-1/2 h-[3px] w-7 bg-current rounded-full",
           "transition-opacity duration-200 ease-in-out",
           isOpen ? "opacity-0" : "opacity-100",
         ].join(" ")}
       />
       <span
         className={[
-          "absolute left-0 bottom-0 h-[1.5px] bg-current rounded-full",
+          "absolute left-0 bottom-0 h-[3px] bg-current rounded-full",
           "transition-all duration-300 ease-in-out",
-          isOpen ? "w-5 -translate-y-1.75 -rotate-45" : "w-4",
+          isOpen ? "w-6 -translate-y-1.75 -rotate-45" : "w-5",
         ].join(" ")}
       />
     </span>
@@ -154,7 +154,7 @@ export default function Header() {
             : "bg-transparent",
         ].join(" ")}
       >
-        <div className="container mx-auto overflow-hidden">
+        <div className="container py-2 md:py-0 overflow-hidden">
           <nav className="flex items-center justify-between h-16 md:h-20">
             <Link
               href="#"
@@ -162,7 +162,7 @@ export default function Header() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="relative flex items-center h-8 w-32 md:h-10 md:w-48"
+              className="relative flex items-center h-14 w-42 md:h-10 md:w-48"
             >
               <Image
                 src="/image/logo.png"
@@ -218,7 +218,7 @@ export default function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-0! -mr-2 size-13! flex items-center justify-center rounded-full!"
+              className="lg:hidden p-0! -mr-2 size-13! flex items-center justify-center"
               aria-label="Open menu"
             >
               <HamburgerIcon isOpen={isMobileMenuOpen} />

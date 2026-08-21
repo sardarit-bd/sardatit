@@ -52,7 +52,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.15] text-slate-900/90"
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.15] text-slate-900/90 text-center md:text-left"
           >
             A global digital agency for products that ship,{" "}
             <motion.span
@@ -95,33 +95,11 @@ export function Hero() {
         >
           {/* Paragraph */}
           <div className="lg:col-span-7">
-            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-normal leading-relaxed hidden">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-normal leading-relaxed text-center md:text-left md:hidden">
               Build your brand with design, engineering, and growth marketing
               under one team. We build high-converting web apps, AI software,
               and digital platforms for startups and enterprise teams.
             </p>
-          </div>
-
-          {/* Social Proof Founders Stack & Rating */}
-          <div className="lg:col-span-5 flex items-center gap-4 lg:justify-end hidden">
-            <div className="flex -space-x-3 overflow-hidden p-1">
-              {clientAvatars.map((client, idx) => (
-                <img
-                  key={idx}
-                  src={client.image}
-                  alt={client.name}
-                  className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover shadow-xs"
-                />
-              ))}
-            </div>
-            <div className="text-left">
-              <div className="text-sm font-bold text-slate-950">
-                Loved by 80+
-              </div>
-              <div className="text-xs font-medium text-slate-500">
-                Founders & Tech Leaders
-              </div>
-            </div>
           </div>
         </motion.div>
 
@@ -130,7 +108,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex flex-wrap items-center gap-4 md:gap-6 pt-6"
+          className="flex justify-center md:justify-start items-center gap-4 md:gap-6 pt-6"
         >
           {/* Dark Pill Primary Button */}
           <BookaCallBtn />
@@ -138,7 +116,7 @@ export function Hero() {
           {/* Secondary Outline Button */}
           <Link
             href="/demo"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold text-sm md:text-base transition-colors duration-300"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-300  text-slate-900 font-semibold text-sm md:text-base transition-colors duration-300"
           >
             <span>View work</span>
           </Link>

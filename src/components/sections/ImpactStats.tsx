@@ -3,6 +3,7 @@
 
 import { AnimatedStat } from "@/components/ui/AnimatedStat";
 import { motion } from "framer-motion";
+import SectionHeader from "../ui/SectionHeader";
 
 interface Stat {
   index: string;
@@ -16,7 +17,7 @@ const statRows: Stat[][] = [
     {
       index: "01",
       value: "98%",
-      label: "client satisfaction in post-project reviews",
+      label: "Client Satisfaction",
     },
     {
       index: "02",
@@ -47,27 +48,8 @@ export function ImpactStats() {
   return (
     <section className="py-16 bg-black">
       <div className="container mx-auto px-6 md:px-12 flex flex-col gap-10">
-        <div className="justify-center">
-          <motion.span
-            className="text-4xl md:text-5xl font-semibold leading-tight tracking-wide text-white"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            The Best Services to Expand Your Business!
-            <br className="hidden sm:block" /> Our services,
-          </motion.span>
-          <motion.span
-            className="text-neutral-500 text-3xl font-extrabold leading-[1.15] tracking-wide sm:text-4xl sm:leading-[1.15] lg:text-5xl lg:leading-[62.40px]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            that grow your success
-          </motion.span>
-        </div>
+
+        <SectionHeader tag={"Achivment"} title1="Achievements That Define" title2="Our Success" isBgWhite={false} />
 
         <div className="flex flex-col gap-4 md:gap-5">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6  gap-3 md:gap-5">
