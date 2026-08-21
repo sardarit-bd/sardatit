@@ -49,7 +49,7 @@ export function ImpactStats() {
     <section className="py-16 bg-black">
       <div className="container mx-auto px-6 md:px-12 flex flex-col gap-10">
 
-        <SectionHeader tag={"Achivment"} title1="Achievements That Define" title2="Our Success" isBgWhite={false} />
+        <SectionHeader tag={"Achivment"} title1="Achievements That Define" pre="" title2="Our Success" isBgWhite={false} />
 
         <div className="flex flex-col gap-4 md:gap-5">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6  gap-3 md:gap-5">

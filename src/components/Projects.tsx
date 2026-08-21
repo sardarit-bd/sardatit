@@ -6,7 +6,7 @@ export default function Projects() {
     <section className="py-16 md:py-20 flex flex-col gap-10 bg-gray-200">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
 
-        <SectionHeader tag={"Selected work"} title1="Products we've" title2="designed,built, and shipped." isBgWhite={true} link={'/'} btn={'See all case studies'} />
+        <SectionHeader tag={"Selected work"} title1="Products we've" pre="" title2="designed,built, and shipped." isBgWhite={true} link={'/'} btn={'See all case studies'} />
       </div>
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:items-end md:justify-between gap-8">
         {/* Featured Project */}

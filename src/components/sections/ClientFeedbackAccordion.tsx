@@ -99,7 +99,7 @@ export default function ClientFeedbackAccordion() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
 
-        <SectionHeader tag={"Client Testimonials"} title1=" What Our Clients Say About" title2="Working With Us" isBgWhite={true} link={'/'} btn={'See Client Feedback'} />
+        <SectionHeader tag={"Client Testimonials"} title1=" What Our Clients Say About" pre="" title2="Working With Us" isBgWhite={true} link={'/'} btn={'See Client Feedback'} />
 
 
         {/* React Bits Accordion Gallery */}

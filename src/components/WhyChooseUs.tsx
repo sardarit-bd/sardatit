@@ -69,7 +69,7 @@ export function ServiceShowcaseCard() {
     <section className="flex flex-col gap-14 w-full items-center justify-center px-6 md:px-10 py-16">
       {/* Header section */}
       <div className="container">
-        <SectionHeader tag={"What we do"} title1="Design and development" title2="services from one team." isBgWhite={true} link={'/'} btn={'See Our Services'} />
+        <SectionHeader tag={"What we do"} title1="Design and development" pre="" title2="services from one team." isBgWhite={true} link={'/'} btn={'See Our Services'} />
       </div>
 
 
