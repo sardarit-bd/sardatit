@@ -1,7 +1,9 @@
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import "../styles/globals.css";
 import LenisProvider from "../components/LenisProvider";
+import "../styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Sardar IT — Digital Services That Move Your Business Forward",
@@ -23,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={outfit.variable}>
       <body className={`${outfit.className} antialiased`}>
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <Header />
+          {children}
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   );

@@ -34,6 +34,11 @@ const statRows: Stat[][] = [
       value: "50+",
       label: "Employees",
     },
+    {
+      index: "06",
+      value: "12+",
+      label: "Country Served",
+    },
 
   ]
 ];
@@ -65,7 +70,7 @@ export function ImpactStats() {
         </div>
 
         <div className="flex flex-col gap-4 md:gap-5">
-          <div className="flex flex-col  gap-1 sm:flex-row md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6  gap-3 md:gap-5">
             {statRows[0].map((stat) => (
               <motion.div
                 key={stat.index}

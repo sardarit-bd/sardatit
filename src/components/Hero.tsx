@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import BookaCallBtn from "../components/ui/BookaCallBtn";
+import Threads from "./sections/Threads";
 
 const clientAvatars = [
   {
@@ -28,13 +29,20 @@ const clientAvatars = [
 export function Hero() {
   return (
     <section className="relative min-h-[80vh] md:min-h-[70vh] lg:min-h-[60vh] flex items-center justify-center pt-28 pb-12 overflow-hidden bg-white text-slate-950">
+      <Threads
+        color={[1, 1, 1]}
+        amplitude={2.4}
+        distance={0.5}
+        enableMouseInteraction={false}
+        className="absolute inset-0 top-60 md:top-40 w-full h-full"
+      />
       {/* Subtle Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden">
         <div className="absolute top-10 left-1/4 w-[300px] h-[300px] bg-[#133bd4]/30 rounded-full blur-[140px]" />
         <div className="absolute top-20 right-1/4 w-[350px] h-[350px] bg-[#133bd4]/15 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="container relative z-10">
         {/* Availability Pill Tag */}
 
 
@@ -66,11 +74,11 @@ export function Hero() {
                   delay: .25,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="absolute inset-0 origin-left bg-[#133bd4]/80"
+                className="absolute inset-0 origin-left bg-highlight"
               />
 
               {/* Text */}
-              <span className="relative z-10">
+              <span className="relative z-10 text-black">
                 convert, and scale.
               </span>
             </motion.span>

@@ -7,7 +7,7 @@ export default function Projects() {
     <section className="py-16 md:py-20 flex flex-col gap-10 bg-gray-200">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
         <div className="flex flex-col gap-4 max-w-2xl">
-          <p className="text-xs font-semibold tracking-wide text-muted uppercase">
+          <p className="text-xs font-semibold tracking-wide text-gray-700 uppercase">
             / Selected work
           </p>
 

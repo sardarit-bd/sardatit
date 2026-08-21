@@ -75,6 +75,18 @@ li {
   }
 }
 
+
+body {}
+
+.container {
+  width: 100%;
+  max-width: 1350px !important;
+  margin: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -429,4 +441,12 @@ li {
   .animate-orb-rotate {
     animation: none;
   }
+}
+
+
+
+.threads-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }

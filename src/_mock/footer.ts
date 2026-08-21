@@ -41,9 +41,9 @@ export interface FooterData {
 
 export const footerData: FooterData = {
   brand: {
-    name: "wavespace",
+    name: "Sardar IT",
     description:
-      "Wavespace is a global UI/UX design agency that boosts brand value with user-friendly, effective designs for web, mobile, and SaaS platforms.",
+      "Sardar IT is a software development company that boosts brand value with user-friendly, effective designs for web, mobile, and SaaS platforms.",
   },
   cta: {
     label: "Company Deck",
@@ -112,7 +112,7 @@ export const footerData: FooterData = {
   ],
   contact: {
     emailLabel: "Drop us a line",
-    email: "hello@wavespace.agency",
+    email: "info@sardaritbd.com",
     phoneLabel: "Call us",
     phone: "+1 628-265-7462",
     phoneHref: "tel:+16282657462",
