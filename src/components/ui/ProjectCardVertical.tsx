@@ -32,13 +32,13 @@ export default function ProjectCardVertical({
       viewport={{ once: false }}
       transition={{ duration: 0.5, delay: 0.25 }}
     >
-      <div className="relative w-full h-56 md:h-80 overflow-hidden">
-        <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
+      <div className="relative w-full h-56 md:h-96 overflow-hidden">
+        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-cover object-center" />
       </div>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 px-6 md:px-7 py-8 md:py-10">
         <div className="flex flex-col items-start gap-1 max-w-sm">
-          <p className="text-xs font-medium text-muted">{eyebrow}</p>
+          <p className="text-xs font-medium text-gray-500">{eyebrow}</p>
 
           <h3 className="pt-2 text-2xl md:text-3xl font-extrabold leading-tight">
             {title}
@@ -59,14 +59,14 @@ export default function ProjectCardVertical({
           >
             {statValue}
           </span>
-          <span className="text-sm font-semibold uppercase text-muted md:text-right">
+          <span className="text-sm font-semibold uppercase text-gray-500 md:text-right">
             {statLabel}
           </span>
 
           <div className="pt-3.5 ">
             <a
               href={ctaHref}
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-sm border border-gray-200 text-xs font-semibold hover:bg-gray-50 transition duration-300"
+              className="inline-flex items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-200 text-xs font-semibold hover:bg-gray-50 transition duration-300"
             >
               {ctaLabel}
               <FiArrowRight size={12} />

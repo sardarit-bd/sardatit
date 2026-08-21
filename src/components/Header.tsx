@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import { HiChevronDown } from "react-icons/hi";
 import { FiArrowRight } from "react-icons/fi";
+import { HiChevronDown } from "react-icons/hi";
 import { Button } from "../utils/Button";
 import BookaCallBtn from "./ui/BookaCallBtn";
 const navLinkClass =
@@ -18,7 +18,6 @@ const navItems = [
   { href: "#services", label: "Services", hasDropdown: true },
   { href: "#industries", label: "Industries" },
   { href: "#leadership", label: "Leadership" },
-  { href: "#contact", label: "Contact" },
 ];
 
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
@@ -155,8 +154,8 @@ export default function Header() {
             : "bg-transparent",
         ].join(" ")}
       >
-        <div className="container mx-auto px-6 md:px-10 overflow-hidden  w-full">
-          <nav className="flex items-center justify-between h-16 md:h-20 w-full">
+        <div className="container mx-auto overflow-hidden">
+          <nav className="flex items-center justify-between h-16 md:h-20">
             <Link
               href="#"
               onClick={(e) => {

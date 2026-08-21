@@ -7,7 +7,7 @@ export default function Showreel() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <section className="relative w-full py-8 md:py-7 overflow-hidden bg-white">
+    <section className="relative w-full py-8 md:py-12 overflow-hidden bg-gray-100">
       <div className="container mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}

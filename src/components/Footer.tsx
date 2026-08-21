@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { FiArrowDown } from "react-icons/fi";
 import {
   FaFacebookF,
   FaInstagram,
@@ -7,6 +6,7 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from "react-icons/fa";
+import { FiArrowDown } from "react-icons/fi";
 import { footerData, type SocialLink } from "../../src/_mock/footer";
 
 const SOCIAL_ICON_MAP: Record<SocialLink["name"], React.ElementType> = {
@@ -22,7 +22,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-text">
-      <div className="mx-auto flex w-full max-w-360 flex-col gap-y-14 px-6 py-16 md:px-16 md:py-24">
+      <div className="container flex w-full max-w-360 flex-col gap-y-14 py-16 md:py-24">
         <div className="flex flex-col items-start justify-between gap-y-12 lg:flex-row lg:gap-x-12">
           <div className="flex basis-full flex-col items-start gap-y-6 lg:basis-1/4 lg:max-w-xs">
             <span className="font-sans text-2xl font-bold tracking-tight text-background">
@@ -35,7 +35,7 @@ export default function Footer() {
 
             <Link
               href={cta.href}
-              className="group flex items-center gap-x-6 rounded-full bg-highlight py-2 pl-6 pr-2 text-sm font-semibold text-text transition-transform hover:scale-[1.02]"
+              className="group flex items-center gap-x-4 bg-highlight py-2 px-4 text-md font-semibold text-text transition-transform hover:scale-[1.02]"
             >
               {cta.label}
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-text text-highlight">
@@ -43,7 +43,7 @@ export default function Footer() {
               </span>
             </Link>
 
-            <div className="flex flex-row items-center gap-x-3">
+            <div className="flex flex-row items-center gap-x-6">
               {socialLinks.map((social) => {
                 const Icon = SOCIAL_ICON_MAP[social.name];
                 return (
@@ -51,9 +51,9 @@ export default function Footer() {
                     key={social.name}
                     href={social.href}
                     aria-label={social.name}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-(--border)/40 text-background transition-colors hover:bg-background hover:text-text"
+                    className="flex h-9 w-9 items-center justify-center border border-(--border)/60 text-background transition-colors hover:bg-background hover:text-text rotate-45 mt-2"
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    <Icon className="h-3.5 w-3.5 -rotate-45" />
                   </Link>
                 );
               })}
