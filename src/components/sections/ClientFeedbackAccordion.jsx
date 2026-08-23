@@ -77,7 +77,8 @@ const testimonials = [
 ];
 
 export default function ClientFeedbackAccordion() {
-  const [activeIndex, setActiveIndex] = useState < number > (0);
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <section className="w-full py-20 md:py-28 bg-[#F3F4F6] text-neutral-900 overflow-hidden relative">
