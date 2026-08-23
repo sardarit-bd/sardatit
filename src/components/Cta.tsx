@@ -42,7 +42,7 @@ export default function Cta() {
   };
 
   return (
-    <section className="relative w-full bg-[#DCE4EC] py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-12 transition-colors">
+    <section className="relative w-full bg-[#DCE4EC] py-16 sm:py-20 lg:py-28transition-colors">
       <div className="container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left Column: Content & Profile */}
         <motion.div
@@ -65,7 +65,7 @@ export default function Cta() {
 
           {/* Leader Profile Card */}
           <div className="flex flex-col items-start pt-2 sm:pt-6">
-            <div className="relative w-32 h-32 sm:w-40 sm:h-44 overflow-hidden shadow-sm bg-[#5096a8] mb-4 group">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-44 overflow-hidden mb-4 group">
               <Image
                 src="/image/leaders/Md.-Parvej-Ahammed.webp"
                 alt="Rasel Ahmed"

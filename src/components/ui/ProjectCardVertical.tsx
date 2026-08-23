@@ -26,14 +26,14 @@ export default function ProjectCardVertical({
 }: ProjectCardVerticalProps) {
   return (
     <motion.div
-      className="w-full bg-white flex flex-col overflow-hidden border border-gray-200"
+      className="w-full bg-white flex flex-col overflow-hidden border border-gray-200 group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false }}
       transition={{ duration: 0.5, delay: 0.25 }}
     >
       <div className="relative w-full h-56 md:h-[500px] overflow-hidden">
-        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-contain object-center" />
+        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-contain object-center group-hover:scale-110 transition-all duration-500" />
       </div>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 px-6 md:px-7 py-8 md:py-10">
