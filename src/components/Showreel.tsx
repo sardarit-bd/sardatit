@@ -15,11 +15,11 @@ export default function Showreel() {
   });
 
   // Expand width from 78% to 100%
-  const width = useTransform(scrollYProgress, [0.1, 0.45], ["78%", "100%"]);
+  const width = useTransform(scrollYProgress, [0.1, 0.45], ["60%", "100%"]); //78%
   // Expand height from 65vh to 100vh
-  const height = useTransform(scrollYProgress, [0.1, 0.45], ["65vh", "100vh"]);
+  const height = useTransform(scrollYProgress, [0.1, 0.45], ["80vh", "100vh"]); // 65vh
   // Border radius from 28px to 0px
-  const borderRadius = useTransform(scrollYProgress, [0.1, 0.45], ["28px", "0px"]);
+  const borderRadius = useTransform(scrollYProgress, [0.1, 0.45], ["0px", "0px"]); //0px
   // Scale from 0.9 to 1.0
   const scale = useTransform(scrollYProgress, [0.1, 0.45], [0.9, 1]);
 
