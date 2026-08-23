@@ -6,13 +6,13 @@ import SectionHeader from "../ui/SectionHeader";
 
 const galleryImages = [
   {
-    src: "/image/galary/G2.JPG",
+    src: "/image/galary/G1.JPG",
     alt: "Sardar IT Team Event",
     title: "Team Celebration",
     category: "Culture",
   },
   {
-    src: "/image/galary/G3.webp",
+    src: "/image/galary/G3.JPG",
     alt: "Workspace Collaboration",
     title: "Collaborative Workspace",
     category: "Office",
@@ -24,29 +24,60 @@ const galleryImages = [
     category: "Innovation",
   },
   {
-    src: "/image/galary/G5.JPG",
+    src: "/image/galary/G6.JPG",
     alt: "Sardar IT Team Moment",
     title: "Team Outing",
     category: "Events",
   },
   {
-    src: "/image/designer.png",
+    src: "/image/galary/G5.jpg",
     alt: "Creative Designers at Work",
     title: "Design Studio",
     category: "Creativity",
   },
   {
-    src: "/image/all_face.png",
+    src: "/image/galary/G8.JPG",
     alt: "Sardar IT Family",
     title: "Our Brilliant Team",
     category: "People",
   },
   {
-    src: "/image/hero.jpg",
-    alt: "Sardar IT Life",
-    title: "Daily Standups & Work",
-    category: "Growth",
+    src: "/image/galary/G7.jpg",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
   },
+  {
+    src: "/image/galary/G10.jpg",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
+  },
+  {
+    src: "/image/galary/G9.jpg",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
+  },
+  {
+    src: "/image/galary/G11.jpg",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
+  },
+  {
+    src: "/image/galary/G3.webp",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
+  },
+  {
+    src: "/image/galary/G12.jpg",
+    alt: "Sardar IT Family",
+    title: "Our Brilliant Team",
+    category: "People",
+  },
+
 ];
 
 export function CompanyGallerySection() {

@@ -76,8 +76,6 @@ li {
 }
 
 
-body {}
-
 .container {
   width: 100%;
   max-width: 1350px !important;
@@ -86,6 +84,47 @@ body {}
   padding-right: 16px;
 
 }
+
+/* Large laptop */
+@media (max-width: 1399px) {
+  .container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Laptop */
+@media (max-width: 1199px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 575px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
 
 @keyframes marquee {
   0% {

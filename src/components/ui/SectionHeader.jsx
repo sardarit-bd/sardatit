@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
 
-const SectionHeader = ({ tag, title1, title2, pre, link, btn, isBgWhite }) => {
+const SectionHeader = ({ tag, title1, title2, pre, link, btn, isBgWhite, width = "max-w-2xl" }) => {
     return (
         <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <div className="flex flex-col gap-4 max-w-2xl">
+            <div className={`flex flex-col gap-4 ${width}`}>
                 <p className={`text-md font-semibold tracking-wide uppercase ${isBgWhite ? 'text-gray-700' : 'text-gray-300'}`}>
                     / {tag}
                 </p>
 
-                <h2 className={`text-4xl md:text-5xl font-semibold leading-tight  ${isBgWhite ? 'text-gray-700' : 'text-gray-100'}`}>
+                <h2 className={`text-4xl md:text-5xl font-semibold tracking-tight leading-[1.12]  ${isBgWhite ? 'text-gray-700' : 'text-gray-100'}`}>
                     <span>
                         {title1}
                         <br />
@@ -18,21 +18,13 @@ const SectionHeader = ({ tag, title1, title2, pre, link, btn, isBgWhite }) => {
                     {
                         title2 && (
                             <motion.span
-                                className={`relative inline-block text-4xl md:text-5xl font-semibold leading-tight`}
+                                className={`relative inline-block text-4xl md:text-5xl font-semibold tracking-tight leading-[1.12]`}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: false }}
                                 transition={{ duration: 0.5, delay: 0.5 }}
                             >
                                 {title2}
-
-                                <motion.span
-                                    className={`absolute left-0 -bottom-1 h-[4px] w-full origin-left ${isBgWhite ? 'bg-gray-600' : 'bg-gray-100'}`}
-                                    initial={{ scaleX: 0 }}
-                                    whileInView={{ scaleX: 1 }}
-                                    viewport={{ once: false }}
-                                    transition={{ duration: 0.5, delay: 1 }}
-                                />
                             </motion.span>
                         )
                     }
@@ -40,7 +32,7 @@ const SectionHeader = ({ tag, title1, title2, pre, link, btn, isBgWhite }) => {
                 </h2>
                 {
                     pre && (
-                        <p className={`text-white/60 max-w-2xl text-sm md:text-base lg:text-lg text-left ${isBgWhite ? 'text-black/60 ' : 'text-white/60'}`}>
+                        <p className={`${width} text-sm md:text-base lg:text-lg text-left ${isBgWhite ? 'text-black/60 ' : 'text-white/60'}`}>
                             {pre}
                         </p>
                     )

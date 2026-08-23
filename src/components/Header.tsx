@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { HiChevronDown } from "react-icons/hi";
@@ -13,11 +12,10 @@ const navLinkClass =
   "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
 
 const navItems = [
-  { href: "#works", label: "Selected Work" },
-  { href: "#about", label: "About" },
-  { href: "#services", label: "Services", hasDropdown: true },
-  { href: "#industries", label: "Industries" },
-  { href: "#leadership", label: "Leadership" },
+  { href: "/about", label: "About" },
+  { href: "/works", label: "Works" },
+  { href: "/services", label: "Services", hasDropdown: true },
+  { href: "/testimonials", label: "Testimonials" },
 ];
 
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
@@ -53,37 +51,37 @@ const servicesMenu = [
     step: "01",
     title: "Plan",
     items: [
-      { label: "Technical Consulting", href: "#services" },
-      { label: "Product Strategy", href: "#services" },
-      { label: "MVP Planning", href: "#services" },
+      { label: "Technical Consulting", href: "/services" },
+      { label: "Product Strategy", href: "/services" },
+      { label: "MVP Planning", href: "/services" },
     ],
   },
   {
     step: "02",
     title: "Design",
     items: [
-      { label: "UI/UX Design", href: "#services" },
-      { label: "Brand Identity", href: "#services" },
-      { label: "Design Systems", href: "#services" },
+      { label: "UI/UX Design", href: "/services" },
+      { label: "Brand Identity", href: "/services" },
+      { label: "Design Systems", href: "/services" },
     ],
   },
   {
     step: "03",
     title: "Build",
     items: [
-      { label: "Web App Development", href: "#services" },
-      { label: "Mobile App Development", href: "#services" },
-      { label: "API Development", href: "#services" },
-      { label: "E-commerce Development", href: "#services" },
+      { label: "Web App Development", href: "/services" },
+      { label: "Mobile App Development", href: "/services" },
+      { label: "API Development", href: "/services" },
+      { label: "E-commerce Development", href: "/services" },
     ],
   },
   {
     step: "04",
     title: "Scale",
     items: [
-      { label: "DevOps & Deployment", href: "#services" },
-      { label: "Maintenance & Support", href: "#services" },
-      { label: "Performance Optimization", href: "#services" },
+      { label: "DevOps & Deployment", href: "/services" },
+      { label: "Maintenance & Support", href: "/services" },
+      { label: "Performance Optimization", href: "/services" },
     ],
   },
 ];
@@ -123,26 +121,26 @@ export default function Header() {
     }, 150);
   };
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
+  // const handleNavClick = (
+  //   e: React.MouseEvent<HTMLAnchorElement>,
+  //   href: string,
+  // ) => {
+  //   e.preventDefault();
+  //   const element = document.querySelector(href);
+  //   if (element) {
+  //     const headerOffset = 80;
+  //     const elementPosition = element.getBoundingClientRect().top;
+  //     const offsetPosition =
+  //       elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-    setIsMobileMenuOpen(false);
-    setIsServicesOpen(false);
-  };
+  //     window.scrollTo({
+  //       top: offsetPosition,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  //   setIsMobileMenuOpen(false);
+  //   setIsServicesOpen(false);
+  // };
 
   return (
     <>
@@ -157,11 +155,7 @@ export default function Header() {
         <div className="container py-2 md:py-0 overflow-hidden">
           <nav className="flex items-center justify-between h-16 md:h-20">
             <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
+              href="/"
               className="relative flex items-center h-14 w-42 md:h-10 md:w-48"
             >
               <Image
@@ -184,7 +178,7 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                      // onClick={(e) => handleNavClick(e, item.href)}
                       className={`inline-flex items-center gap-1.5 ${navLinkClass}`}
                       aria-expanded={isServicesOpen}
                     >
@@ -203,7 +197,7 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
+                    // onClick={(e) => handleNavClick(e, item.href)}
                     className={navLinkClass}
                   >
                     {item.label}
@@ -249,7 +243,7 @@ export default function Header() {
                           <li key={service.label}>
                             <Link
                               href={service.href}
-                              onClick={(e) => handleNavClick(e, service.href)}
+                              // onClick={(e) => handleNavClick(e, service.href)}
                               className="group flex items-center justify-between w-full text-text hover:text-primary transition-colors"
                             >
                               <span>{service.label}</span>
@@ -328,7 +322,7 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                      // onClick={(e) => handleNavClick(e, item.href)}
                       className="text-3xl font-semibold hover:text-text/80 transition-colors"
                     >
                       {item.label}
