@@ -36,7 +36,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "src/components/ui/SectionHeader.jsx"
-  ],
+, "src/components/sections/ImpactStats.jsx", "src/components/sections/FoundersSection.jsx", "src/components/sections/CompanyGallerySection.jsx", "src/components/sections/ClientFeedbackAccordion.jsx", "src/components/Projects.jsx", "src/components/WhyChooseUs.jsx"  ],
   "exclude": [
     "node_modules"
   ]

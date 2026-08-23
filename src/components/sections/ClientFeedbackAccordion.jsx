@@ -7,20 +7,8 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { FiArrowRight, FiStar } from "react-icons/fi";
 import SectionHeader from "../ui/SectionHeader";
 
-interface TestimonialItem {
-  id: number;
-  index: string;
-  name: string;
-  role: string;
-  company: string;
-  avatar: string;
-  rating: number;
-  quote: string;
-  projectTag: string;
-  metric: string;
-}
 
-const testimonials: TestimonialItem[] = [
+const testimonials = [
   {
     id: 1,
     index: "01",
@@ -89,7 +77,7 @@ const testimonials: TestimonialItem[] = [
 ];
 
 export default function ClientFeedbackAccordion() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState < number > (0);
 
   return (
     <section className="w-full py-20 md:py-28 bg-[#F3F4F6] text-neutral-900 overflow-hidden relative">

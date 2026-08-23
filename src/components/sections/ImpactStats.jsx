@@ -5,14 +5,9 @@ import { AnimatedStat } from "@/components/ui/AnimatedStat";
 import { motion } from "framer-motion";
 import SectionHeader from "../ui/SectionHeader";
 
-interface Stat {
-  index: string;
-  value: string;
-  label: string;
-}
 
 // Row 1: 3 cards, Row 2: 2 cards — matches the layout below.
-const statRows: Stat[][] = [
+const statRows = [
   [
     {
       index: "01",
