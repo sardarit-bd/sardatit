@@ -1,36 +1,12 @@
 "use client";
-import Link from "next/link";
-import { FiArrowUpRight } from "react-icons/fi";
 import ProjectCardVartical from "./ui/ProjectCardVertical";
+import SectionHeader from "./ui/SectionHeader";
 export default function Projects() {
   return (
     <section className="py-16 md:py-20 flex flex-col gap-10 bg-gray-200">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-        <div className="flex flex-col gap-4 max-w-2xl">
-          <p className="text-xs font-semibold tracking-wide text-gray-700 uppercase">
-            / Selected work
-          </p>
 
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-wide">
-            <span style={{ color: "var(--text)" }}>
-              Products we&apos;ve designed,
-              <br />
-            </span>
-            <span className="text-gray-500">built, and shipped.</span>
-          </h2>
-        </div>
-
-        <div className="shrink-0 flex">
-          <Link
-            href="/contact"
-            className={`group inline-flex items-center gap-3 px-4 py-2.5 bg-slate-950 text-white font-semibold text-sm md:text-base hover:bg-[#133bd4] transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-slate-950/20`}
-          >
-            <span>See all case studies</span>
-            <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-              <FiArrowUpRight className="text-base transition-transform group-hover:rotate-45" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader tag={"Selected work"} title1="Products we've" pre="" title2="designed,built, and shipped." isBgWhite={true} link={'/'} btn={'See all case studies'} />
       </div>
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:items-end md:justify-between gap-8">
         {/* Featured Project */}
@@ -43,7 +19,7 @@ export default function Projects() {
             statLabel="services delivered"
             ctaLabel="View Details"
             ctaHref="/projects/casa-viva"
-            imageSrc="/image/project/CASA.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970fb_Rivertel-UI-UX-Design-for-Telecom-Solutions.webp"
             imageAlt="CASA VIVA Real Estate Website"
           />
 
@@ -55,7 +31,7 @@ export default function Projects() {
             statLabel="services delivered"
             ctaLabel="View Details"
             ctaHref="/projects/medease"
-            imageSrc="/image/project/MedEase.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
             imageAlt="MedEase Hospital Management"
           />
         </div>
@@ -70,7 +46,7 @@ export default function Projects() {
             statLabel="services delivered"
             ctaLabel="View Details"
             ctaHref="/project/White_Cross_Clinic.webp"
-            imageSrc="/image/project/White_Cross_Clinic.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
             imageAlt="White Cross Clinic Website"
           />
 
@@ -82,7 +58,7 @@ export default function Projects() {
             statLabel="services delivered"
             ctaLabel="View Details"
             ctaHref="/projects/gulf-county"
-            imageSrc="/image/project/gulf.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
             imageAlt="Gulf County Music Application"
           />
         </div>
@@ -100,7 +76,7 @@ export default function Projects() {
             statLabel="services delivered"
             ctaLabel="View Details"
             ctaHref="/projects/home-service-provider"
-            imageSrc="/image/project/HomeServiceProvider.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
             imageAlt="Home Service Provider Website"
           />
 
@@ -113,7 +89,7 @@ export default function Projects() {
             statLabel="launching"
             ctaLabel="Coming Soon"
             ctaHref="#"
-            imageSrc="/image/project/MedEase.webp"
+            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
             imageAlt="Upcoming Project"
           />
         </div>

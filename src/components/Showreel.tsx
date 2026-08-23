@@ -1,76 +1,97 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { FiPlay } from "react-icons/fi";
 
 export default function Showreel() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Expand width from 78% to 100%
+  const width = useTransform(scrollYProgress, [0.1, 0.45], ["60%", "100%"]); //78%
+  // Expand height from 65vh to 100vh
+  const height = useTransform(scrollYProgress, [0.1, 0.45], ["80vh", "100vh"]); // 65vh
+  // Border radius from 28px to 0px
+  const borderRadius = useTransform(scrollYProgress, [0.1, 0.45], ["0px", "0px"]); //0px
+  // Scale from 0.9 to 1.0
+  const scale = useTransform(scrollYProgress, [0.1, 0.45], [0.9, 1]);
+
+  const toggleAudio = () => {
+    setIsPlaying((prev) => {
+      const nextState = !prev;
+      if (videoRef.current) {
+        videoRef.current.muted = !nextState;
+      }
+      return nextState;
+    });
+  };
 
   return (
-    <section className="relative w-full py-8 md:py-12 overflow-hidden bg-gray-100">
-      <div className="container mx-auto px-6 md:px-12">
+    <section
+      ref={containerRef}
+      className="relative w-full h-[170vh] bg-gray-100 z-[60]"
+    >
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-[60]">
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full overflow-hidden shadow-2xl shadow-slate-200/50 bg-slate-950 group aspect-video md:aspect-[21/9]"
+          style={{
+            width,
+            height,
+            scale,
+            borderRadius,
+          }}
+          onClick={toggleAudio}
+          className="relative overflow-hidden bg-slate-950 transition-all duration-75 ease-out cursor-pointer group"
         >
-          {/* Live Background Video */}
+          {/* Live Background Video (Always Playing) */}
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted={!isPlaying}
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500"
+            className="w-full h-full object-cover"
           >
             <source
-              src="https://wavespaceagency.s3.us-east-2.amazonaws.com/Wavespace+-+UI%3AUX+design+for+future+unicorns+.mp4"
+              src="https://designmonks.b-cdn.net/DM%20Others/DM%20Showreel%202026.mp4"
               type="video/mp4"
             />
           </video>
 
-          {/* Gradient Overlay for Readable Text & Contrast
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none" />
+          {/* Rotating Circle Play Button Overlay (Visible when muted) */}
+          {!isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none bg-black/20 backdrop-blur-[2px]">
+              <div className="relative flex items-center justify-center size-28 sm:size-32 md:size-36 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-2xl text-white transition-transform duration-300 group-hover:scale-110">
+                {/* Rotating SVG Curved Text */}
+                <svg
+                  viewBox="0 0 100 100"
+                  className="absolute inset-0 w-full h-full animate-spin [animation-duration:10s]"
+                >
+                  <path
+                    id="circlePath"
+                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                    fill="none"
+                  />
+                  <text className="text-[8.5px] font-bold uppercase tracking-[2px] fill-white">
+                    <textPath href="#circlePath" startOffset="0%">
+                      • PLAY SHOWREEL • UNMUTE AUDIO
+                    </textPath>
+                  </text>
+                </svg>
 
-          {/* Content Overlay & Play/Unmute Button */}
-          {/* <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-10">
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="relative group/btn flex items-center justify-center size-16 md:size-24 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white shadow-2xl transition-all duration-300 hover:scale-110 hover:bg-white hover:text-slate-950 cursor-pointer mb-3 md:mb-4"
-              aria-label={isPlaying ? "Mute Video" : "Unmute Video"}
-            >
-              {isPlaying ? (
-                <FiPause className="text-xl md:text-3xl" />
-              ) : (
-                <FiPlay className="text-xl md:text-3xl ml-1" />
-              )}
-              {!isPlaying && (
-                <span className="animate-ping absolute inset-0 rounded-full bg-white/30 pointer-events-none" />
-              )}
-            </button>
-
-            <span className="text-white font-bold text-base md:text-2xl tracking-tight drop-shadow-md">
-              {isPlaying ? "Audio Enabled" : "Watch 2026 Showreel"}
-            </span>
-            <span className="text-slate-200 text-xs md:text-sm mt-1 font-medium drop-shadow-xs">
-              {isPlaying
-                ? "Click to pause audio"
-                : "Click to enable sound & view in full motion"}
-            </span>
-          </div>  */}
-
-          {/* Bottom Floating Stats Tag inside Showreel Banner */}
-          {/* <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 flex flex-wrap items-center justify-between gap-4 z-10 pt-3 md:pt-4 border-t border-white/20 text-white/90 text-xs md:text-sm font-medium backdrop-blur-xs">
-            <div className="flex items-center gap-2">
-              <span className="size-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Full-Stack Design & Engineering Agency</span>
+                {/* Center Play Icon */}
+                <div className="size-11 sm:size-12 md:size-14 rounded-full bg-white text-slate-950 flex items-center justify-center shadow-lg">
+                  <FiPlay className="text-xl md:text-2xl ml-1" />
+                </div>
+              </div>
             </div>
-            <div className="hidden sm:flex items-center gap-6 text-white/80">
-              <span>Next.js • React • AI Integration</span>
-              <span>Webflow • UI/UX Design</span>
-            </div>
-          </div> */}
+          )}
         </motion.div>
       </div>
     </section>

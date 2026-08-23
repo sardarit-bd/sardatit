@@ -32,8 +32,8 @@ export default function ProjectCardVertical({
       viewport={{ once: false }}
       transition={{ duration: 0.5, delay: 0.25 }}
     >
-      <div className="relative w-full h-56 md:h-96 overflow-hidden">
-        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-cover object-center" />
+      <div className="relative w-full h-56 md:h-[500px] overflow-hidden">
+        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-contain object-center" />
       </div>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 px-6 md:px-7 py-8 md:py-10">

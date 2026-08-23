@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
+import SectionHeader from "./ui/SectionHeader";
 
 const servicesData = [
   {
@@ -67,33 +68,11 @@ export function ServiceShowcaseCard() {
   return (
     <section className="flex flex-col gap-14 w-full items-center justify-center px-6 md:px-10 py-16">
       {/* Header section */}
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-        <div className="flex flex-col gap-4 max-w-3xl">
-          <p className="text-xs font-semibold tracking-wide text-gray-700 uppercase">
-            / What we do
-          </p>
-
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-wide">
-            <span style={{ color: "var(--text)" }}>
-              Design and development services
-              <br />
-            </span>
-            <span className="text-gray-500">from one team.</span>
-          </h2>
-        </div>
-
-        <div className="shrink-0 flex">
-          <Link
-            href="/contact"
-            className="group inline-flex items-center gap-3 px-4 py-2.5 bg-slate-950 text-white font-semibold text-sm md:text-base hover:bg-[#133bd4] transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-slate-950/20"
-          >
-            <span>See all case studies</span>
-            <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-              <FiArrowUpRight className="text-base transition-transform group-hover:rotate-45" />
-            </span>
-          </Link>
-        </div>
+      <div className="container">
+        <SectionHeader tag={"What we do"} title1="Design and development" pre="" title2="services from one team." isBgWhite={true} link={'/'} btn={'See Our Services'} />
       </div>
+
+
 
       {/* React Bits Scroll Stack Cards Container */}
       <div className="w-full container mx-auto px-6 md:px-12 flex flex-col gap-8 md:gap-12 relative pb-20">

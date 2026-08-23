@@ -5,21 +5,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FiArrowRight, FiStar } from "react-icons/fi";
+import SectionHeader from "../ui/SectionHeader";
 
-interface TestimonialItem {
-  id: number;
-  index: string;
-  name: string;
-  role: string;
-  company: string;
-  avatar: string;
-  rating: number;
-  quote: string;
-  projectTag: string;
-  metric: string;
-}
 
-const testimonials: TestimonialItem[] = [
+const testimonials = [
   {
     id: 1,
     index: "01",
@@ -88,7 +77,8 @@ const testimonials: TestimonialItem[] = [
 ];
 
 export default function ClientFeedbackAccordion() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <section className="w-full py-20 md:py-28 bg-[#F3F4F6] text-neutral-900 overflow-hidden relative">
@@ -97,21 +87,12 @@ export default function ClientFeedbackAccordion() {
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-400/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
-          <div>
-            <div className="text-xs font-semibold tracking-wide text-gray-700 uppercase">
-              / Client Testimonials
-            </div>
-            <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-wide">
-              What Our Clients Say <br className="hidden sm:block" />
-              About Working With Us
-            </h2>
-          </div>
-        </div>
+
+        <SectionHeader tag={"Client Testimonials"} title1=" What Our Clients Say About" pre="" title2="Working With Us" isBgWhite={true} link={'/'} btn={'See Client Feedback'} />
+
 
         {/* React Bits Accordion Gallery */}
-        <div className="flex flex-col md:flex-row gap-3 sm:gap-4 w-full h-auto md:h-[500px]">
+        <div className="flex flex-col md:flex-row gap-3 sm:gap-4 w-full h-auto md:h-[500px] mt-14">
           {testimonials.map((item, idx) => {
             const isActive = activeIndex === idx;
 
