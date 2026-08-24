@@ -67,14 +67,18 @@ const servicesData = [
 export function ServiceShowcaseCard() {
   return (
     <section className="flex flex-col gap-14 w-full items-center justify-center px-6 md:px-10 py-16">
-      {/* Header section */}
       <div className="container">
-        <SectionHeader tag={"What we do"} title1="Design and development" pre="" title2="services from one team." isBgWhite={true} link={'/'} btn={'See Our Services'} />
+        <SectionHeader
+          tag={"What we do"}
+          title1="Design and development"
+          pre=""
+          title2="services from one team."
+          isBgWhite={true}
+          link={"/"}
+          btn={"See Our Services"}
+        />
       </div>
 
-
-
-      {/* React Bits Scroll Stack Cards Container */}
       <div className="w-full container mx-auto px-6 md:px-12 flex flex-col gap-8 md:gap-12 relative pb-20">
         {servicesData.map((service, index) => (
           <div
@@ -86,7 +90,7 @@ export function ServiceShowcaseCard() {
           >
             {/* 2. Left hero panel */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
