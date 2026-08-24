@@ -1,9 +1,19 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FiArrowUpRight, FiCheck, FiChevronDown } from "react-icons/fi";
+import { FiArrowUpRight, FiCheck, FiChevronDown, FiLoader } from "react-icons/fi";
+
+// EmailJS Credentials
+// You can set these in .env.local or replace the fallback values directly:
+// NEXT_PUBLIC_EMAILJS_SERVICE_ID
+// NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+// NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
 
 export default function Cta() {
   const [formData, setFormData] = useState({
@@ -16,22 +26,60 @@ export default function Cta() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [showCookies, setShowCookies] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
+    setLoading(true);
+    setErrorMsg("");
+
+    const templateParams = {
+      from_name: formData.fullName,
+      to_name: "Parvej Ahammed",
+      company_name: formData.companyName || "N/A",
+      user_email: formData.email,
+      reply_to: formData.email,
+      service_required: formData.serviceRequired,
+      project_budget: formData.projectBudget,
+      message: formData.projectDetails,
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          fullName: "",
+          companyName: "",
+          email: "",
+          serviceRequired: "",
+          projectBudget: "",
+          projectDetails: "",
+        });
+      }, 5000);
+    } catch (error: any) {
+      console.error("EmailJS Submission Error:", error);
+      // Show user friendly message if keys are placeholder or network fails
+      setErrorMsg(
+        "Could not send email directly. Please verify your EmailJS credentials or contact us via email."
+      );
+      // Still show success for UI demo fallback if needed
       setSubmitted(false);
-      setFormData({
-        fullName: "",
-        companyName: "",
-        email: "",
-        serviceRequired: "",
-        projectBudget: "",
-        projectDetails: "",
-      });
-    }, 4000);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 4000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (
@@ -42,7 +90,7 @@ export default function Cta() {
   };
 
   return (
-    <section className="relative w-full bg-[#DCE4EC] py-16 sm:py-20 lg:py-28transition-colors">
+    <section className="relative w-full bg-[#DCE4EC] py-16 sm:py-20 lg:py-28 transition-colors">
       <div className="container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left Column: Content & Profile */}
         <motion.div
@@ -104,11 +152,17 @@ export default function Cta() {
                   Thank You!
                 </h3>
                 <p className="text-neutral-600 max-w-md">
-                  Your inquiry has been received. Our team will review your project requirements and reach out within 24 hours.
+                  Your inquiry has been received via EmailJS. Our team will review your project requirements and reach out within 24 hours.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                {errorMsg && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded font-medium">
+                    {errorMsg}
+                  </div>
+                )}
+
                 {/* Full Name */}
                 <div className="flex flex-col">
                   <label htmlFor="fullName" className="text-sm font-semibold text-neutral-900 mb-1">
@@ -233,12 +287,22 @@ export default function Cta() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="group w-full bg-neutral-950 hover:bg-black text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer flex items-center justify-center gap-3"
+                  disabled={loading}
+                  className="group w-full bg-neutral-950 hover:bg-black disabled:bg-neutral-700 text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer flex items-center justify-center gap-3"
                 >
-                  Send inquiry
-                  <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-                    <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
-                  </span>
+                  {loading ? (
+                    <>
+                      <FiLoader className="animate-spin text-xl" />
+                      Sending Inquiry...
+                    </>
+                  ) : (
+                    <>
+                      Send inquiry
+                      <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
+                        <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
+                      </span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -266,7 +330,7 @@ export default function Cta() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
-            className="fixed bottom-6 right-6  z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 shadow-xl border border-neutral-200 flex items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
+            className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 shadow-xl border border-neutral-200 flex items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
           >
             <span>
               This website uses <strong className="font-bold">Cookies.</strong>
@@ -283,4 +347,3 @@ export default function Cta() {
     </section>
   );
 }
-
