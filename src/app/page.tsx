@@ -1,9 +1,9 @@
 import CtaSection from "@/components/Cta";
-import Projects from "@/components/Projects";
-import { ImpactStats } from "@/components/sections/ImpactStats";
-import Showreel from "@/components/Showreel";
 import ClientFeedbackAccordion from "@/components/sections/ClientFeedbackAccordion";
 import CompanyGallerySection from "@/components/sections/CompanyGallerySection";
+import { ImpactStats } from "@/components/sections/ImpactStats";
+import Projects from "@/components/sections/projects";
+import Showreel from "@/components/Showreel";
 import { ServiceShowcaseCard } from "@/components/WhyChooseUs";
 import { Hero } from "../components/Hero";
 import TrustedBy from "../components/TrustedBy";

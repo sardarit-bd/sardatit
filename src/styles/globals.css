@@ -42,9 +42,9 @@
     @apply font-semibold tracking-tight text-sm md:text-lg lg:text-lg;
   }
 
-  a {
+  /* a {
     @apply text-foreground hover:opacity-70 transition duration-300 text-base;
-  }
+  } */
 }
 
 li {
@@ -484,6 +484,8 @@ li {
 
 
 
+
+/* thread Componnent */
 .threads-container {
   position: relative;
   width: 100%;

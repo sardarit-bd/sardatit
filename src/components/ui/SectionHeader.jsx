@@ -48,7 +48,7 @@ const SectionHeader = ({ tag, title1, title2, pre, link, btn, isBgWhite, width =
                         >
                             <span>{btn}</span>
                             <span className={`flex items-center justify-center size-7 rounded-full transition-colors ${isBgWhite ? "bg-white/20 text-white" : "bg-black/90 text-white"}`}>
-                                <FiArrowUpRight className={`text-base transition-transform group-hover:rotate-45`} />
+                                <FiArrowUpRight className={`text-base transition-transform duration-500 group-hover:rotate-45`} />
                             </span>
                         </Link>
                     </div>

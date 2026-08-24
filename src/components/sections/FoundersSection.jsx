@@ -33,7 +33,14 @@ export function FoundersSection() {
           but for original innovation the world depends on." title2="" isBgWhite={true} width="max-w-7xl" />
 
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-12">
+
+      <div className="mt-12">
+        <h2 className="text-xl font-semibold">
+          Founders & Executive Leadership
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
         {founders.map((founder, index) => (
           <TeamMemberCard key={index} member={founder} />
         ))}
