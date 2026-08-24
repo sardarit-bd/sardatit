@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { HiChevronDown } from "react-icons/hi";
-import { Button } from "../utils/Button";
 import BookaCallBtn from "./ui/BookaCallBtn";
 const navLinkClass =
   "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
@@ -229,7 +228,7 @@ export default function Header() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={openServicesMenu}
               onMouseLeave={scheduleCloseServicesMenu}
-              className="hidden lg:block absolute top-full inset-x-0 bg-background border-t border-b border-border/50 shadow-lg"
+              className="hidden lg:block absolute top-full inset-x-0 bg-background border-t border-b border-gray-200"
             >
               <div className="container mx-auto px-6 md:px-12 py-10">
                 <div className="grid grid-cols-4 gap-8">
@@ -257,19 +256,13 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center justify-between border-t border-border/50 mt-8 pt-6">
-                  <p className="text-xs tracking-widest text-text/50">
-                    STILL DECIDING?{" "}
+                  <p className="text-md text-gray-900 capitalize">
+                    Deciding?{" "}
                     <span className="text-text/80">
-                      EVERY GREAT PRODUCT STARTS WITH A 30-MINUTE CALL.
+                      Every Great Product Starts With a 30 Minutes Call.
                     </span>
                   </p>
-                  <Button
-                    href="#contact"
-                    onClick={() => setIsServicesOpen(false)}
-                  >
-                    <span className="relative z-10">Book a call</span>
-                    <FiArrowRight className="w-4 h-4" />
-                  </Button>
+                  <BookaCallBtn />
                 </div>
               </div>
             </motion.div>

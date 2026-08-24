@@ -233,11 +233,11 @@ export default function Cta() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-neutral-950 hover:bg-black text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer flex items-center justify-center gap-3"
+                  className="group w-full bg-neutral-950 hover:bg-black text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer flex items-center justify-center gap-3"
                 >
                   Send inquiry
                   <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-                    <FiArrowUpRight className="text-base transition-transform group-hover:rotate-45" />
+                    <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
                   </span>
                 </button>
               </form>
