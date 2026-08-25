@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FiArrowRight } from "react-icons/fi";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { HiChevronDown } from "react-icons/hi";
 import BookaCallBtn from "./ui/BookaCallBtn";
 const navLinkClass =
@@ -47,41 +47,32 @@ function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
 
 const servicesMenu = [
   {
-    step: "01",
-    title: "Plan",
-    items: [
-      { label: "Technical Consulting", href: "/services" },
-      { label: "Product Strategy", href: "/services" },
-      { label: "MVP Planning", href: "/services" },
-    ],
+    label: "Brand Identity",
+    href: "/services",
+    description:
+      "Creating compelling visual identity that reflects your brand values and resonates with your target audience.",
+    image: "/image/project/CASA.webp",
   },
   {
-    step: "02",
-    title: "Design",
-    items: [
-      { label: "UI/UX Design", href: "/services" },
-      { label: "Brand Identity", href: "/services" },
-      { label: "Design Systems", href: "/services" },
-    ],
+    label: "Web and Mobile App Development",
+    href: "/services",
+    description:
+      "Crafting seamless and intuitive user experiences across web and mobile platforms.",
+    image: "/image/project/HomeServiceProvider.webp",
   },
   {
-    step: "03",
-    title: "Build",
-    items: [
-      { label: "Web App Development", href: "/services" },
-      { label: "Mobile App Development", href: "/services" },
-      { label: "API Development", href: "/services" },
-      { label: "E-commerce Development", href: "/services" },
-    ],
+    label: "AI and automation Solutions",
+    href: "/services",
+    description:
+      "Leveraging artificial intelligence and automation to streamline operations and enhance efficiency.",
+    image: "/image/project/MedEase.webp",
   },
   {
-    step: "04",
-    title: "Scale",
-    items: [
-      { label: "DevOps & Deployment", href: "/services" },
-      { label: "Maintenance & Support", href: "/services" },
-      { label: "Performance Optimization", href: "/services" },
-    ],
+    label: "Digital Marketing and Growth",
+    href: "/services",
+    description:
+      "Driving measurable results through data-driven digital marketing strategies and optimization.",
+    image: "/image/project/White_Cross_Clinic.webp",
   },
 ];
 
@@ -89,6 +80,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [hoveredService, setHoveredService] = useState(servicesMenu[0]);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -228,41 +220,76 @@ export default function Header() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={openServicesMenu}
               onMouseLeave={scheduleCloseServicesMenu}
-              className="hidden lg:block absolute top-full inset-x-0 bg-background border-t border-b border-gray-200"
+              className="hidden lg:block absolute top-full inset-x-0 bg-gray-200 backdrop-blur-lg border-t border-b border-gray-200 z-50"
             >
-              <div className="container mx-auto px-6 md:px-12 py-10">
-                <div className="grid grid-cols-4 gap-8">
-                  {servicesMenu.map((column) => (
-                    <div key={column.title}>
-                      <p className="text-xs tracking-widest text-text/50 mb-4">
-                        {column.step}&nbsp;&nbsp;{column.title.toUpperCase()}
-                      </p>
-                      <ul className="space-y-8">
-                        {column.items.map((service) => (
-                          <li key={service.label}>
+              <div className="container mx-auto px-6 md:px-12 py-8">
+                <div className="grid grid-cols-12 gap-8 items-center justify-between">
+                  <div className="col-span-7">
+                    <h2 className="text-md font-semibold tracking-wide uppercase text-gray-700">/ All Services</h2>
+                    <ul className="flex flex-col gap-4 mt-8">
+                      {servicesMenu.map((service) => {
+                        const isHovered =
+                          hoveredService.label === service.label;
+                        return (
+                          <li
+                            onClick={() => { setIsServicesOpen(false) }}
+                            key={service.label}
+                            onMouseEnter={() => setHoveredService(service)}
+                            className="flex items-center justify-start group cursor-pointer"
+                          >
                             <Link
                               href={service.href}
-                              // onClick={(e) => handleNavClick(e, service.href)}
-                              className="group flex items-center justify-between w-full text-text hover:text-primary transition-colors"
+                              className={`flex items-center justify-start w-full gap-3 text-xl xl:text-3xl font-semibold transition-all duration-300 text-left ${isHovered
+                                ? "text-gray-700"
+                                : "text-gray-600 hover:text-gray-500"
+                                }`}
                             >
                               <span>{service.label}</span>
-                              <FiArrowRight className="w-4 h-4  group-hover:translate-x-0 transition-all" />
+                              <FaArrowRightLong
+                                className={`text-lg transition-all duration-300 ${isHovered
+                                  ? "opacity-100 translate-x-1 text-gray-700"
+                                  : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-gray-600"
+                                  }`}
+                              />
                             </Link>
                           </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
+                        );
+                      })}
+                    </ul>
+                  </div>
 
-                <div className="flex items-center justify-between border-t border-border/50 mt-8 pt-6">
-                  <p className="text-md text-gray-900 capitalize">
-                    Deciding?{" "}
-                    <span className="text-text/80">
-                      Every Great Product Starts With a 30 Minutes Call.
-                    </span>
-                  </p>
-                  <BookaCallBtn />
+                  <div className="col-span-5">
+                    <div className="relative h-64 xl:h-72 w-full overflow-hidden">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={hoveredService.label}
+                          initial={{ opacity: 0, scale: 0.96 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.96 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className="relative w-full h-full"
+                        >
+                          <Image
+                            src={hoveredService.image}
+                            alt={hoveredService.label}
+                            fill
+                            className="object-cover transition-transform duration-700 hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-5 text-white">
+                            <span className="text-xs uppercase tracking-wider text-white/70 font-semibold mb-1">
+                              Featured Service
+                            </span>
+                            <h4 className="text-lg font-bold text-white mb-1">
+                              {hoveredService.label}
+                            </h4>
+                            <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
+                              {hoveredService.description}
+                            </p>
+                          </div>
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

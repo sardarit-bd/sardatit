@@ -39,7 +39,7 @@ export default function Footer() {
             >
               {cta.label}
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-text text-highlight">
-                <FiArrowDown className="h-4 w-4" strokeWidth={2.5} />
+                <FiArrowDown className="h-4 w-4 animate-bounce translate-y-1" strokeWidth={2.5} />
               </span>
             </Link>
 
