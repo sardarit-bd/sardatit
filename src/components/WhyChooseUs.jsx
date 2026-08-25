@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
+import { GoDotFill } from "react-icons/go";
 import SectionHeader from "./ui/SectionHeader";
 
 const servicesData = [
@@ -17,7 +18,9 @@ const servicesData = [
       "Design Systems & Guidelines",
       "Marketing & Collateral Materials",
     ],
-    bgClass: "bg-[#0F172A]",
+    bgClass: "bg-[#133BD4]",
+    Color: "text-white",
+    bthIsWhite: true,
     imageSrc: "/image/service/service1.avif",
   },
   {
@@ -31,8 +34,10 @@ const servicesData = [
       "Custom Software Engineering",
       "API & Cloud Infrastructure",
     ],
-    bgClass: "bg-[#133BD4]",
-    imageSrc: "/image/service/service1.avif",
+    bgClass: "bg-[#ffd500]",
+    Color: "text-black",
+    bthIsWhite: false,
+    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/695660016e7fa600f1ded4cb_ai-web-ux-design.avif",
   },
   {
     id: 3,
@@ -45,8 +50,10 @@ const servicesData = [
       "Data Analytics & Insights",
       "Process Optimization",
     ],
-    bgClass: "bg-[#18181B]",
-    imageSrc: "/image/service/service1.avif",
+    bgClass: "bg-[#ff531a]",
+    Color: "text-white",
+    bthIsWhite: true,
+    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/6956600b5336d6c6c37b5d0d_mvp-product-design-by-wavespace.avif",
   },
   {
     id: 4,
@@ -59,8 +66,11 @@ const servicesData = [
       "Social Media & Content Strategy",
       "Conversion Optimization",
     ],
-    bgClass: "bg-[#090D16]",
-    imageSrc: "/image/service/service1.avif",
+
+    bgClass: "bg-[#0F172A]",
+    Color: "text-white",
+    bthIsWhite: true,
+    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/69565fef09c6195a8eebdfd8_b2b-ui-ux-design.avif",
   },
 ];
 
@@ -94,7 +104,7 @@ export function ServiceShowcaseCard() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className={`flex flex-1 flex-col justify-between gap-10 p-8 text-white lg:basis-[55%] lg:p-12 ${service.bgClass}`}
+              className={`flex flex-1 flex-col justify-between gap-10 p-8 lg:basis-[55%] lg:p-12 ${service.bgClass} ${service?.Color}`}
             >
               {/* Header + body */}
               <div className="flex flex-col gap-6">
@@ -102,12 +112,9 @@ export function ServiceShowcaseCard() {
                   <h3 className="text-3xl font-bold leading-tight lg:text-4xl">
                     {service.title}
                   </h3>
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/80">
-                    0{index + 1} / 0{servicesData.length}
-                  </span>
                 </div>
 
-                <p className="text-base font-medium text-white/80 lg:text-lg">
+                <p className="text-base font-medium lg:text-lg">
                   {service.description}
                 </p>
 
@@ -116,13 +123,10 @@ export function ServiceShowcaseCard() {
                   {service.features.map((feature) => (
                     <div
                       key={feature}
-                      className="flex w-1/2 flex-row items-start gap-2 pr-2"
+                      className="flex w-1/2 flex-row items-center gap-2 pr-2"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white"
-                      />
-                      <span className="text-sm font-medium leading-snug text-white lg:text-base">
+                      <GoDotFill className={`${service?.Color} rounded-full`} />
+                      <span className="text-sm font-medium leading-snug lg:text-base">
                         {feature}
                       </span>
                     </div>
@@ -133,11 +137,11 @@ export function ServiceShowcaseCard() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className="group w-fit inline-flex items-center gap-3 px-4 py-2.5 bg-white text-black font-semibold text-sm md:text-base hover:bg-[#133bd4] hover:text-white transition-all duration-300 hover:scale-[1.02]"
+                className={`group w-fit inline-flex items-center gap-3 px-4 py-2.5 ${service.bthIsWhite ? "bg-white text-black" : "bg-black text-white"} font-semibold text-sm md:text-base transition-all duration-300 hover:scale-[1.02]`}
               >
                 <span>Start a Project</span>
-                <span className="flex items-center justify-center size-7 rounded-full bg-black/10 text-black group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-                  <FiArrowUpRight className="text-base transition-transform group-hover:rotate-45" />
+                <span className={`flex items-center justify-center size-7 rounded-full ${service.bthIsWhite ? "bg-black/10 text-black group-hover:bg-black/10 group-hover:text-black" : "bg-white text-black group-hover:bg-white group-hover:text-black"}  transition-all duration-300`}>
+                  <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:rotate-45" />
                 </span>
               </Link>
             </motion.div>

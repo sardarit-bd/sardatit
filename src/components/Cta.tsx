@@ -152,7 +152,7 @@ export default function Cta() {
                   Thank You!
                 </h3>
                 <p className="text-neutral-600 max-w-md">
-                  Your inquiry has been received via EmailJS. Our team will review your project requirements and reach out within 24 hours.
+                  Your inquiry has been received. Our team will review your project requirements and reach out as soon as possible.
                 </p>
               </motion.div>
             ) : (
