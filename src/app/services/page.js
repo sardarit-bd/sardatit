@@ -1,6 +1,8 @@
 "use client";
 
 import Cta from "@/components/Cta";
+import TrustedBy from "@/components/TrustedBy";
+import BookaCallBtn from "@/components/ui/BookaCallBtn";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
@@ -269,28 +271,14 @@ export default function ServicesPage() {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-wrap items-center gap-4 mb-14">
-                            <Link
-                                href="#contact"
-                                className="group bg-neutral-950 hover:bg-black text-white px-7 py-4 font-semibold text-base sm:text-lg inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-2xl active:scale-[0.99]"
-                            >
-                                Design That Converts
-                                <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-black transition-colors">
-                                    <FiArrowUpRight className="text-base group-hover:rotate-45 transition-transform duration-300" />
-                                </span>
-                            </Link>
+                            <BookaCallBtn />
 
-                            <Link
-                                href="https://calendly.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-7 py-4 font-semibold text-base sm:text-lg text-neutral-800 hover:text-neutral-950 bg-white border border-neutral-200/90 hover:border-neutral-400 transition-all shadow-sm hover:shadow-md"
-                            >
-                                Book a Quick Call
-                            </Link>
                         </div>
                     </motion.div>
 
                 </section>
+
+                <TrustedBy />
 
 
                 {/* -------------------- 3. ON-DEMAND SERVICES -------------------- */}
@@ -472,6 +460,6 @@ export default function ServicesPage() {
             <div id="contact">
                 <Cta />
             </div>
-        </div>
+        </div >
     );
 }

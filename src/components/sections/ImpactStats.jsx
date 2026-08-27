@@ -30,11 +30,11 @@ const statRows = [
       value: "50+",
       label: "Employees",
     },
-    {
-      index: "06",
-      value: "12+",
-      label: "Country Served",
-    },
+    // {
+    //   index: "06",
+    //   value: "12+",
+    //   label: "Country Served",
+    // },
 
   ]
 ];
@@ -44,10 +44,10 @@ export function ImpactStats() {
     <section className="py-16 bg-black">
       <div className="container mx-auto px-6 md:px-12 flex flex-col gap-10">
 
-        <SectionHeader tag={"Achivment"} title1="Achievements That Define" pre="" title2="Our Success" isBgWhite={false} />
+        <SectionHeader tag={"Achivment"} title1="Success in Action" pre="Project we are Proud of, and numbers backed by trust,peaple and real results." title2="" isBgWhite={false} />
 
         <div className="flex flex-col gap-4 md:gap-5">
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6  gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5  gap-3 md:gap-6">
             {statRows[0].map((stat) => (
               <motion.div
                 key={stat.index}

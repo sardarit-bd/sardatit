@@ -3,11 +3,11 @@
 import CtaSection from "@/components/Cta";
 import ClientFeedbackAccordion from "@/components/sections/ClientFeedbackAccordion";
 import { FoundersSection } from "@/components/sections/FoundersSection";
+import { ImpactStats } from "@/components/sections/ImpactStats";
 import TeamMembers from "@/components/team";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
-    FiAward,
     FiCpu,
     FiGlobe,
     FiLayers,
@@ -186,7 +186,7 @@ export default function AboutPage() {
 
 
             {/* 3. VISION & EMPOWERING SUCCESS STORIES (Light Gray Theme) */}
-            <section className="w-full py-20 lg:py-28 bg-[#E6E8EA] text-neutral-900">
+            <section className="w-full py-10 lg:py-20 bg-[#E6E8EA] text-neutral-900">
                 <div className="container">
 
                     <SectionHeader tag={"OUR VISION"} title1="We unite strategy, design, and full-stack engineering to drive impact inside and outside an organisation." pre="" title2="" isBgWhite={true} width="max-w-4xl" />
@@ -206,7 +206,7 @@ export default function AboutPage() {
                         {/* Right Copy & Stats */}
                         <div className="lg:col-span-7 flex flex-col gap-8">
                             <div>
-                                <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#133bd4] mb-3 block">
+                                <span className="text-sm sm:text-2xl font-bold uppercase tracking-widest mb-3 block">
                                     EMPOWERING SUCCESS STORIES
                                 </span>
                                 <p className="text-neutral-700 text-base sm:text-lg leading-relaxed mb-6">
@@ -231,7 +231,7 @@ export default function AboutPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <div className="text-4xl sm:text-5xl font-extrabold text-[#133bd4] tracking-tight mb-2">
+                                    <div className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-2">
                                         99.9%
                                     </div>
                                     <h4 className="text-lg font-bold text-neutral-900 mb-1">
@@ -250,46 +250,8 @@ export default function AboutPage() {
             {/* 4. VALUES THAT SET US APART (Aceternity UI Sticky Scroll Reveal) */}
             <StickyScrollReveal content={values} />
 
-            {/* 6. ACHIEVEMENTS & AWARDS (Light Gray Theme) */}
-            <section className="w-full py-20 lg:py-28 px-4 sm:px-6 lg:px-12 bg-[#E6E8EA] text-neutral-900">
-                <div className="container">
 
-                    <SectionHeader tag={"RECOGNITION"} title1=" Achieved Awards & Industry Badges" pre="Recognized globally for technical execution, client satisfaction, and digital innovation." title2="" isBgWhite={true} width="max-w-4xl" />
-
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-                        {awards.map((award, idx) => (
-                            <motion.div
-                                key={award.platform}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="bg-white p-8 flex flex-col justify-between"
-                            >
-                                <div>
-                                    <div className="flex items-center justify-between mb-4">
-                                        <span className="text-xs font-bold text-[#133bd4] uppercase tracking-wider">
-                                            {award.platform}
-                                        </span>
-                                        <FiAward className="text-neutral-400 text-xl" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-neutral-950 mb-2">
-                                        {award.badge}
-                                    </h3>
-                                    <p className="text-xs text-neutral-600 leading-relaxed mb-6">
-                                        {award.desc}
-                                    </p>
-                                </div>
-                                <div className="pt-4 border-t border-neutral-100 flex items-center gap-2 text-xs font-bold text-emerald-600">
-                                    <FiCpu />
-                                    <span>{award.rating}</span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <ImpactStats />
 
             {/* 7. FOUNDERS & EXECUTIVE LEADERSHIP (Pure White Theme) */}
             <section className="w-full bg-white py-12">
