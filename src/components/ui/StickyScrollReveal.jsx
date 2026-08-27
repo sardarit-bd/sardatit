@@ -38,7 +38,7 @@ export function StickyScrollReveal({ content }) {
   });
 
   return (
-    <div ref={containerRef} className="relative w-full py-20 lg:py-28 bg-white text-neutral-900">
+    <div ref={containerRef} className="relative w-full py-10 lg:py-20 bg-white text-neutral-900">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
 
         <SectionHeader tag={"OUR CORE VALUES"} title1="Values That Set Us Apart" pre=" Our principles shape every line of code we write, every pixel we refine, and every client relationship we build." title2="" isBgWhite={true} width="max-w-4xl" />
