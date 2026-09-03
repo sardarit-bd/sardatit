@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "src/components/ui/SectionHeader.jsx"
+, "src/components/sections/ImpactStats.jsx", "src/components/sections/FoundersSection.jsx", "src/components/sections/CompanyGallerySection.jsx", "src/components/sections/ClientFeedbackAccordion.jsx", "src/components/Projects.jsx", "src/components/WhyChooseUs.jsx", "src/components/ui/TeamMemberCard.jsx"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
