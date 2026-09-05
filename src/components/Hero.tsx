@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import BookaCallBtn from "../components/ui/BookaCallBtn";
+import styles from "./HeroTitle.module.css";
 import Threads from "./sections/Threads";
 
 const clientAvatars = [
@@ -47,14 +48,27 @@ export function Hero() {
 
 
         {/* Main Wavespace-style Headline */}
-        <div className="mb-6 max-w-5xl mt-5">
+        <div className="mb-6 max-w-4xl mt-5">
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.15] text-slate-900/90 text-center md:text-left"
           >
-            A global digital agency for products that ship,{" "}
+            <span className={styles.titleWrapper}>
+              <span className={styles.gradient3dText}>
+                A global digital agency for products that ship,
+              </span>
+              <span className={`${styles.orbitDot} ${styles.dot1}`} aria-hidden="true">
+                ●
+              </span>
+              <span className={`${styles.orbitDot} ${styles.dot2}`} aria-hidden="true">
+                ●
+              </span>
+              <span className={`${styles.orbitDot} ${styles.dot3}`} aria-hidden="true">
+                ●
+              </span>
+            </span>{" "}
             <motion.span
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}

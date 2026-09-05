@@ -1,0 +1,272 @@
+.titleWrapper {
+  --col1: rgba(228, 19, 141, 0.95);
+  --col2: rgb(245, 158, 11);
+  --col-accent: #2563eb;
+
+  position: relative;
+  display: inline-block;
+  perspective: 800px;
+  transform-style: preserve-3d;
+  max-width: 100%;
+}
+
+/* 3D skewed, animated gradient text */
+.gradient3dText {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+    115deg,
+    var(--col1) 0%,
+    var(--col2) 28%,
+    var(--col-accent) 55%,
+    var(--col2) 80%,
+    var(--col1) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transform-style: preserve-3d;
+  animation:
+    shimmerMove 6s ease-in-out infinite alternate,
+    skew3dTilt 7s ease-in-out infinite alternate;
+  will-change: transform, background-position;
+  filter: drop-shadow(0 2px 14px rgba(228, 19, 141, 0.2));
+  transition: filter 0.3s ease;
+}
+
+.titleWrapper:hover .gradient3dText {
+  filter: drop-shadow(0 4px 22px rgba(228, 19, 141, 0.35));
+}
+
+/* Continuous gradient shimmer shift */
+@keyframes shimmerMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Subtle 3D perspective tilt & skew */
+@keyframes skew3dTilt {
+  0% {
+    transform: perspective(800px) rotateX(3.5deg) rotateY(-4deg) skewX(-1.5deg) translateZ(0px);
+  }
+  50% {
+    transform: perspective(800px) rotateX(-2deg) rotateY(3deg) skewX(1deg) translateZ(10px);
+  }
+  100% {
+    transform: perspective(800px) rotateX(2.5deg) rotateY(-2.5deg) skewX(-1deg) translateZ(0px);
+  }
+}
+
+/* Pseudo elements as ambient orbiting glow particles */
+.titleWrapper::before,
+.titleWrapper::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.titleWrapper::before {
+  width: 8px;
+  height: 8px;
+  background: var(--col1);
+  box-shadow: 0 0 12px 2px var(--col1), 0 0 22px var(--col1);
+  top: 10%;
+  left: 12%;
+  animation: ambientOrbit1 9s ease-in-out infinite;
+}
+
+.titleWrapper::after {
+  width: 7px;
+  height: 7px;
+  background: var(--col2);
+  box-shadow: 0 0 10px 2px var(--col2), 0 0 18px var(--col2);
+  bottom: 8%;
+  right: 8%;
+  animation: ambientOrbit2 11s ease-in-out infinite reverse;
+}
+
+@keyframes ambientOrbit1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translate3d(24px, -14px, 20px) scale(1.3);
+    opacity: 1;
+  }
+  66% {
+    transform: translate3d(-18px, 12px, -10px) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes ambientOrbit2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.6;
+  }
+  40% {
+    transform: translate3d(-28px, -16px, 15px) scale(1.25);
+    opacity: 0.95;
+  }
+  80% {
+    transform: translate3d(16px, 12px, -8px) scale(0.85);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.6;
+  }
+}
+
+/* Orbiting Dot Particles (●) */
+.orbitDot {
+  position: absolute;
+  pointer-events: none;
+  font-size: 13px;
+  line-height: 1;
+  user-select: none;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dot 1: Magenta dot near top-right */
+.dot1 {
+  color: var(--col1);
+  text-shadow: 0 0 8px var(--col1), 0 0 16px var(--col1);
+  top: -6px;
+  right: 6%;
+  animation: orbitPath1 6.5s linear infinite;
+}
+
+/* Dot 2: Orange/amber dot near bottom-left */
+.dot2 {
+  color: var(--col2);
+  text-shadow: 0 0 8px var(--col2), 0 0 16px var(--col2);
+  bottom: 2px;
+  left: -8px;
+  animation: orbitPath2 8s ease-in-out infinite;
+}
+
+/* Dot 3: Cyan/blue dot near right edge */
+.dot3 {
+  color: #00d4ff;
+  text-shadow: 0 0 8px #00d4ff, 0 0 18px rgba(0, 212, 255, 0.85);
+  top: 45%;
+  right: -12px;
+  animation: orbitPath3 9s ease-in-out infinite;
+}
+
+/* Orbit keyframes traveling around text perimeter */
+@keyframes orbitPath1 {
+  0% {
+    transform: translate(0, 0) scale(0.9);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(16px, 12px) scale(1.2);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-10px, 20px) scale(0.8);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(-20px, -6px) scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) scale(0.9);
+    opacity: 0.5;
+  }
+}
+
+@keyframes orbitPath2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  30% {
+    transform: translate(18px, -16px) scale(1.25);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(28px, 8px) scale(0.7);
+    opacity: 0.4;
+  }
+  85% {
+    transform: translate(10px, 14px) scale(1.05);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes orbitPath3 {
+  0% {
+    transform: translate(0, 0) scale(0.85);
+    opacity: 0.6;
+  }
+  35% {
+    transform: translate(-20px, -22px) scale(1.2);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(12px, -10px) scale(0.75);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(0, 0) scale(0.85);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 640px) {
+  .dot1 {
+    top: -4px;
+    right: 8%;
+  }
+  .dot2 {
+    bottom: 4px;
+    left: 2px;
+  }
+  .dot3 {
+    top: 40%;
+    right: 2px;
+  }
+  .orbitDot {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient3dText {
+    animation: none;
+    transform: none;
+  }
+  .titleWrapper::before,
+  .titleWrapper::after,
+  .orbitDot {
+    animation: none;
+    display: none;
+  }
+}
