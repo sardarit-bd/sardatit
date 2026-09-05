@@ -10,29 +10,32 @@
   max-width: 100%;
 }
 
-/* 3D skewed, animated gradient text */
+/* 3D skewed, animated gradient text with crisp high-contrast typography */
 .gradient3dText {
   position: relative;
   display: inline-block;
+  font-weight: 800;
+  color: #09090b;
   background: linear-gradient(
     115deg,
-    var(--col1) 0%,
-    var(--col2) 28%,
-    var(--col-accent) 55%,
-    var(--col2) 80%,
-    var(--col1) 100%
+    #09090b 0%,
+    #09090b 18%,
+    var(--col1) 42%,
+    var(--col2) 60%,
+    var(--col-accent) 75%,
+    #09090b 90%,
+    #09090b 100%
   );
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent;
   transform-style: preserve-3d;
   animation:
     shimmerMove 6s ease-in-out infinite alternate,
     skew3dTilt 7s ease-in-out infinite alternate;
   will-change: transform, background-position;
-  filter: drop-shadow(0 2px 14px rgba(228, 19, 141, 0.2));
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
   transition: filter 0.3s ease;
 }
 
