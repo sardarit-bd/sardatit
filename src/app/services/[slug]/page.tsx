@@ -21,6 +21,7 @@ import {
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
 import ServiceSplitView from "@/components/ServiceSplitView";
 import Cta from "@/components/Cta";
+import InteractiveFeatureShowcase from "@/components/services/InteractiveFeatureShowcase";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -219,6 +220,15 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* -------------------- 2.5 INTERACTIVE FEATURE SHOWCASE -------------------- */}
+      {service.slug === "web-mobile-development" && (
+        <section className="py-16 lg:py-24 bg-neutral-50/80 text-neutral-900 relative overflow-hidden border-y border-neutral-200/80">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+            <InteractiveFeatureShowcase />
+          </div>
+        </section>
+      )}
 
       {/* -------------------- 3. TANGIBLE DELIVERABLES -------------------- */}
       {service.deliverables && service.deliverables.length > 0 && (

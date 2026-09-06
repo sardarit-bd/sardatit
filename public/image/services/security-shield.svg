@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="100%" height="100%" fill="none">
+  <defs>
+    <filter id="shield-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#2563eb" flood-opacity="0.2" />
+    </filter>
+    <linearGradient id="shield-glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#1d4ed8" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="ring-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(60, 30)" filter="url(#shield-shadow)">
+    <!-- Outer Holographic Encryption Rings -->
+    <circle cx="400" cy="270" r="230" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.4" />
+    <circle cx="400" cy="270" r="195" stroke="#60a5fa" stroke-width="2" stroke-dasharray="16 10" opacity="0.6" />
+    <circle cx="400" cy="270" r="150" stroke="#93c5fd" stroke-width="1" stroke-dasharray="4 8" opacity="0.3" />
+
+    <!-- 3D Biometric Glass Shield in Center -->
+    <g transform="translate(260, 90)">
+      <!-- Shield Polygon Geometry -->
+      <path d="M140 20 L260 70 L260 230 C260 320, 140 370, 140 370 C140 370, 20 320, 20 230 L20 70 Z" fill="url(#shield-glass)" stroke="#60a5fa" stroke-width="3" />
+      
+      <!-- Inner Shield Accent -->
+      <path d="M140 45 L235 85 L235 215 C235 285, 140 330, 140 330 C140 330, 45 285, 45 215 L45 85 Z" fill="#0f172a" fill-opacity="0.6" stroke="#93c5fd" stroke-width="1.5" />
+
+      <!-- Center Cryptographic Lock / Biometric Fingerprint -->
+      <g transform="translate(105, 120)">
+        <rect x="0" y="30" width="70" height="50" rx="14" fill="#2563eb" stroke="#93c5fd" stroke-width="2" />
+        <path d="M15 30 V18 C15 7, 55 7, 55 18 V30" fill="none" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" />
+        <circle cx="35" cy="55" r="5" fill="#ffffff" />
+        <path d="M35 60 V66" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+      </g>
+
+      <text x="140" y="225" fill="#ffffff" font-size="16" font-family="system-ui, sans-serif" font-weight="800" text-anchor="middle">ZERO-TRUST</text>
+      <text x="140" y="246" fill="#38bdf8" font-size="11" font-family="system-ui, monospace" font-weight="700" text-anchor="middle">AES-256 GCM</text>
+    </g>
+
+    <!-- Floating Compliance Badges -->
+    <!-- Badge 1: SOC 2 Type II -->
+    <g transform="translate(70, 130)">
+      <rect x="0" y="0" width="180" height="100" rx="18" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
+      <circle cx="32" cy="30" r="12" fill="#2563eb" fill-opacity="0.3" />
+      <path d="M26 30 l4 4 l8 -8" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" fill="none" />
+      <text x="52" y="34" fill="#93c5fd" font-size="12" font-family="system-ui, monospace" font-weight="700">COMPLIANCE</text>
+      <text x="20" y="62" fill="#ffffff" font-size="15" font-family="system-ui, sans-serif" font-weight="700">SOC 2 Type II</text>
+      <text x="20" y="80" fill="#10b981" font-size="10" font-family="system-ui, sans-serif">Certified &amp; Audited</text>
+    </g>
+
+    <!-- Badge 2: End-to-End Encryption -->
+    <g transform="translate(560, 130)">
+      <rect x="0" y="0" width="180" height="100" rx="18" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+      <circle cx="32" cy="30" r="12" fill="#10b981" fill-opacity="0.2" />
+      <path d="M26 30 l4 4 l8 -8" stroke="#34d399" stroke-width="2" stroke-linecap="round" fill="none" />
+      <text x="52" y="34" fill="#34d399" font-size="12" font-family="system-ui, monospace" font-weight="700">PRIVACY</text>
+      <text x="20" y="62" fill="#ffffff" font-size="15" font-family="system-ui, sans-serif" font-weight="700">E2E Enclave</text>
+      <text x="20" y="80" fill="#94a3b8" font-size="10" font-family="system-ui, sans-serif">Hardware Keystore</text>
+    </g>
+
+    <!-- Bottom Status Row -->
+    <g transform="translate(270, 485)">
+      <rect x="0" y="0" width="260" height="42" rx="21" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
+      <circle cx="24" cy="21" r="6" fill="#10b981" />
+      <text x="40" y="25" fill="#f8fafc" font-size="12" font-family="system-ui, sans-serif" font-weight="700">Enterprise Shield Active</text>
+      <text x="195" y="25" fill="#38bdf8" font-size="10" font-family="system-ui, monospace" font-weight="700">100%</text>
+    </g>
+  </g>
+</svg>
