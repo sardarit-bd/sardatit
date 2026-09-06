@@ -26,7 +26,14 @@ export default function LenisProvider({
     });
     gsap.ticker.lagSmoothing(0);
 
+    if (typeof window !== "undefined") {
+      (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+    }
+
     return () => {
+      if (typeof window !== "undefined") {
+        delete (window as unknown as { __lenis?: Lenis }).__lenis;
+      }
       lenis.destroy();
     };
   }, []);

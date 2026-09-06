@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import ScrollToTop from "@/components/ScrollToTop";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import LenisProvider from "../components/LenisProvider";
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={outfit.variable}>
       <body className={`${outfit.className} antialiased`}>
+        <ScrollToTop />
         <LenisProvider>
           <Header />
           {children}

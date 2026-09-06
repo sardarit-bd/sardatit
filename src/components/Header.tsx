@@ -6,14 +6,17 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { HiChevronDown } from "react-icons/hi";
+import { SERVICES_DATA } from "@/lib/services";
+import { ServiceItem } from "@/types/service";
 import BookaCallBtn from "./ui/BookaCallBtn";
 const navLinkClass =
   "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
 
 const navItems = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/works", label: "Works" },
-  { href: "/services", label: "Services", hasDropdown: true },
+  { href: "#", label: "Services", hasDropdown: true },
   { href: "/testimonials", label: "Testimonials" },
 ];
 
@@ -45,42 +48,11 @@ function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   );
 }
 
-const servicesMenu = [
-  {
-    label: "Brand Identity",
-    href: "/services",
-    description:
-      "Creating compelling visual identity that reflects your brand values and resonates with your target audience.",
-    image: "/image/project/CASA.webp",
-  },
-  {
-    label: "Web and Mobile App Development",
-    href: "/services",
-    description:
-      "Crafting seamless and intuitive user experiences across web and mobile platforms.",
-    image: "/image/project/HomeServiceProvider.webp",
-  },
-  {
-    label: "AI and automation Solutions",
-    href: "/services",
-    description:
-      "Leveraging artificial intelligence and automation to streamline operations and enhance efficiency.",
-    image: "/image/project/MedEase.webp",
-  },
-  {
-    label: "Digital Marketing and Growth",
-    href: "/services",
-    description:
-      "Driving measurable results through data-driven digital marketing strategies and optimization.",
-    image: "/image/project/White_Cross_Clinic.webp",
-  },
-];
-
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [hoveredService, setHoveredService] = useState(servicesMenu[0]);
+  const [hoveredService, setHoveredService] = useState<ServiceItem>(SERVICES_DATA[0]);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -162,15 +134,15 @@ export default function Header() {
               {navItems.map((item) =>
                 item.hasDropdown ? (
                   <div
-                    key={item.href}
+                    key={item.label}
                     className="relative"
                     onMouseEnter={openServicesMenu}
                     onMouseLeave={scheduleCloseServicesMenu}
                   >
-                    <Link
-                      href={item.href}
-                      // onClick={(e) => handleNavClick(e, item.href)}
-                      className={`inline-flex items-center gap-1.5 ${navLinkClass}`}
+                    <button
+                      type="button"
+                      onClick={() => setIsServicesOpen((prev) => !prev)}
+                      className={`inline-flex items-center gap-1.5 ${navLinkClass} cursor-pointer bg-transparent border-0 p-0`}
                       aria-expanded={isServicesOpen}
                     >
                       {item.label}
@@ -182,7 +154,7 @@ export default function Header() {
                           ].join(" ")}
                         />
                       </span>
-                    </Link>
+                    </button>
                   </div>
                 ) : (
                   <Link
@@ -227,24 +199,24 @@ export default function Header() {
                   <div className="col-span-7">
                     <h2 className="text-md font-semibold tracking-wide uppercase text-gray-700">/ All Services</h2>
                     <ul className="flex flex-col gap-4 mt-8">
-                      {servicesMenu.map((service) => {
+                      {SERVICES_DATA.map((service) => {
                         const isHovered =
-                          hoveredService.label === service.label;
+                          hoveredService.slug === service.slug;
                         return (
                           <li
-                            onClick={() => { setIsServicesOpen(false) }}
-                            key={service.label}
+                            onClick={() => { setIsServicesOpen(false); }}
+                            key={service.slug}
                             onMouseEnter={() => setHoveredService(service)}
                             className="flex items-center justify-start group cursor-pointer"
                           >
                             <Link
-                              href={service.href}
+                              href={`/services/${service.slug}`}
                               className={`flex items-center justify-start w-full gap-3 text-xl xl:text-3xl font-semibold transition-all duration-300 text-left ${isHovered
                                 ? "text-gray-700"
                                 : "text-gray-600 hover:text-gray-500"
                                 }`}
                             >
-                              <span>{service.label}</span>
+                              <span>{service.title}</span>
                               <FaArrowRightLong
                                 className={`text-lg transition-all duration-300 ${isHovered
                                   ? "opacity-100 translate-x-1 text-gray-700"
@@ -259,10 +231,10 @@ export default function Header() {
                   </div>
 
                   <div className="col-span-5">
-                    <div className="relative h-64 xl:h-72 w-full overflow-hidden">
+                    <div className="relative h-64 xl:h-72 w-full overflow-hidden rounded-xl">
                       <AnimatePresence mode="wait">
                         <motion.div
-                          key={hoveredService.label}
+                          key={hoveredService.slug}
                           initial={{ opacity: 0, scale: 0.96 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.96 }}
@@ -271,7 +243,7 @@ export default function Header() {
                         >
                           <Image
                             src={hoveredService.image}
-                            alt={hoveredService.label}
+                            alt={hoveredService.title}
                             fill
                             className="object-cover transition-transform duration-700 hover:scale-105"
                           />
@@ -280,7 +252,7 @@ export default function Header() {
                               Featured Service
                             </span>
                             <h4 className="text-lg font-bold text-white mb-1">
-                              {hoveredService.label}
+                              {hoveredService.title}
                             </h4>
                             <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
                               {hoveredService.description}
@@ -332,23 +304,70 @@ export default function Header() {
                   <HamburgerIcon isOpen={true} />
                 </button>
               </div>
-              <nav className="flex flex-col gap-6 mt-12">
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.05 * index, duration: 0.3 }}
-                  >
-                    <Link
-                      href={item.href}
-                      // onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-3xl font-semibold hover:text-text/80 transition-colors"
+              <nav className="flex flex-col gap-6 mt-12 overflow-y-auto max-h-[60vh] pr-2">
+                {navItems.map((item, index) =>
+                  item.hasDropdown ? (
+                    <motion.div
+                      key={item.label}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * index, duration: 0.3 }}
+                      className="flex flex-col gap-3"
                     >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <button
+                        type="button"
+                        onClick={() => setIsServicesOpen((prev) => !prev)}
+                        className="flex items-center justify-between text-3xl font-semibold hover:text-text/80 transition-colors text-left w-full cursor-pointer bg-transparent border-0 p-0 text-text"
+                      >
+                        <span>{item.label}</span>
+                        <HiChevronDown
+                          className={`w-6 h-6 transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""
+                            }`}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {isServicesOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="flex flex-col gap-3 pl-4 border-l-2 border-border/50 mt-1"
+                          >
+                            {SERVICES_DATA.map((srv) => (
+                              <Link
+                                key={srv.slug}
+                                href={`/services/${srv.slug}`}
+                                onClick={() => {
+                                  setIsServicesOpen(false);
+                                  setIsMobileMenuOpen(false);
+                                }}
+                                className="text-xl font-medium text-muted-foreground hover:text-text transition-colors py-1"
+                              >
+                                {srv.title}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * index, duration: 0.3 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-3xl font-semibold hover:text-text/80 transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ),
+                )}
               </nav>
               <div className="mt-auto">
                 <BookaCallBtn isheader={true} />
