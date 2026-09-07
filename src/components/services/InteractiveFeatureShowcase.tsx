@@ -213,7 +213,7 @@ export default function InteractiveFeatureShowcase({
 
   return (
     <div
-      className={`relative z-10 w-full min-h-[680px] bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden p-6 md:p-12 flex items-center ${className}`}
+      className={`relative z-10 w-full min-h-0 lg:min-h-[680px] py-8 lg:py-12 p-4 sm:p-6 lg:p-12 bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden flex items-center ${className}`}
       role="region"
       aria-label="Interactive Product Showcase"
     >
@@ -230,53 +230,53 @@ export default function InteractiveFeatureShowcase({
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             aria-label="Close feature explorer"
-            className="absolute top-5 right-5 md:top-6 md:right-6 w-11 h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center cursor-pointer transition-colors z-20 shadow-sm"
+            className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 md:top-6 md:right-6 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center cursor-pointer transition-colors z-30 shadow-sm"
           >
-            <FiX className="w-5 h-5" />
+            <FiX className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.button>
         )}
       </AnimatePresence>
 
       {/* =========================================================================
-          MAIN 2-COLUMN SPLIT GRID
+          MAIN 2-COLUMN SPLIT GRID / MOBILE SINGLE COLUMN STACK
           ========================================================================= */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full relative z-10">
+      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full relative z-10">
         {/* =========================================================================
-            LEFT COLUMN: ENLARGED CONTENT (RED BOX LEFT)
+            LEFT COLUMN: PILLS & ACCORDION (W-FULL MAX-W-FULL ON MOBILE)
             ========================================================================= */}
-        <div className="lg:col-span-5 w-full max-w-md lg:max-w-lg z-20 flex items-start gap-4">
+        <div className="lg:col-span-5 w-full max-w-full lg:max-w-lg z-20 flex items-start gap-2.5 sm:gap-4">
           {/* Floating Navigation Arrows (State 2 only: Up ▲ and Down ▼) */}
           <AnimatePresence>
             {isExpanded && (
               <motion.div
-                initial={{ opacity: 0, x: -16 }}
+                initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
+                exit={{ opacity: 0, x: -12 }}
                 transition={{ duration: 0.25 }}
-                className="flex flex-col gap-2.5 shrink-0 pt-1"
+                className="flex flex-col gap-2 shrink-0 pt-0.5"
               >
                 <button
                   type="button"
                   onClick={handlePrev}
                   aria-label="Previous feature (Arrow Up)"
-                  className="w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 hover:text-black flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 hover:text-black flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90"
                 >
-                  <FiChevronUp className="w-4 h-4" />
+                  <FiChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   type="button"
                   onClick={handleNext}
                   aria-label="Next feature (Arrow Down)"
-                  className="w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 hover:text-black flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 hover:text-black flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90"
                 >
-                  <FiChevronDown className="w-4 h-4" />
+                  <FiChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Pills Accordion Stack */}
-          <div className="flex flex-col gap-3.5 w-full">
+          <div className="w-full max-w-full flex flex-col gap-2.5">
             {SHOWCASE_FEATURES.map((item, index) => {
               const isActive = isExpanded && activeIndex === index;
 
@@ -295,18 +295,18 @@ export default function InteractiveFeatureShowcase({
                     /* Expanded Active Card (Light Mode) */
                     <motion.div
                       layout
-                      className="rounded-2xl bg-white border border-neutral-300/90 p-6 md:p-7 shadow-xl shadow-neutral-200/50 w-full text-left cursor-default"
+                      className="rounded-xl sm:rounded-2xl bg-white border border-neutral-300/90 p-4 sm:p-6 shadow-xl shadow-neutral-200/50 w-full text-left cursor-default"
                     >
                       {/* Header: Title + Tag Badge */}
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div className="flex items-center gap-2.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse" />
-                          <h3 className="text-lg md:text-xl font-bold text-neutral-950 tracking-tight">
+                      <div className="flex flex-wrap items-center justify-between gap-2.5">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
+                          <h3 className="text-base sm:text-lg md:text-xl font-bold text-neutral-950 tracking-tight">
                             {item.title}
                           </h3>
                         </div>
                         <span
-                          className={`px-2.5 py-1 text-xs font-semibold rounded-md ${item.badgeBg} ${item.badgeText} border ${item.badgeBorder} tracking-wide shrink-0`}
+                          className={`px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs font-semibold rounded-md ${item.badgeBg} ${item.badgeText} border ${item.badgeBorder} tracking-wide shrink-0`}
                         >
                           {item.badge}
                         </span>
@@ -317,7 +317,7 @@ export default function InteractiveFeatureShowcase({
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="text-sm md:text-base text-neutral-600 leading-relaxed mt-3 font-normal"
+                        className="text-xs sm:text-sm md:text-base text-neutral-600 leading-relaxed mt-2.5 sm:mt-3 font-normal"
                       >
                         {item.description}
                       </motion.p>
@@ -328,10 +328,10 @@ export default function InteractiveFeatureShowcase({
                       layout
                       type="button"
                       onClick={() => handleSelectPill(index)}
-                      className="px-5 py-3.5 rounded-full bg-neutral-100/90 hover:bg-neutral-200/80 border border-neutral-200 text-neutral-800 text-base font-semibold transition-all flex items-center gap-3 w-fit max-w-full cursor-pointer text-left shadow-2xs group"
+                      className="px-4 py-2.5 text-sm sm:text-base font-medium rounded-xl sm:rounded-full bg-neutral-100/90 hover:bg-neutral-200/80 border border-neutral-200 text-neutral-800 transition-all flex items-center gap-2.5 sm:gap-3 w-fit max-w-full cursor-pointer text-left shadow-2xs group"
                     >
-                      <span className="w-5 h-5 rounded-full bg-white border border-neutral-300 text-neutral-500 group-hover:border-neutral-400 group-hover:text-black flex items-center justify-center text-xs font-bold shrink-0 transition-colors">
-                        <FiPlus className="w-3 h-3" />
+                      <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white border border-neutral-300 text-neutral-500 group-hover:border-neutral-400 group-hover:text-black flex items-center justify-center text-xs font-bold shrink-0 transition-colors">
+                        <FiPlus className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                       </span>
                       <span className="truncate">{item.title}</span>
                     </motion.button>
@@ -343,9 +343,9 @@ export default function InteractiveFeatureShowcase({
         </div>
 
         {/* =========================================================================
-            RIGHT COLUMN: MASSIVE TRANSPARENT STAGE (RED BOX RIGHT)
+            RIGHT COLUMN: RESPONSIVE TRANSPARENT MOCKUP STAGE
             ========================================================================= */}
-        <div className="lg:col-span-7 relative w-full h-[520px] md:h-[640px] flex items-center justify-center overflow-hidden">
+        <div className="lg:col-span-7 relative w-full h-[320px] sm:h-[420px] lg:h-[620px] flex items-center justify-center overflow-hidden">
           {/* Subtle Dynamic Light Radial Glow */}
           <div
             style={{
@@ -367,7 +367,7 @@ export default function InteractiveFeatureShowcase({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-                  className="absolute inset-0 flex items-center justify-center p-2 sm:p-4"
+                  className="absolute inset-0 flex items-center justify-center p-1 sm:p-2 lg:p-4"
                 >
                   <div className="relative w-full h-full flex items-center justify-center">
                     <Image
@@ -380,7 +380,7 @@ export default function InteractiveFeatureShowcase({
                       fill
                       priority
                       sizes="(max-width: 1024px) 100vw, 65vw"
-                      className="object-contain object-center drop-shadow-[0_25px_35px_rgba(0,0,0,0.12)]"
+                      className="object-contain object-center drop-shadow-[0_15px_25px_rgba(0,0,0,0.1)]"
                       onError={() => handleImageError("default")}
                     />
                   </div>
@@ -394,7 +394,7 @@ export default function InteractiveFeatureShowcase({
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute inset-0 flex items-center justify-center p-2 sm:p-4"
+                  className="absolute inset-0 flex items-center justify-center p-1 sm:p-2 lg:p-4"
                 >
                   <div className="relative w-full h-full flex items-center justify-center">
                     {!imageErrorMap[activeFeature.id] ? (
@@ -404,7 +404,7 @@ export default function InteractiveFeatureShowcase({
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 65vw"
-                        className="object-contain object-center drop-shadow-[0_25px_35px_rgba(0,0,0,0.12)]"
+                        className="object-contain object-center drop-shadow-[0_15px_25px_rgba(0,0,0,0.1)]"
                         onError={() => handleImageError(activeFeature.id)}
                       />
                     ) : (

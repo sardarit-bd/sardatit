@@ -22,6 +22,7 @@ import BookaCallBtn from "@/components/ui/BookaCallBtn";
 import ServiceSplitView from "@/components/ServiceSplitView";
 import Cta from "@/components/Cta";
 import InteractiveFeatureShowcase from "@/components/services/InteractiveFeatureShowcase";
+import { TypingKeyboard } from "@/components/ui/typing-keyboard";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -70,15 +71,15 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const { prev, next } = getAdjacentServices(slug);
 
   return (
-    <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-24">
+    <div className="w-full bg-white text-neutral-900 overflow-x-clip overflow-x-hidden pt-24">
       {/* -------------------- 1. HERO SECTION -------------------- */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-neutral-50 via-white to-white py-14 lg:py-20 border-b border-neutral-200/80">
+      <section className="relative overflow-hidden bg-gradient-to-b from-neutral-50 via-white to-white py-12 sm:py-14 lg:py-20 border-b border-neutral-200/80">
         {/* Background Ambient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-12">
           {/* Breadcrumbs Navigation */}
-          <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-500 mb-8">
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-500 mb-3 sm:mb-6 lg:mb-8">
             <Link
               href="/services/brand-identity"
               className="inline-flex items-center gap-1 hover:text-blue-600 transition-colors"
@@ -92,11 +93,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-12 items-center">
+            {/* Left Content Column (order-2 on mobile, order-1 on desktop) */}
+            <div className="order-2 lg:order-1 lg:col-span-6 xl:col-span-7 w-full flex flex-col justify-center">
               {/* Eyebrow Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white shadow-sm border border-neutral-200/80 text-neutral-800 text-xs sm:text-sm font-semibold mb-6 w-fit">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white shadow-sm border border-neutral-200/80 text-neutral-800 text-xs sm:text-sm font-semibold mb-4 sm:mb-6 w-fit">
                 <span className="flex h-2 w-2 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
@@ -105,17 +106,17 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-neutral-950 leading-[1.15] mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-neutral-950 leading-[1.15] mb-4 sm:mb-6">
                 {service.title}
               </h1>
 
               {/* Detailed Description */}
-              <p className="text-neutral-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-8 max-w-2xl">
+              <p className="text-neutral-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-6 sm:mb-8 max-w-2xl">
                 {service.detailedDescription || service.description}
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-10">
+              <div className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10">
                 <BookaCallBtn />
                 <Link
                   href="/contact"
@@ -143,28 +144,38 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Right Visual Image Card */}
-            <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-neutral-200/80 bg-neutral-900 group">
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
-                <span className="text-xs uppercase tracking-widest text-blue-400 font-semibold mb-1">
-                  Featured Case Study
-                </span>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-xs text-neutral-300 line-clamp-2">
-                  {service.description}
-                </p>
+            {/* Right Visual / 3D Typing Keyboard (order-1 on mobile, order-2 on desktop) */}
+            {service.slug === "web-mobile-development" ? (
+              <div className="order-1 lg:order-2 lg:col-span-6 xl:col-span-5 w-full relative flex items-center justify-center overflow-visible lg:overflow-hidden -mb-6 sm:-mb-4 lg:mb-0">
+                <div className="w-full flex items-center justify-center py-2 sm:py-4">
+                  <div className="w-full flex items-center justify-center transform scale-[0.78] sm:scale-90 lg:scale-100 origin-center">
+                    <TypingKeyboard />
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="order-1 lg:order-2 lg:col-span-6 xl:col-span-5 relative w-full h-[320px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-neutral-200/80 bg-neutral-900 group">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
+                  <span className="text-xs uppercase tracking-widest text-blue-400 font-semibold mb-1">
+                    Featured Case Study
+                  </span>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-xs text-neutral-300 line-clamp-2">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

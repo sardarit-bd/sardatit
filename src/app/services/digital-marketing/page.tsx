@@ -9,8 +9,8 @@ import {
 import { getServiceBySlug, getAdjacentServices } from "@/lib/services";
 import ServiceSplitView from "@/components/ServiceSplitView";
 import Cta from "@/components/Cta";
-import Skiper32 from "@/components/ui/skiper32";
 import BauhausHero from "@/components/services/BauhausHero";
+import MarketingMacbookShowcase from "@/components/services/MarketingMacbookShowcase";
 import StrategicCapabilities from "@/components/services/StrategicCapabilities";
 
 export const metadata: Metadata = {
@@ -55,15 +55,11 @@ export default function DigitalMarketingPage() {
       {/* -------------------- 1. DIGITAL MARKETING HERO (GSAP ANIMATED) -------------------- */}
       <BauhausHero />
 
-      {/* -------------------- 2. STRATEGIC CAPABILITIES GRID -------------------- */}
-      <StrategicCapabilities />
+      {/* -------------------- 2. LIVE MARKETING ATTRIBUTION (MACBOOK SCROLL) -------------------- */}
+      <MarketingMacbookShowcase />
 
-      {/* -------------------- 3. 3D PERSPECTIVE SCROLL GALLERY SHOWCASE (@skiper-ui/skiper32) -------------------- */}
-      <Skiper32
-        title="High-Impact Campaigns & Creative Showcase"
-        subtitle="Explore our 3D perspective grid of real-world ad creatives, analytics attribution systems, and multi-channel scale experiments."
-        eyebrow="Proprietary Growth Lab"
-      />
+      {/* -------------------- 3. STRATEGIC CAPABILITIES GRID -------------------- */}
+      <StrategicCapabilities />
 
       {/* -------------------- 4. TANGIBLE DELIVERABLES -------------------- */}
       {service.deliverables && service.deliverables.length > 0 && (
