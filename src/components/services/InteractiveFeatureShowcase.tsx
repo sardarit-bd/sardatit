@@ -213,7 +213,7 @@ export default function InteractiveFeatureShowcase({
 
   return (
     <div
-      className={`relative w-full min-h-[680px] bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden p-6 md:p-12 flex items-center ${className}`}
+      className={`relative z-10 w-full min-h-[680px] bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden p-6 md:p-12 flex items-center ${className}`}
       role="region"
       aria-label="Interactive Product Showcase"
     >
@@ -230,7 +230,7 @@ export default function InteractiveFeatureShowcase({
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             aria-label="Close feature explorer"
-            className="absolute top-6 right-6 w-11 h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center cursor-pointer transition-colors z-50 shadow-sm"
+            className="absolute top-5 right-5 md:top-6 md:right-6 w-11 h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center cursor-pointer transition-colors z-20 shadow-sm"
           >
             <FiX className="w-5 h-5" />
           </motion.button>

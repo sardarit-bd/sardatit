@@ -28,7 +28,9 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const services = getAllServices().filter((s) => s.slug !== "brand-identity");
+  const services = getAllServices().filter(
+    (s) => s.slug !== "brand-identity" && s.slug !== "digital-marketing"
+  );
   return services.map((service) => ({
     slug: service.slug,
   }));
