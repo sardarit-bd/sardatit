@@ -259,7 +259,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   Every milestone is backed by tangible, production-ready assets and detailed documentation.
                 </p>
                 <div className="inline-flex items-center gap-2 text-xs font-semibold text-neutral-700 bg-white px-3.5 py-2 rounded-xl border border-neutral-200 shadow-sm">
-                  <FiCheck className="w-4 h-4 text-emerald-500" />
+                  <FiCheck className="w-4 h-4 text-emerald-600" />
                   <span>100% IP Ownership & Full Source Handoff</span>
                 </div>
               </div>
