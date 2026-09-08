@@ -203,7 +203,6 @@ export default function TestimonialsPage() {
       {/* Interactive Accordion Section */}
       <ClientFeedbackAccordion />
 
-
       {/* CTA Section */}
       <CtaSection />
     </main>

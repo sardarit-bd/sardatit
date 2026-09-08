@@ -4,75 +4,10 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
+import { SERVICES_DATA } from "@/lib/services";
 import SectionHeader from "./ui/SectionHeader";
 
-const servicesData = [
-  {
-    id: 1,
-    title: "Branding Identity",
-    description:
-      "Create a trusted, global brand with our expert designs and strategies. We help improve your brand's visibility, credibility, and connection with customers both online and offline.",
-    features: [
-      "Brand Strategy & Positioning",
-      "Visual Identity & Logos",
-      "Design Systems & Guidelines",
-      "Marketing & Collateral Materials",
-    ],
-    bgClass: "bg-[#133BD4]",
-    Color: "text-white",
-    bthIsWhite: true,
-    imageSrc: "/image/service/service1.avif",
-  },
-  {
-    id: 2,
-    title: "Web & Mobile App Development",
-    description:
-      "We design and build high-performance web applications and mobile apps tailored for speed, scalability, and exceptional user experience.",
-    features: [
-      "Next.js & React Web Apps",
-      "iOS & Android Mobile Apps",
-      "Custom Software Engineering",
-      "API & Cloud Infrastructure",
-    ],
-    bgClass: "bg-[#ffd500]",
-    Color: "text-black",
-    bthIsWhite: false,
-    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/695660016e7fa600f1ded4cb_ai-web-ux-design.avif",
-  },
-  {
-    id: 3,
-    title: "AI & Automation Solutions",
-    description:
-      "Empower your business with cutting-edge AI integrations, workflow automation, and custom intelligent tools that save time and cut operational costs.",
-    features: [
-      "AI Workflow Automation",
-      "Custom LLM Integrations",
-      "Data Analytics & Insights",
-      "Process Optimization",
-    ],
-    bgClass: "bg-[#ff531a]",
-    Color: "text-white",
-    bthIsWhite: true,
-    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/6956600b5336d6c6c37b5d0d_mvp-product-design-by-wavespace.avif",
-  },
-  {
-    id: 4,
-    title: "Digital Marketing & Growth",
-    description:
-      "Accelerate your business growth with targeted digital marketing, SEO, conversion rate optimization, and data-driven marketing campaigns.",
-    features: [
-      "Search Engine Optimization (SEO)",
-      "Performance Marketing & Ads",
-      "Social Media & Content Strategy",
-      "Conversion Optimization",
-    ],
-
-    bgClass: "bg-[#0F172A]",
-    Color: "text-white",
-    bthIsWhite: true,
-    imageSrc: "https://cdn.prod.website-files.com/6655d16113e6966ef4eb1041/69565fef09c6195a8eebdfd8_b2b-ui-ux-design.avif",
-  },
-];
+const servicesData = SERVICES_DATA;
 
 export function ServiceShowcaseCard() {
   return (

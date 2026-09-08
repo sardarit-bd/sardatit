@@ -178,11 +178,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-
-
-
             <CompanyGallerySection />
-
 
 
             {/* 3. VISION & EMPOWERING SUCCESS STORIES (Light Gray Theme) */}
