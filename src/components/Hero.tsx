@@ -5,26 +5,6 @@ import Link from "next/link";
 import BookaCallBtn from "../components/ui/BookaCallBtn";
 import styles from "./HeroTitle.module.css";
 
-const clientAvatars = [
-  {
-    name: "Ishraq Khan",
-    role: "CEO @ TechCorp",
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
-  },
-  {
-    name: "Nikita Ribakovs",
-    role: "Founder @ SaaSify",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
-  },
-  {
-    name: "Matt Kabus",
-    role: "CEO @ VentureApp",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80",
-  },
-];
 
 export function Hero() {
   return (

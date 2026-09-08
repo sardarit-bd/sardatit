@@ -9,6 +9,7 @@ import { HiChevronDown } from "react-icons/hi";
 import { SERVICES_DATA } from "@/lib/services";
 import { ServiceItem } from "@/types/service";
 import BookaCallBtn from "./ui/BookaCallBtn";
+
 const navLinkClass =
   "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
 
@@ -95,7 +96,7 @@ export default function Header() {
   //     const elementPosition = element.getBoundingClientRect().top;
   //     const offsetPosition =
   //       elementPosition + window.pageYOffset - headerOffset;
-
+  //
   //     window.scrollTo({
   //       top: offsetPosition,
   //       behavior: "smooth",
