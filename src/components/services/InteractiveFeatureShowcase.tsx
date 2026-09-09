@@ -26,7 +26,7 @@ export interface FeatureItem {
   badgeText: string;
   badgeBorder: string;
   glowColor: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 export const SHOWCASE_FEATURES: FeatureItem[] = [

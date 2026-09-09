@@ -9,7 +9,7 @@ import {
 import { FiArrowDown } from "react-icons/fi";
 import { footerData, type SocialLink } from "../../src/_mock/footer";
 
-const SOCIAL_ICON_MAP: Record<SocialLink["name"], React.ElementType> = {
+const SOCIAL_ICON_MAP: Record<SocialLink["name"], React.ComponentType<{ className?: string }>> = {
   facebook: FaFacebookF,
   instagram: FaInstagram,
   linkedin: FaLinkedinIn,
