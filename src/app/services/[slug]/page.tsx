@@ -22,6 +22,7 @@ import BookaCallBtn from "@/components/ui/BookaCallBtn";
 import ServiceSplitView from "@/components/ServiceSplitView";
 import Cta from "@/components/Cta";
 import InteractiveFeatureShowcase from "@/components/services/InteractiveFeatureShowcase";
+import AINeuralNetworkSection from "@/components/services/AINeuralNetworkSection";
 import { TypingKeyboard } from "@/components/ui/typing-keyboard";
 
 interface PageProps {
@@ -242,6 +243,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           </div>
         </section>
       )}
+
+      {/* -------------------- 2.6 AI NEURAL PARTICLE SHOWCASE (Moved to Home Hero) -------------------- */}
+      {/* {service.slug === "ai-automation-solutions" && <AINeuralNetworkSection />} */}
 
       {/* -------------------- 3. TANGIBLE DELIVERABLES -------------------- */}
       {service.deliverables && service.deliverables.length > 0 && (
