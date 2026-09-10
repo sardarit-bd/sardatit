@@ -15,11 +15,11 @@ export function ServiceShowcaseCard() {
       <div className="container">
         <SectionHeader
           tag={"What we do"}
-          title1="Design and development"
-          pre=""
-          title2="services from one team."
+          title1="Software & Digital Solutions"
+          title2="engineered for global scale."
+          pre="From idea to launch — empowering global businesses with next-generation architecture, intelligent workflows, and measurable ROI."
           isBgWhite={true}
-          link={"/"}
+          link={"/services"}
           btn={"See Our Services"}
         />
       </div>

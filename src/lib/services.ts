@@ -4,18 +4,18 @@ export const SERVICES_DATA: ServiceItem[] = [
   {
     id: "brand-identity",
     slug: "brand-identity",
-    title: "Brand Identity",
+    title: "Digital Product Design & Brand Systems",
     label: "Brand Identity",
-    shortTitle: "Branding",
+    shortTitle: "Product & Brand",
     description:
-      "Creating compelling visual identity that reflects your brand values and resonates with your target audience.",
+      "Architecting intuitive digital experiences, design systems, and cohesive brand identities that resonate across global markets.",
     detailedDescription:
       "Create a trusted, global brand with our expert designs and strategies. We help improve your brand's visibility, credibility, and connection with customers both online and offline through cohesive design systems, modern typography, and meaningful brand stories.",
     features: [
-      "Brand Strategy & Positioning",
-      "Visual Identity & Logos",
-      "Design Systems & Guidelines",
-      "Marketing & Collateral Materials",
+      "Product UI/UX & Design Systems",
+      "Brand Identity & Positioning",
+      "Interactive High-Fidelity Prototypes",
+      "Cross-Platform Design Standards",
     ],
     deliverables: [
       "Brand Guidelines & Token Kit",
@@ -67,18 +67,18 @@ export const SERVICES_DATA: ServiceItem[] = [
   {
     id: "web-mobile-development",
     slug: "web-mobile-development",
-    title: "Web and Mobile App Development",
+    title: "Enterprise Web & Mobile App Engineering",
     label: "Web and Mobile App Development",
-    shortTitle: "Development",
+    shortTitle: "Engineering",
     description:
-      "Crafting seamless and intuitive user experiences across web and mobile platforms.",
+      "Delivering robust, full-stack digital products engineered with modern frameworks to serve high-concurrency enterprise workloads.",
     detailedDescription:
       "We design and build high-performance web applications and mobile apps tailored for speed, scalability, and exceptional user experience. Utilizing modern stacks like Next.js, React, React Native, and robust cloud APIs, we transform vision into production-ready software.",
     features: [
-      "Next.js & React Web Apps",
-      "iOS & Android Mobile Apps",
-      "Custom Software Engineering",
-      "API & Cloud Infrastructure",
+      "Next.js, React & Modern Full-Stack",
+      "iOS & Android Cross-Platform Apps",
+      "Scalable SaaS & Cloud Microservices",
+      "Real-Time APIs & High-Throughput Databases",
     ],
     deliverables: [
       "Full-Stack Web & Mobile Applications",
@@ -131,18 +131,18 @@ export const SERVICES_DATA: ServiceItem[] = [
   {
     id: "ai-automation-solutions",
     slug: "ai-automation-solutions",
-    title: "AI and Automation Solutions",
+    title: "AI Workflows & Autonomous Solutions",
     label: "AI and automation Solutions",
     shortTitle: "AI & Automation",
     description:
-      "Leveraging artificial intelligence and automation to streamline operations and enhance efficiency.",
+      "Empowering enterprise efficiency through intelligent agent workflows, custom LLM orchestration, and smart automation pipelines.",
     detailedDescription:
       "Empower your business with cutting-edge AI integrations, workflow automation, and custom intelligent tools that save time, cut operational costs, and unlock predictive capabilities. From custom LLM fine-tuning to autonomous agent workflows.",
     features: [
-      "AI Workflow Automation",
-      "Custom LLM Integrations",
-      "Data Analytics & Insights",
-      "Process Optimization",
+      "Autonomous Workflow Pipelines",
+      "Custom LLM Integration & Fine-Tuning",
+      "Predictive Analytics & Data Streams",
+      "Business Process Automation (BPA)",
     ],
     deliverables: [
       "Custom AI Assistant & Agent Workflows",
@@ -195,18 +195,18 @@ export const SERVICES_DATA: ServiceItem[] = [
   {
     id: "digital-marketing",
     slug: "digital-marketing",
-    title: "Digital Marketing and Growth",
+    title: "Digital Growth & Global Marketing",
     label: "Digital Marketing and Growth",
-    shortTitle: "Growth Marketing",
+    shortTitle: "Global Growth",
     description:
-      "Driving measurable results through data-driven digital marketing strategies and optimization.",
+      "Scaling digital reach across 60+ countries through data-backed performance strategies, technical SEO, and conversion optimization.",
     detailedDescription:
       "Accelerate your business growth with targeted digital marketing, SEO, conversion rate optimization, and data-driven marketing campaigns. We align customer acquisition channels with compounding organic visibility to maximize your ROI.",
     features: [
-      "Search Engine Optimization (SEO)",
-      "Performance Marketing & Ads",
-      "Social Media & Content Strategy",
-      "Conversion Optimization",
+      "Technical SEO & Organic Visibility",
+      "Data-Driven Performance Marketing",
+      "High-Conversion Funnel Optimization",
+      "Omnichannel Analytics & Reporting",
     ],
     deliverables: [
       "SEO Technical Audit & Keyword Strategy",
