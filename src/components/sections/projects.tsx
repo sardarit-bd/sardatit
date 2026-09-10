@@ -1,6 +1,7 @@
 "use client";
 import ProjectCardVartical from "../ui/ProjectCardVertical";
 import SectionHeader from "../ui/SectionHeader";
+
 export default function Projects() {
   return (
     <section className="py-16 md:py-14 flex flex-col gap-10 bg-gray-200">
