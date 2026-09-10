@@ -12,7 +12,7 @@ const founders = [
   {
     id: "2",
     name: "Mst. Arju Akhter",
-    role: "Chairman",
+    role: "Co-Founder",
     imageSrc: "/image/founders/Arju.webp",
   },
 ];
