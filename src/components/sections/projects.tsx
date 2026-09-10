@@ -1,98 +1,67 @@
 "use client";
-import ProjectCardVartical from "../ui/ProjectCardVertical";
-import SectionHeader from "../ui/SectionHeader";
+
+import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
+import ProjectCardVertical from "../ui/ProjectCardVertical";
+import { projects } from "@/lib/projects";
 
 export default function Projects() {
   return (
-    <section className="py-16 md:py-14 flex flex-col gap-10 bg-gray-200">
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-        <SectionHeader
-          tag={"Selected work"}
-          title1="Products we've"
-          pre=""
-          title2="designed,built, and shipped."
-          isBgWhite={true}
-          link={""}
-          btn={""}
-        />
+    <section id="selected-work" className="py-20 md:py-24 flex flex-col gap-12 bg-white text-neutral-900">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-4">
+          <div className="flex flex-col gap-4 max-w-3xl">
+            {/* Eyebrow Label with Pulsing Dot Marker in Brand Accent */}
+            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#203eec]">
+              <span className="size-2 rounded-full bg-[#203eec] shadow-[0_0_8px_rgba(32,62,236,0.5)] inline-block shrink-0 animate-pulse" />
+              <span>/ SELECTED WORK &amp; CASE STUDIES</span>
+            </div>
+
+            {/* High-Contrast Near-Black Heading */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-950 leading-[1.12]">
+              Products we&apos;ve designed, built, and shipped.
+            </h2>
+
+            {/* Medium-Gray Readable Paragraph */}
+            <p className="text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
+              Explore selected case studies that showcase how we build scalable digital solutions from idea to launch.
+            </p>
+          </div>
+
+          {/* Pill-Rounded Accent Button */}
+          <div className="shrink-0">
+            <Link
+              href="/works"
+              className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#203eec] hover:bg-[#1832c7] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-300"
+            >
+              <span>All Case Studies</span>
+              <span className="flex items-center justify-center size-6 rounded-full bg-white/20 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <FiArrowUpRight className="text-sm text-white" />
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:items-end md:justify-between gap-8">
-        <div className="w-full flex flex-col lg:flex-row gap-5">
-          <ProjectCardVartical
-            eyebrow="Real Estate Website"
-            title="CASA VIVA"
-            description="A premium real estate platform built to showcase luxury property listings and simplify the property discovery experience for buyers and investors."
-            statValue="4"
-            statLabel="services delivered"
-            ctaLabel="View Details"
-            ctaHref="/works/casa-viva"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970fb_Rivertel-UI-UX-Design-for-Telecom-Solutions.webp"
-            imageAlt="CASA VIVA Real Estate Website"
-          />
 
-          <ProjectCardVartical
-            eyebrow="Hospital Management System"
-            title="MedEase"
-            description="A secure hospital management platform with an intuitive interface to improve healthcare operations, patient engagement, and medical workflows."
-            statValue="3"
-            statLabel="services delivered"
-            ctaLabel="View Details"
-            ctaHref="/works/medease"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
-            imageAlt="MedEase Hospital Management"
-          />
-        </div>
-
-        <div className="w-full flex flex-col lg:flex-row gap-5">
-          <ProjectCardVartical
-            eyebrow="Medical Website"
-            title="White Cross Clinic"
-            description="A modern healthcare website for a medical clinic with a professional design focused on patient engagement and accessibility."
-            statValue="3"
-            statLabel="services delivered"
-            ctaLabel="View Details"
-            ctaHref="/works/White_Cross_Clinic.webp"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
-            imageAlt="White Cross Clinic Website"
-          />
-
-          <ProjectCardVartical
-            eyebrow="Music Application"
-            title="Gulf County"
-            description="An engaging music and cultural application designed to showcase creativity, stories, and traditions through an immersive digital experience."
-            statValue="3"
-            statLabel="services delivered"
-            ctaLabel="View Details"
-            ctaHref="/works/gulf-county"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
-            imageAlt="Gulf County Music Application"
-          />
-        </div>
-
-        <div className="w-full flex flex-col lg:flex-row gap-5">
-          <ProjectCardVartical
-            eyebrow="Home Services Website"
-            title="Home Service Provider"
-            description="A user-friendly service platform built to showcase home services, manage bookings, and generate customer inquiries efficiently."
-            statValue="3"
-            statLabel="services delivered"
-            ctaLabel="View Details"
-            ctaHref="/works/home-service-provider"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
-            imageAlt="Home Service Provider Website"
-          />
-
-          <ProjectCardVartical
-            eyebrow="Coming Soon"
-            title="Next Project"
-            description="Another innovative digital product currently in development. Stay tuned for the complete case study."
-            statValue="Soon"
-            statLabel="launching"
-            ctaLabel="Coming Soon"
-            ctaHref="/works/comeingsoon"
-            imageSrc="https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4970b7_Abyan-Capital-Trading-Mobile-App.webp"
-            imageAlt="Upcoming Project"
-          />
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {projects.map((project) => (
+            <ProjectCardVertical
+              key={project.id}
+              title={project.title}
+              category={project.category}
+              eyebrow={project.eyebrow}
+              description={project.description}
+              imageSrc={project.image}
+              imageAlt={`${project.title} - ${project.eyebrow}`}
+              tags={project.tags}
+              ctaHref={project.link}
+              ctaLabel={project.ctaLabel || "View Case Study"}
+              statValue={project.statValue}
+              statLabel={project.statLabel}
+              priority={project.priority}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -1,79 +1,134 @@
+"use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FiArrowRight } from "react-icons/fi";
-interface ProjectCardVerticalProps {
-  eyebrow: string;
+import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
+
+export interface ProjectCardVerticalProps {
   title: string;
+  category?: string;
+  eyebrow?: string;
   description: string;
-  statValue: string;
-  statLabel: string;
-  ctaLabel: string;
-  ctaHref: string;
   imageSrc: string;
-  imageAlt: string;
+  imageAlt?: string;
+  tags?: string[];
+  ctaHref: string;
+  ctaLabel?: string;
+  statValue?: string;
+  statLabel?: string;
+  priority?: boolean;
 }
 
 export default function ProjectCardVertical({
-  eyebrow,
   title,
+  category,
+  eyebrow,
   description,
-  statValue,
-  statLabel,
-  ctaLabel,
-  ctaHref,
   imageSrc,
   imageAlt,
+  tags = [],
+  ctaHref,
+  ctaLabel = "View Case Study",
+  statValue,
+  statLabel,
+  priority = false,
 }: ProjectCardVerticalProps) {
   return (
-    <motion.div
-      className="w-full bg-white flex flex-col overflow-hidden border border-gray-200 group"
+    <motion.article
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false }}
-      transition={{ duration: 0.5, delay: 0.25 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="group relative flex flex-col h-full overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 hover:shadow-xl"
     >
-      <div className="relative w-full h-56 md:h-[500px] overflow-hidden">
-        <Image src={imageSrc} alt={imageAlt} width={1000} height={1000} className="object-contain object-center group-hover:scale-110 transition-all duration-500" />
+      {/* Visual Mockup Container */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-neutral-200/60 dark:bg-neutral-800/60">
+        <Image
+          src={imageSrc}
+          alt={imageAlt || title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+          priority={priority}
+          className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+
+        {/* Category Pill Over Mockup */}
+        <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+          {category && (
+            <span className="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-white/95 dark:bg-neutral-900/90 text-neutral-900 dark:text-white backdrop-blur-md shadow-sm border border-neutral-200/80 dark:border-neutral-700/80">
+              {category}
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 px-6 md:px-7 py-8 md:py-10">
-        <div className="flex flex-col items-start gap-1 max-w-sm">
-          <p className="text-xs font-medium text-gray-500">{eyebrow}</p>
+      {/* Card Content */}
+      <div className="flex flex-col flex-1 justify-between p-6 md:p-7 gap-6">
+        <div className="flex flex-col items-start gap-2">
+          {eyebrow && (
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              {eyebrow}
+            </span>
+          )}
 
-          <h3 className="pt-2 text-2xl md:text-3xl font-extrabold leading-tight">
-            {title}
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <Link href={ctaHref} className="focus:outline-none focus:underline">
+              {title}
+            </Link>
           </h3>
 
-          <p className="pt-2.5 text-sm md:text-base font-medium text-gray-600 leading-relaxed">
+          <p className="text-sm md:text-base font-normal text-neutral-600 dark:text-neutral-400 leading-relaxed pt-1">
             {description}
           </p>
+
+          {/* Tech Stack Tags */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 pt-3">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 text-xs font-medium rounded-md bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200/70 dark:border-neutral-700/70 shadow-2xs"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col items-start md:items-end gap-1.5 shrink-0">
-          <span
-            className="text-3xl md:text-4xl font-extrabold leading-tight bg-clip-text text-transparent"
-            style={{
-              backgroundImage:
-                "linear-gradient(135deg, #203eec 0%, #00d4ff 100%)",
-            }}
-          >
-            {statValue}
-          </span>
-          <span className="text-sm font-semibold uppercase text-gray-500 md:text-right">
-            {statLabel}
-          </span>
+        {/* Footer: Stat Value & CTA Button */}
+        <div className="flex items-center justify-between pt-4 border-t border-neutral-200/80 dark:border-neutral-800 gap-4">
+          {statValue ? (
+            <div className="flex flex-col">
+              <span
+                className="text-2xl md:text-3xl font-extrabold leading-tight bg-clip-text text-transparent"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, #203eec 0%, #00d4ff 100%)",
+                }}
+              >
+                {statValue}
+              </span>
+              {statLabel && (
+                <span className="text-xs font-semibold uppercase text-neutral-500 dark:text-neutral-400">
+                  {statLabel}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div />
+          )}
 
-          <div className="pt-3.5 ">
-            <a
-              href={ctaHref}
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-200 text-xs font-semibold hover:bg-gray-50 transition duration-300"
-            >
-              {ctaLabel}
-              <FiArrowRight size={12} />
-            </a>
-          </div>
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-semibold text-neutral-900 dark:text-white hover:bg-blue-600 hover:text-white hover:border-blue-600 dark:hover:bg-blue-600 dark:hover:border-blue-600 transition-all duration-200 shadow-2xs group/btn"
+          >
+            <span>{ctaLabel}</span>
+            <FiArrowUpRight className="text-sm transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+          </Link>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
