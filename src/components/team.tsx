@@ -29,7 +29,7 @@ const teamMembers: TeamMember[] = [
   {
     id: "3",
     name: "Md Sagor Ali",
-    role: "Project Manager",
+    role: "Operations Manager",
     imageSrc: "/image/leaders/sagor.webp",
   },
   {
