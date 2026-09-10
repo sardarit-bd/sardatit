@@ -20,7 +20,7 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
   {
     id: "founder-2",
     name: "Mst. Arju Akhter",
-    role: "Chairman",
+    role: "Co-Founder",
     imageSrc: "/image/founders/Arju.webp",
     groupId: "founders",
     groupName: "Founders & Executive Leadership",
@@ -46,8 +46,8 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
   {
     id: "ops-3",
     name: "Md Sagor Ali",
-    role: "Project Manager",
-    imageSrc: "/image/leaders/sagor.webp",
+    role: "Operations Manager",
+    imageSrc: "/image/leaders/Sagor-vai.jpg",
     groupId: "operations",
     groupName: "Operations & Strategy Leadership",
   },
