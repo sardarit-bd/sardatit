@@ -1,10 +1,11 @@
 "use client";
 
 import Cta from "@/components/Cta";
+import Preloader from "@/components/ui/Preloader";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     FaFacebookF,
     FaLinkedinIn,
@@ -254,6 +255,11 @@ export default function WorksSlugPage() {
     };
 
     const [copied, setCopied] = useState(false);
+    const [loadingComplete, setLoadingComplete] = useState(false);
+
+    useEffect(() => {
+        setLoadingComplete(false);
+    }, [slugKey]);
 
     const handleCopyLink = () => {
         if (typeof window !== "undefined") {
@@ -275,7 +281,16 @@ export default function WorksSlugPage() {
     ].filter((p) => p.slug !== slugKey);
 
     return (
-        <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-20">
+        <>
+            {/* Scope preloader strictly to this route */}
+            {!loadingComplete && (
+                <Preloader
+                    key={slugKey}
+                    onComplete={() => setLoadingComplete(true)}
+                />
+            )}
+
+            <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-20">
             <div className="border-t border-gray-200/70 pt-10">
                 {/* Header Container & Back Navigation */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-12">
@@ -709,5 +724,6 @@ export default function WorksSlugPage() {
                 <Cta />
             </div>
         </div>
+        </>
     );
 }
