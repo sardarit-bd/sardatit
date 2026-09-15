@@ -103,7 +103,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {/* Subtitle / Description */}
         {effectiveDescription && (
           <p
-            className={`text-base sm:text-lg max-w-2xl font-normal leading-relaxed mt-4 ${
+            className={`text-base sm:text-lg ${
+              width ? "max-w-none" : "max-w-2xl"
+            } font-normal leading-relaxed mt-4 ${
               isDark ? "text-neutral-400" : "text-neutral-600"
             }`}
           >
