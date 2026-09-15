@@ -12,15 +12,14 @@ const servicesData = SERVICES_DATA;
 export function ServiceShowcaseCard() {
   return (
     <section className="flex flex-col gap-14 w-full items-center justify-center px-6 md:px-10 py-16">
-      <div className="container">
+      <div className="container mx-auto px-6 md:px-12">
         <SectionHeader
-          tag={"What we do"}
-          title1="Software & Digital Solutions"
-          title2="engineered for global scale."
-          pre="From idea to launch — empowering global businesses with next-generation architecture, intelligent workflows, and measurable ROI."
-          isBgWhite={true}
-          link={"/services"}
-          btn={"See Our Services"}
+          tag="What We Do"
+          title="Software & Digital Solutions engineered for global scale."
+          description="From idea to launch — empowering global businesses with next-generation architecture, intelligent workflows, and measurable ROI."
+          ctaText="See Our Services"
+          ctaLink="/services"
+          theme="light"
         />
       </div>
 

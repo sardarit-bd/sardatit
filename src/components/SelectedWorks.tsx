@@ -6,40 +6,21 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
 import { projects } from "@/lib/projects";
+import SectionHeader from "./ui/SectionHeader";
 
 export function SelectedWorks() {
   return (
     <section id="works" className="py-20 md:py-24 bg-white text-neutral-900">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12 md:mb-16">
-          <div className="flex flex-col gap-4 max-w-3xl">
-            {/* Eyebrow Label with Pulsing Dot Marker */}
-            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#203eec]">
-              <span className="size-2 rounded-full bg-[#203eec] shadow-[0_0_8px_rgba(32,62,236,0.5)] inline-block shrink-0 animate-pulse" />
-              <span>/ SELECTED WORK &amp; CASE STUDIES</span>
-            </div>
-
-            {/* High-Contrast Near-Black Heading */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-950 leading-[1.12]">
-              Products we&apos;ve designed, built, and shipped.
-            </h2>
-
-            {/* Medium-Gray Readable Paragraph */}
-            <p className="text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
-              Explore selected case studies that showcase how we build scalable digital solutions from idea to launch.
-            </p>
-          </div>
-
-          <Link
-            href="/works"
-            className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#203eec] hover:bg-[#1832c7] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-300 shrink-0"
-          >
-            <span>All Case Studies</span>
-            <span className="flex items-center justify-center size-6 rounded-full bg-white/20 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              <FiArrowUpRight className="text-sm text-white" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader
+          tag="Selected Work & Case Studies"
+          title="Products we've designed, built, and shipped."
+          description="Explore selected case studies that showcase how we build scalable digital solutions from idea to launch."
+          ctaText="All Case Studies"
+          ctaLink="/works"
+          theme="light"
+          className="mb-12 md:mb-16"
+        />
 
         <div className="relative space-y-6">
           {projects.map((project, index) => (
