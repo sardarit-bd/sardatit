@@ -8,6 +8,7 @@ export interface Project {
   image: string;
   tags: string[];
   link: string;
+  liveUrl?: string;
   statValue: string;
   statLabel: string;
   ctaLabel?: string;
@@ -26,6 +27,7 @@ export const projects: Project[] = [
     image: "/images/projects/casa-viva.webp",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL"],
     link: "/works/casa-viva",
+    liveUrl: "https://casa-viva-frontend.vercel.app/",
     statValue: "4+",
     statLabel: "services delivered",
     ctaLabel: "View Case Study",
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     image: "/images/projects/medease.webp",
     tags: ["Next.js", "Python", "FastAPI", "Docker", "PostgreSQL"],
     link: "/works/medease",
+    liveUrl: "https://med-ease-frontend.vercel.app/",
     statValue: "70%",
     statLabel: "admin time saved",
     ctaLabel: "View Case Study",
@@ -58,6 +61,7 @@ export const projects: Project[] = [
     image: "/images/projects/white-cross-clinic.webp",
     tags: ["React", "Next.js", "Tailwind CSS", "Node.js", "AWS"],
     link: "/works/white-cross-clinic",
+    liveUrl: "https://white-cross-clinic-frontend.vercel.app/",
     statValue: "98%",
     statLabel: "client satisfaction",
     ctaLabel: "View Case Study",
@@ -73,6 +77,7 @@ export const projects: Project[] = [
     image: "/images/projects/gulf-county.webp",
     tags: ["React Native", "Expo", "Node.js", "MongoDB", "AWS S3"],
     link: "/works/gulf-county",
+    liveUrl: "https://gulfcoastmusic.live/",
     statValue: "100k+",
     statLabel: "streams served",
     ctaLabel: "View Case Study",
@@ -88,6 +93,7 @@ export const projects: Project[] = [
     image: "/images/projects/home-service-provider.webp",
     tags: ["Next.js", "Node.js", "Express", "PostgreSQL", "Stripe"],
     link: "/works/home-service-provider",
+    liveUrl: "https://home-service-project-livid.vercel.app/",
     statValue: "3.5x",
     statLabel: "booking conversion",
     ctaLabel: "View Case Study",
@@ -103,6 +109,7 @@ export const projects: Project[] = [
     image: "/images/projects/asia-lms.webp",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Redis"],
     link: "/works/asia-lms",
+    liveUrl: "https://high-end-multipurpose-lms.vercel.app/",
     statValue: "10k+",
     statLabel: "active learners",
     ctaLabel: "View Case Study",

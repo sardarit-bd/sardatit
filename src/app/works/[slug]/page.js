@@ -2,6 +2,7 @@
 
 import Cta from "@/components/Cta";
 import Preloader from "@/components/ui/Preloader";
+import { getProjectBySlug } from "@/lib/projects";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -27,6 +28,7 @@ const CASE_STUDIES = {
         company: "Recharge IV",
         category: "Web Design",
         timelines: "3 Months",
+        liveUrl: null,
         services: ["User Research", "UI Design", "Development"],
         heroImage:
             "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4975b4_Frame%201984077426%20(3).avif",
@@ -84,23 +86,23 @@ const CASE_STUDIES = {
         company: "Casa Viva Properties",
         category: "Real Estate Website",
         timelines: "4 Months",
+        liveUrl: "https://casa-viva-frontend.vercel.app/",
         services: ["Brand Identity", "UI/UX Design", "Web Development", "Search & Maps Integration"],
         heroImage: "/images/projects/casa-viva.webp",
         about: [
             "CASA VIVA is a high-converting luxury real estate platform built to showcase luxury property listings, capture qualified leads, and simplify the property discovery experience for buyers and investors.",
             "Our solution includes advanced property listings, smart search filters, interactive map exploration, and seamless inquiry management for buyers and agents.",
         ],
-        coverImage: "/images/projects/casa-viva.webp",
+        coverImage: "/image/project/casa-viva/properties-page.png",
         objectives:
             "To establish a premier real estate portal with advanced search, virtual showcases, and direct agent inquiry routing.",
         requirements:
             "Multi-criteria filtering by price, location, and property type, responsive layout on all screen sizes, and broker management tools.",
         solutions:
             "Delivered a blazing fast Next.js platform featuring interactive spatial views, instant inquiries, and an admin dashboard.",
-        macbookView: "/images/projects/casa-viva.webp",
+        macbookView: "/image/project/casa-viva/casa-viva.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+
         ],
         responsivenessText:
             "Fully responsive and optimized across all mobile devices, tablets, and desktops for real estate buyers and investors on the move.",
@@ -111,23 +113,23 @@ const CASE_STUDIES = {
         company: "MedEase Healthcare",
         category: "Hospital Management System",
         timelines: "3 Months",
+        liveUrl: "https://med-ease-frontend.vercel.app/",
         services: ["UX Research", "UI Design", "AI Automation", "Full Stack Development"],
         heroImage: "/images/projects/medease.webp",
         about: [
             "MedEase is a secure hospital management platform designed to streamline clinical operations, patient engagement, and medical workflows.",
             "We created intuitive doctor-patient dashboards, automated scheduling, and centralized electronic health records (EHR).",
         ],
-        coverImage: "/images/projects/medease.webp",
+        coverImage: "/image/project/medease/Philosophy.png",
         objectives:
             "Streamline patient intake, appointment scheduling, and electronic health record management for multi-specialty clinics.",
         requirements:
             "HIPAA compliance, role-based access for nurses and doctors, and real-time bed and clinic resource allocation.",
         solutions:
             "An intuitive dashboard interface that reduces administrative workload by 70% and enhances patient care experience.",
-        macbookView: "/images/projects/medease.webp",
+        macbookView: "/image/project/medease/patitent-dashboard.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+
         ],
         responsivenessText:
             "Accessible securely anywhere for clinicians, patients, and administrators on hospital tablets and smartphones.",
@@ -138,23 +140,23 @@ const CASE_STUDIES = {
         company: "White Cross Medical Center",
         category: "Medical Website",
         timelines: "2.5 Months",
+        liveUrl: "https://white-cross-clinic-frontend.vercel.app/",
         services: ["UI/UX Design", "Patient Portal", "Web Development"],
         heroImage: "/images/projects/white-cross-clinic.webp",
         about: [
             "White Cross Clinic is a modern healthcare website for a multi-disciplinary medical clinic with a patient-centered design focused on accessibility and trust.",
             "Features automated doctor dispatch, instant consultation booking, and health tips repository.",
         ],
-        coverImage: "/images/projects/white-cross-clinic.webp",
+        coverImage: "/image/project/white-cross/dashboard.png",
         objectives:
             "Modernize the clinic's digital presence and allow patients to easily book appointments and view clinical specialties.",
         requirements:
             "Fast load times, WCAG accessibility compliance, and integration with existing patient registry systems.",
         solutions:
             "Engineered a high-performance Next.js clinic portal with streamlined booking and direct doctor communications.",
-        macbookView: "/images/projects/white-cross-clinic.webp",
+        macbookView: "/image/project/white-cross/image.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+
         ],
         responsivenessText:
             "Ensured rapid access from mobile devices so patients can schedule appointments or view clinic hours anytime.",
@@ -165,23 +167,23 @@ const CASE_STUDIES = {
         company: "Gulf County Media",
         category: "Music Application",
         timelines: "4 Months",
+        liveUrl: "https://gulfcoastmusic.live/",
         services: ["Mobile App Development", "Audio Streaming UI", "API Architecture"],
         heroImage: "/images/projects/gulf-county.webp",
         about: [
             "Gulf County is an engaging audio and cultural streaming application designed to showcase regional heritage, stories, and music.",
             "Built with cross-platform technology offering crisp audio streaming, offline playback, and customized user playlists.",
         ],
-        coverImage: "/images/projects/gulf-county.webp",
+        coverImage: "/image/project/gulf-coast/calendar.png",
         objectives:
             "Deliver an immersive music and cultural streaming experience with rich community sharing features.",
         requirements:
             "Low-latency streaming, offline downloads, seamless media player controls, and curated audio stories.",
         solutions:
             "Developed an intuitive React Native app with local cache management and interactive audio visualization.",
-        macbookView: "/images/projects/gulf-county.webp",
+        macbookView: "/image/project/gulf-coast/marketplace.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+
         ],
         responsivenessText:
             "Crafted specifically for seamless listening on iOS and Android devices on the go.",
@@ -192,23 +194,23 @@ const CASE_STUDIES = {
         company: "Home Service Pro Network",
         category: "Home Services Platform",
         timelines: "3.5 Months",
+        liveUrl: "https://home-service-project-livid.vercel.app/",
         services: ["Product Architecture", "UI/UX Design", "Full Stack Development"],
         heroImage: "/images/projects/home-service-provider.webp",
         about: [
             "A comprehensive service marketplace platform connecting homeowners with certified maintenance specialists for plumbing, electrical, and HVAC repairs.",
             "Features automated technician matching, transparent pricing estimates, and real-time appointment tracking.",
         ],
-        coverImage: "/images/projects/home-service-provider.webp",
+        coverImage: "/image/project/home-service/service.png",
         objectives:
             "Create a friction-free booking platform that converts homeowners looking for trusted on-demand home repair services.",
         requirements:
             "Instant booking engine, service catalog management, customer review verification, and mobile worker portal.",
         solutions:
             "Delivered an end-to-end web application driving 3.5x higher quote request conversion and automated technician dispatch.",
-        macbookView: "/images/projects/home-service-provider.webp",
+        macbookView: "/image/project/home-service/top-provider.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+
         ],
         responsivenessText:
             "Seamless experience for homeowners making urgent repair requests from their mobile phones.",
@@ -219,8 +221,9 @@ const CASE_STUDIES = {
         company: "Asia Learning Systems",
         category: "Learning Management System",
         timelines: "3 Months",
+        liveUrl: "https://high-end-multipurpose-lms.vercel.app/",
         services: ["LMS Architecture", "UI/UX Design", "Video Platform Integration"],
-        heroImage: "/images/projects/asia-lms.webp",
+        heroImage: "/image/project/asia-lms-cover.png",
         about: [
             "An intuitive LMS platform that simplifies online education through structured video courses, progress tracking, and interactive quizzes across all devices.",
             "Built for high concurrency, accessibility, and role-based student and instructor management.",
@@ -232,10 +235,9 @@ const CASE_STUDIES = {
             "Structured video courses, quiz engines, certificate generation, and student engagement analytics.",
         solutions:
             "Developed an enterprise-grade web application supporting 10k+ learners with real-time course progress tracking.",
-        macbookView: "/images/projects/asia-lms.webp",
+        macbookView: "/image/project/asia-lms-courses.png",
         mobileGrid: [
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497342_Recharge-IV-mobile-version.avif",
-            "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b497344_Recharge-IV-mobile-view.avif",
+            ,
         ],
         responsivenessText:
             "Optimized for students learning on tablets, laptops, and mobile devices with adaptive video streaming.",
@@ -246,13 +248,17 @@ export default function WorksSlugPage() {
     const params = useParams();
     const rawSlug = typeof params?.slug === "string" ? params.slug : "recharge-iv";
     const slugKey = rawSlug.toLowerCase();
+    const fallbackProject = getProjectBySlug(slugKey);
 
     // Retrieve matching study or fallback to recharge-iv data
     const data = CASE_STUDIES[slugKey] || {
         ...CASE_STUDIES["recharge-iv"],
-        title: rawSlug.replace(/-/g, " ").toUpperCase(),
-        company: rawSlug.replace(/-/g, " ").toUpperCase(),
+        title: fallbackProject?.title || rawSlug.replace(/-/g, " ").toUpperCase(),
+        company: fallbackProject?.eyebrow || rawSlug.replace(/-/g, " ").toUpperCase(),
+        liveUrl: fallbackProject?.liveUrl,
     };
+
+    const liveUrl = data.liveUrl || fallbackProject?.liveUrl;
 
     const [copied, setCopied] = useState(false);
     const [loadingComplete, setLoadingComplete] = useState(false);
@@ -357,17 +363,24 @@ export default function WorksSlugPage() {
                                         </span>
                                     </div>
 
-                                    {/* live link */}
+                                    {/* LIVE VIEW Block */}
                                     <div className="border-b border-neutral-100 pb-5">
                                         <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
-                                            Live view
+                                            LIVE VIEW
                                         </span>
-                                        <Link target="_blank" href={data.liveview || "/"} className="flex items-center gap-2 text-lg font-semibold text-neutral-900">
-                                            <span>
+                                        {liveUrl ? (
+                                            <a
+                                                href={liveUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                                            >
                                                 Visit Website
-                                            </span>
-                                            <ImArrowDownRight2 className="text-lg rotate-270" />
-                                        </Link>
+                                                <span aria-hidden="true">↗</span>
+                                            </a>
+                                        ) : (
+                                            <span className="text-neutral-400 text-sm">Under NDA / Internal</span>
+                                        )}
                                     </div>
 
                                     {/* Services Provided */}
