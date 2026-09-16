@@ -12,7 +12,13 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function LeadersChapterShowcase() {
+export interface LeadersChapterShowcaseProps {
+  showMobileHeader?: boolean;
+}
+
+export default function LeadersChapterShowcase({
+  showMobileHeader = true,
+}: LeadersChapterShowcaseProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -363,7 +369,7 @@ export default function LeadersChapterShowcase() {
           {/* RIGHT-EDGE VERTICAL DOT NAVIGATION */}
           <nav
             aria-label="Chapter navigation"
-            className="fixed right-6 xl:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end"
+            className="absolute right-6 xl:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end"
           >
             {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => {
               const isActive = activeIdx === index;
@@ -432,17 +438,19 @@ export default function LeadersChapterShowcase() {
          ========================================================================= */}
       <div className="lg:hidden w-full py-16 px-6 sm:px-10 flex flex-col gap-12">
         {/* Mobile Section Header */}
-        <div className="border-b border-neutral-200 pb-4">
-          <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500">
-            Our Leaders — Sardar IT
-          </span>
-          <h2 className="text-3xl font-extrabold text-neutral-900 mt-1">
-            Leadership & Vision
-          </h2>
-          <p className="text-sm text-neutral-500 mt-1">
-            The visionary executives driving excellence across all departments.
-          </p>
-        </div>
+        {showMobileHeader && (
+          <div className="border-b border-neutral-200 pb-4">
+            <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500">
+              Our Leaders — Sardar IT
+            </span>
+            <h2 className="text-3xl font-extrabold text-neutral-900 mt-1">
+              Leadership & Vision
+            </h2>
+            <p className="text-sm text-neutral-500 mt-1">
+              The visionary executives driving excellence across all departments.
+            </p>
+          </div>
+        )}
 
         {/* Mobile Stacked Leader Cards */}
         <div className="flex flex-col gap-14">

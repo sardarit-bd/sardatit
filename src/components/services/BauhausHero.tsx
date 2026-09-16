@@ -59,7 +59,7 @@ export default function BauhausHero() {
             duration: 1.2,
             ease: "power4.out",
           }, 0.4)
-          // 7+ Stat Block Sequence (animates once, then stays static)
+          // 60+ Stat Block Sequence (animates once, then stays static)
           .from("[data-experience-stat]", {
             y: 20,
             opacity: 0,
@@ -101,8 +101,7 @@ export default function BauhausHero() {
               </span>
             </h1>
             <p data-description className={styles.description}>
-              Turn attention into lasting impact. We connect strategy, creativity,
-              and performance to help your brand grow with purpose.
+              Data-backed performance marketing, technical SEO, and targeted growth campaigns engineered to scale reach and maximize ROI across 60+ countries.
             </p>
             <a data-cta className={styles.cta} href="#campaigns-showcase">
               <span>Explore Solutions</span>
@@ -116,7 +115,7 @@ export default function BauhausHero() {
             </a>
           </div>
 
-          {/* Right Column: Hero Visual with integrated 7+ Stat */}
+          {/* Right Column: Hero Visual with integrated 60+ Stat */}
           <div className={styles.visual}>
             <div className={styles.heroVisual}>
               <Image
@@ -133,7 +132,7 @@ export default function BauhausHero() {
               <div data-experience-stat className={styles.experienceStat}>
                 <div className={styles.experienceNumber}>
                   <span className={styles.experienceValue}>
-                    7
+                    60
                   </span>
                   <span
                     className={styles.experiencePlus}
@@ -142,7 +141,7 @@ export default function BauhausHero() {
                   </span>
                 </div>
                 <div className={styles.experienceCopy}>
-                  Building outstanding relation with development &amp; quality design
+                  Global markets reached across 60+ countries with data-driven performance marketing
                 </div>
               </div>
             </div>

@@ -47,7 +47,7 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
     id: "ops-3",
     name: "Md Sagor Ali",
     role: "Operations Manager",
-    imageSrc: "/image/leaders/Sagor-vai.jpg",
+    imageSrc: "/image/leaders/sagor.webp",
     groupId: "operations",
     groupName: "Operations & Strategy Leadership",
   },

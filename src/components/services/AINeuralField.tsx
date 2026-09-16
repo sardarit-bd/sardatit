@@ -6,12 +6,12 @@ import * as THREE from "three";
 import gsap from "gsap";
 
 /* ------------------------------------------------------------------ */
-/*  Text -> Particle Sampling (Dense, Sharp & High-Legibility)        */
+/*  Text -> Particle Sampling (Dense, Sharp & Dynamic Font Auto-Fit)  */
 /* ------------------------------------------------------------------ */
 
 const CANVAS_W = 1400;
 const CANVAS_H = 420;
-const WORLD_SCALE = 8.4 / CANVAS_W; // Well-proportioned framing within ellipse
+const WORLD_SCALE = 8.4 / CANVAS_W; // Maps 1400px canvas to 8.4 Three.js world units
 
 function createSeededRng(seed: number) {
   let s = seed;
@@ -21,31 +21,11 @@ function createSeededRng(seed: number) {
   };
 }
 
-/** Determines a bold font size that fills the canvas prominently */
-function fitSharedFontSize(words: string[]): number {
-  if (typeof document === "undefined") return 220;
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return 220;
-  const maxWidth = CANVAS_W * 0.88;
-  let fontSize = 260;
-  for (const word of words) {
-    let size = fontSize;
-    ctx.font = `900 ${size}px "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    while (ctx.measureText(word).width > maxWidth && size > 30) {
-      size -= 4;
-      ctx.font = `900 ${size}px "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    }
-    fontSize = Math.min(fontSize, size);
-  }
-  return fontSize;
-}
-
 /**
  * Samples points densely so the letters look solid, sharp,
- * and bold across the center without fuzzy noise.
+ * and bold across the center with dynamic font auto-fit (~78% target width).
  */
-function sampleTextPoints(text: string, count: number, fontSize: number): Float32Array {
+function sampleTextPoints(text: string, count: number): Float32Array {
   const positions = new Float32Array(count * 3);
   if (typeof document === "undefined") return positions;
 
@@ -55,12 +35,32 @@ function sampleTextPoints(text: string, count: number, fontSize: number): Float3
   const ctx = canvas.getContext("2d");
   if (!ctx) return positions;
 
-  ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+  // Target text width is ~78% of the available canvas width
+  const targetTextWidth = canvas.width * 0.78;
+
+  // Initial probe font size
+  let fontSize = 100;
+  ctx.font = `900 ${fontSize}px "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  const textWidth = ctx.measureText(text).width;
+
+  // Scale font size proportionally to hit exact target width
+  if (textWidth > 0) {
+    fontSize = Math.floor(fontSize * (targetTextWidth / textWidth));
+  }
+
+  // Ensure vertical height fits comfortably within canvas height with breathing room
+  const maxHeight = Math.floor(canvas.height * 0.65);
+  fontSize = Math.min(fontSize, maxHeight);
+
+  // Apply the dynamically fitted font
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#ffffff";
+  ctx.font = `900 ${fontSize}px "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = `900 ${fontSize}px "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillText(text, CANVAS_W / 2, CANVAS_H / 2);
+
+  // Render precisely in the center
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
   const { data } = ctx.getImageData(0, 0, CANVAS_W, CANVAS_H);
   const rawCandidates: { x: number; y: number }[] = [];
@@ -130,8 +130,8 @@ function useDotTexture() {
     );
     // Solid circular core with smooth edge anti-aliasing
     gradient.addColorStop(0, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.72, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.92, "rgba(255,255,255,0.7)");
+    gradient.addColorStop(0.75, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.92, "rgba(255,255,255,0.85)");
     gradient.addColorStop(1, "rgba(255,255,255,0)");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
@@ -194,7 +194,6 @@ function ParticleField({
   const pointsRef = useRef<THREE.Points>(null);
   const groupRef = useRef<THREE.Group>(null);
   const texture = useDotTexture();
-  const pointer = useRef({ x: 0, y: 0 });
 
   const cfg = useMemo(
     () => ({
@@ -222,10 +221,9 @@ function ParticleField({
     onIndexChangeRef.current?.(0);
   }, []);
 
-  const fontSize = useMemo(() => fitSharedFontSize(WORDS), []);
   const shapes = useMemo(
-    () => WORDS.map((word) => sampleTextPoints(word, count, fontSize)),
-    [count, fontSize]
+    () => WORDS.map((word) => sampleTextPoints(word, count)),
+    [count]
   );
   const scatterCloud = useMemo(() => makeScatterCloud(count), [count]);
 
@@ -240,51 +238,87 @@ function ParticleField({
     return arr;
   }, [count]);
 
-  // Brand colors: Deep Royal Blue (#0052FF) + Radiant Coral (#FF3A00)
-  const baseBlue = useMemo(() => new THREE.Color("#0052FF"), []);
-  const highlightColor = useMemo(() => new THREE.Color("#FF3A00"), []);
-
-  // Precomputed base colors with rich saturation and tonal contrast
-  const baseColors = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const tone = 0.9 + (Math.sin(i * 0.17) * 0.5 + 0.5) * 0.2;
-      arr[i * 3] = Math.min(1, baseBlue.r * tone);
-      arr[i * 3 + 1] = Math.min(1, baseBlue.g * tone);
-      arr[i * 3 + 2] = Math.min(1, baseBlue.b * tone);
-    }
-    return arr;
-  }, [count, baseBlue]);
-
-  // Per-particle dynamic highlight array (for smooth proximity fading)
-  const highlightArr = useRef(new Float32Array(count));
-
-  // Buffer Geometry setup with dynamic position, color, and aScale attributes
-  const geometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(scatterCloud.slice(), 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(baseColors.slice(), 3));
-    const scales = new Float32Array(count).fill(1.0);
-    geo.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
-    return geo;
-  }, [count, scatterCloud, baseColors]);
-
-  // Shader hook for per-particle scale on proximity
-  const onBeforeCompile = useMemo(() => {
-    return (shader: THREE.WebGLProgramParametersWithUniforms) => {
-      shader.vertexShader = `
-        attribute float aScale;
-        ${shader.vertexShader}
-      `;
-      shader.vertexShader = shader.vertexShader.replace(
-        "gl_PointSize = size;",
-        "gl_PointSize = size * aScale;"
-      );
-    };
-  }, []);
-
+  // Active morph state machine
   const currentIndexRef = useRef(0);
   const nextIndexRef = useRef(1);
+
+  // Geometry attributes
+  const { geometry, baseColors, highlightColor, onBeforeCompile } = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(scatterCloud);
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+
+    // Base resting palette: vibrant Sardar IT primary brand blues (#2563eb, #1d4ed8, #3b82f6)
+    const colors = new Float32Array(count * 3);
+    const baseCols = new Float32Array(count * 3);
+    const colorPrimary = new THREE.Color("#2563eb"); // Tailwind blue-600
+    const colorDeep = new THREE.Color("#1d4ed8");    // Tailwind blue-700
+    const colorAccent = new THREE.Color("#3b82f6");  // Tailwind blue-500
+
+    for (let i = 0; i < count; i++) {
+      const rand = Math.random();
+      const col = rand > 0.45 ? colorPrimary : rand > 0.18 ? colorDeep : colorAccent;
+      colors[i * 3] = col.r;
+      colors[i * 3 + 1] = col.g;
+      colors[i * 3 + 2] = col.b;
+      baseCols[i * 3] = col.r;
+      baseCols[i * 3 + 1] = col.g;
+      baseCols[i * 3 + 2] = col.b;
+    }
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    // Smooth per-particle hover scale multiplier
+    const scales = new Float32Array(count);
+    scales.fill(1.0);
+    geo.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
+
+    // Smooth per-particle alpha: resting ~0.85 -> hover/excited 1.0
+    const alphas = new Float32Array(count);
+    alphas.fill(0.85);
+    geo.setAttribute("aAlpha", new THREE.BufferAttribute(alphas, 1));
+
+    // Hover / Excited state near cursor: vibrant electric cyan/blue accent (#38bdf8 / #0ea5e9)
+    const hlColor = new THREE.Color("#38bdf8"); // Tailwind sky-400
+
+    // Hook aScale and aAlpha attributes into PointsMaterial shader
+    const hook = (shader: THREE.WebGLProgramParametersWithUniforms) => {
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <common>",
+        `#include <common>
+         attribute float aScale;
+         attribute float aAlpha;
+         varying float vAlpha;`
+      );
+      shader.vertexShader = shader.vertexShader.replace(
+        "gl_PointSize = size;",
+        `gl_PointSize = size * aScale;
+         vAlpha = aAlpha;`
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <common>",
+        `#include <common>
+         varying float vAlpha;`
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "gl_FragColor = vec4( outgoingLight, diffuseColor.a );",
+        "gl_FragColor = vec4( outgoingLight, diffuseColor.a * vAlpha );"
+      );
+    };
+
+    return {
+      geometry: geo,
+      baseColors: baseCols,
+      highlightColor: hlColor,
+      onBeforeCompile: hook,
+    };
+  }, [count, scatterCloud]);
+
+  // Track per-particle highlight factor [0..1] for smooth lerp back to base
+  const highlightArr = useRef<Float32Array>(new Float32Array(count));
+  useEffect(() => {
+    highlightArr.current = new Float32Array(count);
+  }, [count]);
+
   const transitionStartRef = useRef<number | null>(null);
   const holdStartRef = useRef<number | null>(null);
   const entranceDoneRef = useRef(false);
@@ -316,15 +350,6 @@ function ParticleField({
       tween.kill();
     };
   }, [geometry, scatterCloud, shapes]);
-
-  useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
-      pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
-    };
-    window.addEventListener("pointermove", handlePointerMove);
-    return () => window.removeEventListener("pointermove", handlePointerMove);
-  }, []);
 
   const hadHighlightsRef = useRef(false);
 
@@ -377,21 +402,24 @@ function ParticleField({
     const scaleAttr = geometry.getAttribute("aScale") as THREE.BufferAttribute;
     const scaleArr = scaleAttr.array as Float32Array;
 
-    // Convert pointer from normalized device coords to world units at Z=0
-    const mouseWorldX = (pointer.current.x * state.viewport.width) / 2;
-    const mouseWorldY = (pointer.current.y * state.viewport.height) / 2;
+    const alphaAttr = geometry.getAttribute("aAlpha") as THREE.BufferAttribute;
+    const alphaArr = alphaAttr.array as Float32Array;
+
+    // Direct, accurate cursor mapping via R3F state.pointer (bounded to canvas)
+    const mouseWorldX = (state.pointer.x * state.viewport.width) / 2;
+    const mouseWorldY = (state.pointer.y * state.viewport.height) / 2;
     const isHovered = hoverRef.current;
-    const proximityRadius = 1.55;
+    const proximityRadius = 1.65;
     const proximityRadiusSq = proximityRadius * proximityRadius;
 
     const config = cfgRef.current;
 
-    // Precomputed loop invariants based on customizable motion config
+    // Precomputed loop invariants
     const speed = config.waveSpeed;
     const freq = config.waveFrequency;
     const waveTime1 = elapsed * (speed * 1.5);
     const waveTime2 = elapsed * (speed * 2.2);
-    const dampFactor = 1 - Math.exp(-8.5 * delta);
+    const dampFactor = 1 - Math.exp(-9.0 * delta);
     const highlightR = highlightColor.r;
     const highlightG = highlightColor.g;
     const highlightB = highlightColor.b;
@@ -406,7 +434,7 @@ function ParticleField({
     for (let i = 0; i < count; i++) {
       const ix = i * 3;
 
-      // Base coordinate morphing (inline lerp for speed, 0 function call overhead)
+      // Base coordinate morphing
       let baseX: number;
       let baseY: number;
       let baseZ: number;
@@ -434,48 +462,53 @@ function ParticleField({
       const waveZ = Math.sin(phase1) * (config.waveAmplitudeZ * 0.78) + Math.sin(phase2) * (config.waveAmplitudeZ * 0.22);
       const waveY = Math.cos(phase1) * (config.waveAmplitudeY * 0.75) + Math.sin(phase2) * (config.waveAmplitudeY * 0.25);
 
-      // Write position (100% stable: ZERO displacement from mouse)
+      // Write position (stable)
       posArr[ix] = baseX;
       posArr[ix + 1] = baseY + waveY;
       posArr[ix + 2] = baseZ + waveZ;
 
-      // Interactive Cursor Proximity Highlight
+      // Hover color glow: smooth falloff within proximity radius
       let targetHighlight = 0;
       if (isHovered) {
         const dx = baseX - mouseWorldX;
-        const dy = (baseY + waveY) - mouseWorldY;
-        const dSq = dx * dx + dy * dy;
-        if (dSq < proximityRadiusSq) {
-          const dist = Math.sqrt(dSq);
-          const ratio = 1 - dist / proximityRadius;
-          targetHighlight = ratio * ratio * (3 - 2 * ratio);
+        const dy = baseY - mouseWorldY;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < proximityRadiusSq) {
+          const normDist = Math.sqrt(distSq) / proximityRadius;
+          // Smooth cubic hermite falloff: 1 at center -> 0 at edge
+          targetHighlight = 1 - normDist * normDist * (3 - 2 * normDist);
         }
       }
 
+      // Exponential damping for smooth highlight decay
       const prevH = hArr[i];
       const currentH = prevH + (targetHighlight - prevH) * dampFactor;
       hArr[i] = currentH;
 
       if (currentH > 0.001 || targetHighlight > 0.001) {
         hasActiveHighlights = true;
+        // Smooth transition to electric cyan (#38bdf8) without ever washing out to gray/white
         colorArr[ix] = baseColors[ix] + (highlightR - baseColors[ix]) * currentH;
         colorArr[ix + 1] = baseColors[ix + 1] + (highlightG - baseColors[ix + 1]) * currentH;
         colorArr[ix + 2] = baseColors[ix + 2] + (highlightB - baseColors[ix + 2]) * currentH;
-        scaleArr[i] = 1.0 + currentH * 0.40;
+        scaleArr[i] = 1.0 + currentH * 0.45;
+        alphaArr[i] = 0.85 + currentH * 0.15; // 0.85 base -> 1.0 full opacity on hover
       } else if (prevH > 0.001) {
         colorArr[ix] = baseColors[ix];
         colorArr[ix + 1] = baseColors[ix + 1];
         colorArr[ix + 2] = baseColors[ix + 2];
         scaleArr[i] = 1.0;
+        alphaArr[i] = 0.85;
       }
     }
 
     posAttr.needsUpdate = true;
 
-    // Buffer upload optimization: only send color/scale to GPU when hover state changed
+    // Buffer upload optimization: only send color/scale/alpha to GPU when hover state changed
     if (hasActiveHighlights || hadHighlightsRef.current) {
       colorAttr.needsUpdate = true;
       scaleAttr.needsUpdate = true;
+      alphaAttr.needsUpdate = true;
       hadHighlightsRef.current = hasActiveHighlights;
     }
 
@@ -484,8 +517,8 @@ function ParticleField({
     groupRef.current.position.y = floatY;
 
     const tilt = config.tiltIntensity;
-    const targetRotX = (Math.sin(elapsed * (config.floatSpeed * 0.8)) * 0.02 + pointer.current.y * 0.04) * tilt;
-    const targetRotY = (Math.cos(elapsed * (config.floatSpeed * 0.65)) * 0.025 + pointer.current.x * 0.06) * tilt;
+    const targetRotX = (Math.sin(elapsed * (config.floatSpeed * 0.8)) * 0.02 + state.pointer.y * 0.04) * tilt;
+    const targetRotY = (Math.cos(elapsed * (config.floatSpeed * 0.65)) * 0.025 + state.pointer.x * 0.06) * tilt;
     const targetRotZ = (Math.sin(elapsed * (config.floatSpeed * 0.5)) * 0.01) * tilt;
 
     const rotDamp = 1.8 * Math.max(config.floatSpeed, 0.5);
@@ -507,16 +540,20 @@ function ParticleField({
       rotDamp,
       delta
     );
+
+    // Keep natural 1:1 scale (no artificial downscaling)
+    groupRef.current.scale.set(1.0, 1.0, 1.0);
   });
 
   return (
     <group ref={groupRef}>
       <points ref={pointsRef} geometry={geometry}>
         <pointsMaterial
-          size={0.046}
+          size={0.052}
           vertexColors
           map={texture ?? undefined}
           transparent
+          opacity={1.0}
           alphaTest={0.01}
           depthWrite={false}
           sizeAttenuation
@@ -528,21 +565,22 @@ function ParticleField({
   );
 }
 
+/**
+ * CameraRig dynamically sets camera Z distance so that the 6.552-unit text
+ * occupies approximately 75% to 82% (target ~78%) of the visible canvas width
+ * across ANY screen size, leaving comfortable breathing padding without clipping.
+ */
 function CameraRig() {
   const { camera, size } = useThree();
   useEffect(() => {
     const aspect = size.width / Math.max(size.height, 1);
-    // Dynamically adjust camera Z distance for narrow mobile screens so long words like "Innovation" stay fully inside screen borders
-    let targetZ = 5.4;
-    if (aspect < 0.85) {
-      targetZ = 8.6;
-    } else if (aspect < 1.1) {
-      targetZ = 7.5;
-    } else if (aspect < 1.35) {
-      targetZ = 6.6;
-    } else if (aspect < 1.6) {
-      targetZ = 5.9;
-    }
+    // targetZ formula:
+    // Visible world width = 2 * tan(45°/2) * Z * aspect = 0.828427 * Z * aspect
+    // To make text world width (6.552) fill 78% of the visible width:
+    // 6.552 / (0.828427 * Z * aspect) = 0.78  ==>  Z = 10.14 / aspect
+    const zForTargetWidth = 10.14 / Math.max(aspect, 0.5);
+    // Clamp to ensure bold, dominant presentation across ultrawide desktop down to narrow mobile screens
+    const targetZ = Math.max(5.2, Math.min(zForTargetWidth, 10.2));
     camera.position.set(0, 0, targetZ);
     camera.updateProjectionMatrix();
   }, [camera, size.width, size.height]);
@@ -566,14 +604,16 @@ export default function AINeuralField({
   const hoverRef = useRef(false);
 
   useEffect(() => {
-    const updateCount = () => {
+    const updateDimensions = () => {
+      const w = window.innerWidth;
+      // High-performance particle count tailored for device classes
       setParticleCount(
-        window.innerWidth < 640 ? 1600 : window.innerWidth < 1024 ? 2500 : 3400
+        w < 640 ? 1800 : w < 1024 ? 2600 : 3400
       );
     };
-    updateCount();
-    window.addEventListener("resize", updateCount);
-    return () => window.removeEventListener("resize", updateCount);
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
   return (
@@ -588,7 +628,7 @@ export default function AINeuralField({
       }}
     >
       <Canvas
-        dpr={[1, 1.5]}
+        dpr={[1, 2]}
         gl={{
           antialias: true,
           alpha: true,

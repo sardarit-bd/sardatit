@@ -43,12 +43,65 @@ export function StickyScrollReveal({ content }) {
 
         <SectionHeader tag={"OUR CORE VALUES"} title1="Values That Set Us Apart" pre=" Our principles shape every line of code we write, every pixel we refine, and every client relationship we build." title2="" isBgWhite={true} width="max-w-4xl" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative mt-10">
+        {/* Mobile & Tablet (< lg): Clean, self-contained interactive cards */}
+        <div className="lg:hidden flex flex-col gap-5 sm:gap-6 mt-8 w-full">
+          {content.map((item, index) => {
+            const Icon = item.icon;
+            const isSelected = activeCard === index;
+            const formattedTotal = content.length < 10 ? `0${content.length}` : content.length;
+            const stepIndicator = `${item.step}/${formattedTotal}`;
+
+            return (
+              <div
+                key={`mobile-val-${item.title}-${index}`}
+                onClick={() => setActiveCard(index)}
+                className={`w-full p-6 sm:p-8 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                  isSelected
+                    ? "bg-[#F3F5F7] border-[#133bd4] shadow-md ring-1 ring-[#133bd4]/20"
+                    : "bg-[#FAFAFA] border-neutral-200/80 shadow-sm hover:border-neutral-300"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div
+                    className={`size-12 rounded-xl flex items-center justify-center text-xl transition-colors ${
+                      isSelected
+                        ? "bg-[#133bd4] text-white shadow-sm"
+                        : "bg-white text-neutral-600 border border-neutral-200"
+                    }`}
+                  >
+                    <Icon />
+                  </div>
+                  <span
+                    className={`text-xs font-mono font-bold tracking-wider px-3 py-1 rounded-full ${
+                      isSelected
+                        ? "bg-blue-100 text-[#133bd4] border border-blue-200"
+                        : "bg-neutral-100 text-neutral-600 border border-neutral-200"
+                    }`}
+                  >
+                    {stepIndicator}
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-bold text-neutral-950 mb-2.5 tracking-tight">
+                  {item.title}
+                </h3>
+
+                <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop (>= lg): Split Sticky-Scroll Interaction */}
+        <div className="hidden lg:grid lg:grid-cols-12 gap-12 relative mt-10">
           {/* Left Column: Scrolling Text Items */}
           <div className="lg:col-span-6 flex flex-col gap-12 py-4">
             {content.map((item, index) => {
               const isActive = activeCard === index;
               const Icon = item.icon;
+              const formattedTotal = content.length < 10 ? `0${content.length}` : content.length;
               return (
                 <motion.div
                   key={item.title + index}
@@ -60,7 +113,7 @@ export function StickyScrollReveal({ content }) {
                   }}
                   transition={{ duration: 0.4 }}
                   onClick={() => setActiveCard(index)}
-                  className={`cursor-pointer p-8 sm:p-10 border transition-all duration-300 ${isActive
+                  className={`cursor-pointer p-8 sm:p-10 border rounded-2xl transition-all duration-300 ${isActive
                     ? "bg-[#F3F5F7] border-[#133bd4]/40 shadow-xl"
                     : "bg-[#FAFAFA] border-neutral-200/60 hover:opacity-70"
                     }`}
@@ -75,12 +128,12 @@ export function StickyScrollReveal({ content }) {
                       <Icon />
                     </div>
                     <span
-                      className={`text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full ${isActive
+                      className={`text-xs font-mono font-bold tracking-wider px-3.5 py-1.5 rounded-full ${isActive
                         ? "bg-blue-100 text-[#133bd4]"
                         : "bg-neutral-200/60 text-neutral-500"
                         }`}
                     >
-                      {item.step}
+                      {item.step}/{formattedTotal}
                     </span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-neutral-950 mb-3">
@@ -94,7 +147,7 @@ export function StickyScrollReveal({ content }) {
             })}
           </div>
 
-          {/* Right Column: Sticky Visual Container (Aceternity Style) */}
+          {/* Right Column: Sticky Visual Container */}
           <div className="hidden lg:block lg:col-span-6 h-full">
             <div className="sticky top-28 lg:top-32">
               <motion.div
@@ -102,7 +155,7 @@ export function StickyScrollReveal({ content }) {
                   background: gradients[activeCard % gradients.length],
                 }}
                 transition={{ duration: 0.6 }}
-                className="w-full h-[460px] p-10 text-white shadow-2xl border border-white/10 flex flex-col justify-between overflow-hidden relative"
+                className="w-full h-[460px] p-10 text-white shadow-2xl rounded-3xl border border-white/10 flex flex-col justify-between overflow-hidden relative"
               >
                 {/* Background ambient glow */}
                 <motion.div
@@ -114,7 +167,7 @@ export function StickyScrollReveal({ content }) {
                 />
 
                 <div className="flex items-center justify-between relative z-10">
-                  <span className="text-xs font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+                  <span className="text-xs font-mono font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
                     {content[activeCard].step} / {content.length < 10 ? `0${content.length}` : content.length}
                   </span>
                   <FiCheckCircle className="text-2xl" style={{ color: accentColors[activeCard % accentColors.length] }} />

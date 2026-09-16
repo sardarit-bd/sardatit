@@ -83,6 +83,12 @@ export default function Footer() {
                   >
                     {contact.email}
                   </Link>
+                  <Link
+                    href={`mailto:${contact.supportEmail}`}
+                    className="text-sm font-semibold text-background transition-colors hover:text-highlight"
+                  >
+                    {contact.supportEmail}
+                  </Link>
                 </div>
 
                 <div className="flex flex-col items-start gap-y-1">
@@ -99,8 +105,34 @@ export default function Footer() {
                     {contact.phone}
                   </Link>
                 </div>
+
+                <div className="flex flex-col items-start gap-y-1">
+                  <span className="text-sm text-text-accent">
+                    {contact.addressLabel}
+                  </span>
+                  <span className="text-sm text-background">
+                    {contact.address}
+                  </span>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-(--border)/60 pt-8 gap-y-4">
+          <p className="text-xs text-text-accent">
+            {footerData.copyright}
+          </p>
+          <div className="flex items-center gap-x-6 text-xs text-text-accent">
+            {/* <Link href="/privacy-policy" className="hover:text-background transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/faq" className="hover:text-background transition-colors">
+              FAQ
+            </Link> */}
+            <Link href="/contact" className="hover:text-background transition-colors">
+              Contact
+            </Link>
           </div>
         </div>
       </div>

@@ -35,23 +35,6 @@ export default function DigitalMarketingPage() {
 
   return (
     <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-20">
-      {/* -------------------- BREADCRUMB STRIP -------------------- */}
-      <div className="w-full bg-white border-b border-neutral-100 py-3">
-        <div className="container mx-auto px-6 md:px-14 lg:px-20 flex items-center gap-2 text-xs font-mono text-neutral-500">
-          <Link
-            href="/services/brand-identity"
-            className="inline-flex items-center gap-1.5 hover:text-black transition-colors"
-          >
-            <FiArrowLeft className="w-3.5 h-3.5 text-blue-600" />
-            <span>ALL SERVICES</span>
-          </Link>
-          <span>/</span>
-          <span className="text-black font-bold uppercase tracking-wider">
-            {service.title}
-          </span>
-        </div>
-      </div>
-
       {/* -------------------- 1. DIGITAL MARKETING HERO (GSAP ANIMATED) -------------------- */}
       <BauhausHero />
 

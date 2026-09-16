@@ -1,10 +1,11 @@
 "use client";
 
+import CustomSelect from "@/components/ui/CustomSelect";
 import emailjs from "@emailjs/browser";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FiArrowUpRight, FiCheck, FiChevronDown, FiLoader } from "react-icons/fi";
+import { FiArrowUpRight, FiCheck, FiLoader } from "react-icons/fi";
 
 // EmailJS Credentials
 // You can set these in .env.local or replace the fallback values directly:
@@ -14,6 +15,21 @@ import { FiArrowUpRight, FiCheck, FiChevronDown, FiLoader } from "react-icons/fi
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
+
+const SERVICES_OPTIONS = [
+  "Digital Product & UI/UX Design",
+  "Enterprise Web & App Engineering",
+  "AI Workflows & Automation Solutions",
+  "Cloud Infrastructure & DevOps",
+  "Digital Growth & Performance Marketing",
+];
+
+const BUDGET_OPTIONS = [
+  "$3,000 – $5,000",
+  "$5,000 – $10,000",
+  "$10,000 – $25,000",
+  "$25,000+",
+];
 
 export default function Cta() {
   const [formData, setFormData] = useState({
@@ -32,8 +48,14 @@ export default function Cta() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMsg("");
+
+    if (!formData.serviceRequired || !formData.projectBudget) {
+      setErrorMsg("Please select a required service and your project budget.");
+      return;
+    }
+
+    setLoading(true);
 
     const templateParams = {
       from_name: formData.fullName,
@@ -83,7 +105,7 @@ export default function Cta() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -101,13 +123,17 @@ export default function Cta() {
           className="lg:col-span-5 flex flex-col justify-between h-full pt-2"
         >
           <div>
+            {/* Section Tag */}
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
+              <span className="size-2 rounded-full bg-blue-600 inline-block shrink-0" />
+              <span>/ LET&apos;S BUILD TOGETHER</span>
+            </div>
+
             <h2 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-neutral-900 tracking-tight leading-[1.12] mb-6">
               Have an Idea? Let’s<br />Make it Real.
             </h2>
             <p className="text-neutral-600 text-base sm:text-lg leading-relaxed max-w-lg mb-12 sm:mb-16">
-              Tell us what you're building, improving, or trying to solve. We'll
-              discuss your goals, recommend the right approach, and define the
-              next steps together.
+              From idea to launch — tell us what you&apos;re building, improving, or scaling. We&apos;ll architect the roadmap, assemble specialists, and engineer measurable results.
             </p>
           </div>
 
@@ -213,58 +239,33 @@ export default function Cta() {
                   </div>
                 </div>
 
-                {/* Service required & Project budget */}
+                {/* Service required & Project budget (Custom Dropdown Menus) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                  <div className="flex flex-col relative">
-                    <label htmlFor="serviceRequired" className="text-sm font-semibold text-neutral-900 mb-1">
-                      Service required*
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="serviceRequired"
-                        name="serviceRequired"
-                        value={formData.serviceRequired}
-                        onChange={handleChange}
-                        className="w-full bg-transparent border-b border-neutral-900/80 py-2 pr-8 text-neutral-900 focus:outline-none focus:border-black transition-colors text-base appearance-none cursor-pointer"
-                        required
-                      >
-                        <option value="" disabled className="text-neutral-400">
-                          Select Your Service
-                        </option>
-                        <option value="Web Development">Web Development</option>
-                        <option value="Mobile App Development">Mobile App Development</option>
-                        <option value="UI/UX Design">UI/UX Design</option>
-                        <option value="Digital Marketing">Digital Marketing</option>
-                        <option value="Custom Software">Custom Software</option>
-                      </select>
-                      <FiChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none text-lg" />
-                    </div>
-                  </div>
+                  <CustomSelect
+                    id="serviceRequired"
+                    name="serviceRequired"
+                    label="Service required*"
+                    value={formData.serviceRequired}
+                    onChange={(val) =>
+                      setFormData((prev) => ({ ...prev, serviceRequired: val }))
+                    }
+                    options={SERVICES_OPTIONS}
+                    placeholder="Select Your Service"
+                    required
+                  />
 
-                  <div className="flex flex-col relative">
-                    <label htmlFor="projectBudget" className="text-sm font-semibold text-neutral-900 mb-1">
-                      Project budget*
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="projectBudget"
-                        name="projectBudget"
-                        value={formData.projectBudget}
-                        onChange={handleChange}
-                        className="w-full bg-transparent border-b border-neutral-900/80 py-2 pr-8 text-neutral-900 focus:outline-none focus:border-black transition-colors text-base appearance-none cursor-pointer"
-                        required
-                      >
-                        <option value="" disabled className="text-neutral-400">
-                          Select Your Range
-                        </option>
-                        <option value="$1k - $5k">$1,000 - $5,000</option>
-                        <option value="$5k - $10k">$5,000 - $10,000</option>
-                        <option value="$10k - $25k">$10,000 - $25,000</option>
-                        <option value="$25k+">$25,000+</option>
-                      </select>
-                      <FiChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none text-lg" />
-                    </div>
-                  </div>
+                  <CustomSelect
+                    id="projectBudget"
+                    name="projectBudget"
+                    label="Project budget*"
+                    value={formData.projectBudget}
+                    onChange={(val) =>
+                      setFormData((prev) => ({ ...prev, projectBudget: val }))
+                    }
+                    options={BUDGET_OPTIONS}
+                    placeholder="Select Your Range"
+                    required
+                  />
                 </div>
 
                 {/* Project details */}

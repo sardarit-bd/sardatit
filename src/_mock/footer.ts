@@ -33,10 +33,14 @@ export interface FooterData {
   contact: {
     emailLabel: string;
     email: string;
+    supportEmail: string;
     phoneLabel: string;
     phone: string;
     phoneHref: string;
+    addressLabel: string;
+    address: string;
   };
+  copyright: string;
 }
 
 export const footerData: FooterData = {
@@ -47,74 +51,64 @@ export const footerData: FooterData = {
   },
   cta: {
     label: "Company Deck",
-    href: "#",
+    href: "/contact",
   },
   socialLinks: [
-    { name: "facebook", href: "#" },
-    { name: "instagram", href: "#" },
-    { name: "linkedin", href: "#" },
-    { name: "twitter", href: "#" },
+    { name: "facebook", href: "https://facebook.com" },
+    { name: "instagram", href: "https://instagram.com" },
+    { name: "linkedin", href: "https://linkedin.com" },
+    { name: "twitter", href: "https://twitter.com" },
   ],
   navColumns: [
     {
-      title: "Design Services",
+      title: "Services",
       links: [
-        { label: "UI UX Design", href: "#" },
-        { label: "Web Design", href: "#" },
-        { label: "Mobile App Design", href: "#" },
-        { label: "SaaS Design", href: "#" },
-        { label: "Landing Page Design", href: "#" },
-        { label: "Brand Identity Design", href: "#" },
+        { label: "Web & Mobile Development", href: "/services/web-mobile-development" },
+        { label: "UI/UX & Brand Identity", href: "/services/brand-identity" },
+        { label: "AI & Workflow Automation", href: "/services/ai-automation-solutions" },
+        { label: "Digital Marketing & Growth", href: "/services/digital-marketing" },
       ],
     },
     {
-      title: "Strategy & Research",
+      title: "Resources",
       links: [
-        { label: "UX Research", href: "#" },
-        { label: "UX Audit", href: "#" },
-        { label: "UX Consultancy", href: "#" },
-        { label: "Usability & User Testing", href: "#" },
-        { label: "CRO Service", href: "#" },
+        { label: "Case Studies & Insights", href: "/case-studies" },
+        { label: "Our Methodology", href: "/about" },
+        { label: "Frequently Asked Questions", href: "/faq" },
+        { label: "Privacy Policy", href: "/privacy-policy" },
       ],
     },
     {
-      title: "Development Services",
+      title: "Agency",
       links: [
-        { label: "MVP Development", href: "#" },
-        { label: "Webflow Development", href: "#" },
-        { label: "AI MVP Development", href: "#" },
-        { label: "SaaS MVP Development", href: "#" },
-        { label: "Web App MVP Development", href: "#" },
+        { label: "About Us", href: "/about" },
+        { label: "Our Services", href: "/services" },
+        { label: "Selected Works", href: "/works" },
+        { label: "Client Testimonials", href: "/testimonials" },
+        { label: "Contact Us", href: "/contact" },
       ],
     },
   ],
   secondaryColumns: [
     {
-      title: "Agency",
+      title: "Recognitions & Portfolios",
       links: [
-        { label: "About Us", href: "#" },
-        { label: "Pricing", href: "#" },
-        { label: "Service", href: "#" },
-        { label: "Blog", href: "#" },
-        { label: "FAQs", href: "#" },
-        { label: "Case Studies", href: "#" },
-      ],
-    },
-    {
-      title: "Contact",
-      links: [
-        { label: "Clutch", href: "#" },
-        { label: "Behance", href: "#" },
-        { label: "Dribbble", href: "#" },
-        { label: "Awwwards", href: "#" },
+        { label: "Clutch", href: "https://clutch.co" },
+        { label: "Behance", href: "https://behance.net" },
+        { label: "Dribbble", href: "https://dribbble.com" },
+        { label: "LinkedIn", href: "https://linkedin.com" },
       ],
     },
   ],
   contact: {
     emailLabel: "Drop us a line",
-    email: "info@sardaritbd.com",
-    phoneLabel: "Call us",
-    phone: "+1 628-265-7462",
-    phoneHref: "tel:+16282657462",
+    email: "info@sardarit.com",
+    supportEmail: "support@sardarit.com",
+    phoneLabel: "Call or WhatsApp",
+    phone: "+880 1700-XXXXXX",
+    phoneHref: "https://wa.me/8801700000000",
+    addressLabel: "Headquarters",
+    address: "Dhaka, Bangladesh · Serving Clients Worldwide (60+ Countries)",
   },
+  copyright: "© 2026 Sardar IT. All rights reserved.",
 };
