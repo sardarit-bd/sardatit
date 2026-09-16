@@ -1,8 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(useGSAP, ScrollTrigger);
+}
 import {
     FiArrowLeft,
     FiArrowRight,
@@ -26,7 +34,6 @@ import TrustedBy from "@/components/TrustedBy";
 import ServiceSplitView from "@/components/ServiceSplitView";
 import { AceternityFaq } from "@/components/ui/AceternityFaq";
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
-import { FollowerPointerCard } from "@/components/ui/following-pointer";
 import { getServiceBySlug, getAdjacentServices } from "@/lib/services";
 
 // 1. Verified Local Project Assets for Hero Infinite Spiral Showcase
@@ -131,7 +138,31 @@ const ON_DEMAND_SERVICES = [
     },
 ];
 
-// 3. Cross-Industry Domain Expertise
+// 3. Enterprise Production Deliverables (Standard in Every Engagement)
+const BRAND_DELIVERABLES = [
+    {
+        title: "Multi-Platform Design Tokens",
+        sublabel: "Tailwind, React & Flutter Sync",
+        desc: "Machine-readable token architectures (JSON) configured for automated cross-platform synchronization, dynamic theme switching, and instant engineering adoption.",
+    },
+    {
+        title: "Component Systems & Storybook",
+        sublabel: "Living Component Architecture",
+        desc: "Exhaustive Figma component kits and synchronized Storybook libraries with complete interactive states, variants, and zero design drift.",
+    },
+    {
+        title: "Vector Assets & Typography Hierarchy",
+        sublabel: "Brand Identity Asset Suite",
+        desc: "Master vector logo suites, responsive logomarks, comprehensive typographic scale definitions, and multi-format exports for print and digital surfaces.",
+    },
+    {
+        title: "Design Governance & Accessibility",
+        sublabel: "WCAG 2.1 AA Compliance Suite",
+        desc: "Strict design governance documentation, WCAG 2.1 AA contrast audit sheets, screen-reader workflows, and frontend QA handoff specifications.",
+    },
+];
+
+// 4. Cross-Industry Domain Expertise
 const INDUSTRIES = [
     {
         icon: FaBuildingColumns,
@@ -217,7 +248,325 @@ export default function BrandIdentityPage() {
     ];
 
     const processSteps = service?.processSteps || [];
-    const deliverables = service?.deliverables || [];
+
+    // Scoped container refs for GSAP ScrollTrigger animations
+    const methodologyRef = useRef(null);
+    const deliverablesRef = useRef(null);
+    const practicesRef = useRef(null);
+
+    // 1. GSAP ScrollTrigger Animations for Methodology Section
+    useGSAP(
+        () => {
+            const mm = gsap.matchMedia();
+
+            mm.add(
+                {
+                    isDesktop: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+                    isMobile: "(max-width: 1023px) and (prefers-reduced-motion: no-preference)",
+                },
+                (context) => {
+                    const { isDesktop, isMobile } = context.conditions;
+
+                    // Header reveal (all screen sizes)
+                    gsap.from(".methodology-header-item", {
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: methodologyRef.current,
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                        },
+                    });
+
+                    // Desktop: Four-direction converging entrance
+                    if (isDesktop) {
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: ".methodology-grid",
+                                start: "top 75%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+
+                        const cols = gsap.utils.toArray(".methodology-col");
+                        if (cols.length >= 4) {
+                            // Card 1 (Leftmost): enters from left
+                            tl.from(
+                                cols[0],
+                                {
+                                    x: -160,
+                                    opacity: 0,
+                                    duration: 1.7,
+                                    ease: "power4.out",
+                                },
+                                0
+                            )
+                                // Card 2 & Card 3 (Middle two): drop down from top
+                                .from(
+                                    [cols[1], cols[2]],
+                                    {
+                                        y: -120,
+                                        opacity: 0,
+                                        duration: 1.7,
+                                        stagger: 0.1,
+                                        ease: "power4.out",
+                                    },
+                                    0
+                                )
+                                // Card 4 (Rightmost): enters from right
+                                .from(
+                                    cols[3],
+                                    {
+                                        x: 160,
+                                        opacity: 0,
+                                        duration: 1.7,
+                                        ease: "power4.out",
+                                    },
+                                    0
+                                );
+                        }
+                    }
+
+                    // Mobile & Tablet: Safe vertical stagger fade-up
+                    if (isMobile) {
+                        gsap.from(".methodology-col", {
+                            y: 50,
+                            opacity: 0,
+                            duration: 0.9,
+                            stagger: 0.15,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: ".methodology-grid",
+                                start: "top 80%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+                    }
+                }
+            );
+        },
+        { scope: methodologyRef }
+    );
+
+    // 2. GSAP ScrollTrigger Animations for Deliverables Section
+    useGSAP(
+        () => {
+            const mm = gsap.matchMedia();
+
+            mm.add(
+                {
+                    isDesktop: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+                    isMobile: "(max-width: 1023px) and (prefers-reduced-motion: no-preference)",
+                },
+                (context) => {
+                    const { isDesktop, isMobile } = context.conditions;
+
+                    // Header reveal (all screen sizes)
+                    gsap.from(".deliverable-header-item", {
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: deliverablesRef.current,
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                        },
+                    });
+
+                    // Desktop: Four-direction converging entrance
+                    if (isDesktop) {
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: ".deliverable-grid",
+                                start: "top 75%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+
+                        const cols = gsap.utils.toArray(".deliverable-col");
+                        if (cols.length >= 4) {
+                            // Card 1 (Leftmost): enters from left
+                            tl.from(
+                                cols[0],
+                                {
+                                    x: -160,
+                                    opacity: 0,
+                                    duration: 1.7,
+                                    ease: "power4.out",
+                                },
+                                0
+                            )
+                                // Card 2 & Card 3 (Middle two): drop down from top
+                                .from(
+                                    [cols[1], cols[2]],
+                                    {
+                                        y: -120,
+                                        opacity: 0,
+                                        duration: 1.7,
+                                        stagger: 0.1,
+                                        ease: "power4.out",
+                                    },
+                                    0
+                                )
+                                // Card 4 (Rightmost): enters from right
+                                .from(
+                                    cols[3],
+                                    {
+                                        x: 160,
+                                        opacity: 0,
+                                        duration: 1.7,
+                                        ease: "power4.out",
+                                    },
+                                    0
+                                );
+                        }
+                    }
+
+                    // Mobile & Tablet: Safe vertical stagger fade-up
+                    if (isMobile) {
+                        gsap.from(".deliverable-col", {
+                            y: 50,
+                            opacity: 0,
+                            duration: 0.9,
+                            stagger: 0.15,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: ".deliverable-grid",
+                                start: "top 80%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+                    }
+                }
+            );
+        },
+        { scope: deliverablesRef }
+    );
+
+    // 3. GSAP ScrollTrigger Animations for Specialized Design Practices (3D Isometric Unfold)
+    useGSAP(
+        () => {
+            const mm = gsap.matchMedia();
+
+            mm.add(
+                {
+                    isDesktop: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+                    isMobile: "(max-width: 1023px) and (prefers-reduced-motion: no-preference)",
+                },
+                (context) => {
+                    const { isDesktop, isMobile } = context.conditions;
+
+                    // Header reveal (all screen sizes)
+                    gsap.from(".practices-header-item", {
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: practicesRef.current,
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                        },
+                    });
+
+                    // Desktop: 3D Isometric Card Unfold & Depth Entry + Image Zoom-Out Reveal + Feature Tags
+                    if (isDesktop) {
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: ".practices-grid",
+                                start: "top 78%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+
+                        // 1. 3D Isometric Card Unfold across 2x3 grid
+                        tl.from(
+                            ".practice-card",
+                            {
+                                rotateX: 16,
+                                rotateY: -8,
+                                y: 80,
+                                scale: 0.93,
+                                opacity: 0,
+                                duration: 1.5,
+                                ease: "expo.out",
+                                stagger: {
+                                    each: 0.14,
+                                    grid: [2, 3],
+                                    from: "start",
+                                },
+                            },
+                            0
+                        )
+                            // 2. Inner Image Zoom-Out Reveal
+                            .from(
+                                ".practice-card-img",
+                                {
+                                    scale: 1.2,
+                                    duration: 1.7,
+                                    ease: "power3.out",
+                                    stagger: {
+                                        each: 0.14,
+                                        grid: [2, 3],
+                                        from: "start",
+                                    },
+                                },
+                                0
+                            )
+                            // 3. Feature Tags Micro Stagger
+                            .from(
+                                ".practice-feat-item",
+                                {
+                                    opacity: 0,
+                                    x: -10,
+                                    duration: 0.6,
+                                    stagger: 0.04,
+                                    ease: "power2.out",
+                                },
+                                "-=0.6"
+                            );
+                    }
+
+                    // Mobile & Tablet: Safe vertical stagger fade-up
+                    if (isMobile) {
+                        const tlMobile = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: ".practices-grid",
+                                start: "top 80%",
+                                toggleActions: "play none none none",
+                            },
+                        });
+
+                        tlMobile
+                            .from(".practice-card", {
+                                y: 40,
+                                opacity: 0,
+                                duration: 0.9,
+                                stagger: 0.12,
+                                ease: "power2.out",
+                            })
+                            .from(
+                                ".practice-card-img",
+                                {
+                                    scale: 1.15,
+                                    duration: 1.2,
+                                    ease: "power3.out",
+                                    stagger: 0.12,
+                                },
+                                0
+                            );
+                    }
+                }
+            );
+        },
+        { scope: practicesRef }
+    );
 
     return (
         <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-20 relative">
@@ -321,75 +670,47 @@ export default function BrandIdentityPage() {
 
             {/* -------------------- 3. PROCESS STEPS (Central Data Source) -------------------- */}
             {processSteps.length > 0 && (
-                <section className="container mx-auto px-4 sm:px-6 lg:px-12 my-20 md:my-28">
-                    <div className="text-center max-w-3xl mx-auto mb-14">
-                        <span className="text-xs uppercase tracking-wider text-blue-600 font-bold block mb-2 font-mono">
-                            Engineering Methodology
-                        </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-950 mb-4">
-                            How We Architect Digital Design Systems
-                        </h2>
-                        <p className="text-neutral-600 text-base sm:text-lg">
-                            From brand archetype strategy to tokenized code handoff, our four-stage framework ensures seamless design-to-development execution.
-                        </p>
-                    </div>
+                <section ref={methodologyRef} className="w-full py-24 sm:py-32 lg:py-36 bg-white overflow-hidden">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                        {/* Header with high-contrast hierarchy & generous spacing */}
+                        <div className="max-w-3xl">
+                            <div className="methodology-header-item inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
+                                <span className="size-2 rounded-full bg-blue-600 shrink-0" aria-hidden="true" />
+                                <span>/ ENGINEERING METHODOLOGY</span>
+                            </div>
+                            <h2 className="methodology-header-item text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 leading-[1.15] mb-6">
+                                How We Architect Digital Design Systems
+                            </h2>
+                            <p className="methodology-header-item text-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl mb-16 lg:mb-24">
+                                From brand archetype strategy to tokenized code handoff, our four-stage framework ensures seamless design-to-development execution.
+                            </p>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {processSteps.map((stepItem, idx) => (
-                            <motion.div
-                                key={stepItem.step}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                                className="p-8 rounded-2xl bg-white border border-neutral-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
-                            >
-                                <div>
-                                    <div className="flex items-center justify-between mb-6">
-                                        <span className="font-mono text-2xl font-black text-neutral-300 group-hover:text-blue-600 transition-colors">
+                        {/* Minimalist Border-Divided Grid Layout */}
+                        <div className="methodology-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-b border-neutral-200">
+                            {processSteps.map((stepItem, idx) => (
+                                <div
+                                    key={stepItem.step}
+                                    className={`methodology-col p-8 sm:p-10 lg:p-12 border-neutral-200 sm:border-r last:border-r-0 hover:bg-neutral-50/50 transition-colors group flex flex-col justify-start ${
+                                        idx === 3 ? "border-b-0" : "border-b"
+                                    } ${
+                                        idx === 1 ? "sm:border-r-0 lg:border-r" : ""
+                                    } ${
+                                        idx < 2 ? "sm:border-b lg:border-b-0" : "sm:border-b-0"
+                                    }`}
+                                >
+                                    <div className="flex items-center justify-between mb-8 sm:mb-10">
+                                        <span className="font-mono text-2xl font-light text-neutral-400 group-hover:text-blue-600 transition-colors">
                                             {stepItem.step}
                                         </span>
                                         <span className="size-2 rounded-full bg-blue-600" />
                                     </div>
-                                    <h3 className="text-lg font-bold text-neutral-950 mb-3 tracking-tight">
+                                    <h3 className="text-xl font-bold text-neutral-900 leading-snug mb-4">
                                         {stepItem.title}
                                     </h3>
-                                    <p className="text-neutral-600 text-sm leading-relaxed">
+                                    <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
                                         {stepItem.description}
                                     </p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* -------------------- 4. ENTERPRISE DELIVERABLES MATRIX -------------------- */}
-            {deliverables.length > 0 && (
-                <section className="w-full bg-[#f8fafc] py-20 border-y border-neutral-200/80">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-                        <div className="max-w-3xl mb-12">
-                            <span className="text-xs uppercase tracking-wider text-blue-600 font-bold block mb-2 font-mono">
-                                Production Deliverables
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-950 mb-3">
-                                Standard Deliverables in Every Engagement
-                            </h2>
-                            <p className="text-neutral-600 text-base sm:text-lg">
-                                Ready-to-ship assets, token architectures, and design governance kits handed over with 100% IP ownership.
-                            </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {deliverables.map((item, idx) => (
-                                <div
-                                    key={idx}
-                                    className="p-6 rounded-2xl bg-white border border-neutral-200/80 shadow-sm flex items-start gap-3.5 hover:border-blue-500/40 transition-colors"
-                                >
-                                    <FiCheckCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                                    <span className="text-sm font-semibold text-neutral-800 leading-snug">
-                                        {item}
-                                    </span>
                                 </div>
                             ))}
                         </div>
@@ -397,106 +718,177 @@ export default function BrandIdentityPage() {
                 </section>
             )}
 
-            {/* -------------------- 5. COMPLETE CAPABILITIES SUITE (SPLIT VIEW) -------------------- */}
-            <section className="container mx-auto px-4 sm:px-6 lg:px-12 my-20 md:my-28">
-                <div className="text-center max-w-3xl mx-auto mb-14">
-                    <span className="text-xs uppercase tracking-wider text-neutral-500 font-bold block mb-2 font-mono">
-                        Complete Capabilities Suite
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-950 mb-4">
-                        Explore All Specialized Practices
-                    </h2>
-                    <p className="text-neutral-600 text-base sm:text-lg">
-                        Explore our full spectrum of specialized engineering, design, AI automation, and growth solutions.
-                    </p>
+            {/* -------------------- 4. PRODUCTION DELIVERABLES MATRIX -------------------- */}
+            <section ref={deliverablesRef} className="w-full py-24 sm:py-32 lg:py-36 bg-white border-t border-neutral-200/80 overflow-hidden">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                    {/* Header with high-contrast hierarchy & generous spacing */}
+                    <div className="max-w-3xl">
+                        <div className="deliverable-header-item inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
+                            <span className="size-2 rounded-full bg-blue-600 shrink-0" aria-hidden="true" />
+                            <span>/ PRODUCTION DELIVERABLES</span>
+                        </div>
+                        <h2 className="deliverable-header-item text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-[1.15] mb-6">
+                            Standard Deliverables in Every Engagement
+                        </h2>
+                        <p className="deliverable-header-item text-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl mb-16 lg:mb-24">
+                            Ready-to-ship assets, token architectures, and design governance kits handed over with 100% IP ownership.
+                        </p>
+                    </div>
+
+                    {/* Minimalist Border-Divided Grid Layout */}
+                    <div className="deliverable-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-b border-neutral-200">
+                        {BRAND_DELIVERABLES.map((item, idx) => (
+                            <div
+                                key={idx}
+                                className={`deliverable-col p-8 sm:p-10 border-neutral-200 sm:border-r last:border-r-0 hover:bg-neutral-50/50 transition-colors group flex flex-col justify-between ${
+                                    idx === 3 ? "border-b-0" : "border-b"
+                                } ${
+                                    idx === 1 ? "sm:border-r-0 lg:border-r" : ""
+                                } ${
+                                    idx < 2 ? "sm:border-b lg:border-b-0" : "sm:border-b-0"
+                                }`}
+                            >
+                                <div>
+                                    {/* Header row: Index label on left, circular checkmark on right */}
+                                    <div className="flex items-center justify-between mb-8">
+                                        <span className="font-mono text-xs font-semibold tracking-wider text-neutral-400 group-hover:text-blue-600 transition-colors uppercase">
+                                            DELIVERABLE 0{idx + 1}
+                                        </span>
+                                        <FiCheckCircle className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform duration-300 shrink-0" />
+                                    </div>
+
+                                    {/* Title with high contrast & secondary sub-label in muted slate */}
+                                    <div className="mb-4">
+                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-900 leading-snug mb-1.5 group-hover:text-blue-600 transition-colors">
+                                            {item.title}
+                                        </h3>
+                                        <span className="text-xs sm:text-sm font-medium text-slate-500 block">
+                                            {item.sublabel}
+                                        </span>
+                                    </div>
+
+                                    {/* Clear brief description */}
+                                    <p className="text-sm text-neutral-600 leading-relaxed font-normal">
+                                        {item.desc}
+                                    </p>
+                                </div>
+
+                                {/* Footer tag with green status indicator */}
+                                <div className="pt-6 mt-8 border-t border-neutral-100 flex items-center justify-between">
+                                    <div className="inline-flex items-center gap-2">
+                                        <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                                        <span className="text-xs font-mono font-medium text-neutral-600 tracking-wide">
+                                            Production Ready
+                                        </span>
+                                    </div>
+                                    <span className="text-[11px] font-mono text-neutral-400">
+                                        100% IP
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <ServiceSplitView initialServiceId="brand-identity" activeMode="hover" />
+            </section>
+
+            {/* -------------------- 5. COMPLETE CAPABILITIES SUITE (SPLIT VIEW) -------------------- */}
+            <section className="w-full py-24 sm:py-32 lg:py-36 bg-[#FBFBFC] border-t border-neutral-200/80">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                    {/* Header with electric blue dot + uppercase tag & generous spacing */}
+                    <div className="max-w-3xl">
+                        <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
+                            <span className="size-2 rounded-full bg-blue-600 shrink-0" aria-hidden="true" />
+                            <span>/ COMPLETE CAPABILITIES SUITE</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-[1.15] mb-6">
+                            Explore All Specialized Practices
+                        </h2>
+                        <p className="text-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl mb-16 lg:mb-24">
+                            Explore our full spectrum of specialized engineering, design, AI automation, and growth solutions.
+                        </p>
+                    </div>
+
+                    <ServiceSplitView initialServiceId="brand-identity" activeMode="hover" />
+                </div>
             </section>
 
             {/* -------------------- 6. SPECIALIZED DESIGN PRACTICES -------------------- */}
-            <section className="container mx-auto px-4 sm:px-6 lg:px-12 mb-20 md:mb-28 pt-8">
-                <div className="text-center max-w-3xl mx-auto mb-14">
-                    <span className="text-xs uppercase tracking-wider text-neutral-500 font-bold block mb-2 font-mono">
-                        Tailored Solutions
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-950 mb-4">
-                        Our Specialized Design Practices
-                    </h2>
-                    <p className="text-neutral-600 text-base sm:text-lg">
-                        Whether launching an MVP or re-architecting an enterprise SaaS suite, we provide dedicated design systems tailored to your technical requirements.
-                    </p>
-                </div>
+            <section ref={practicesRef} className="w-full py-24 sm:py-32 lg:py-36 bg-white border-t border-neutral-200/80 overflow-hidden">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                    {/* Header Spacing & Hierarchy */}
+                    <div className="max-w-3xl mb-16 lg:mb-24">
+                        <div className="practices-header-item inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
+                            <span className="size-2 rounded-full bg-blue-600 shrink-0" aria-hidden="true" />
+                            <span>/ TAILORED SOLUTIONS</span>
+                        </div>
+                        <h2 className="practices-header-item text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-[1.15] mb-6">
+                            Our Specialized Design Practices
+                        </h2>
+                        <p className="practices-header-item text-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Whether launching an MVP or re-architecting an enterprise SaaS suite, we provide dedicated design systems tailored to your technical requirements.
+                        </p>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {ON_DEMAND_SERVICES.map((srv, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: idx * 0.08 }}
-                            className="h-full"
-                        >
-                            <FollowerPointerCard
-                                title={
-                                    <div className="flex items-center gap-1.5 font-semibold text-xs text-white">
-                                        <span>{srv.badgeTitle || srv.title}</span>
-                                    </div>
-                                }
-                                className="h-full"
+                    {/* Signature Minimalist Border-Divided Grid with 3D Isometric Perspective */}
+                    <div className="practices-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-neutral-200 [perspective:1400px]">
+                        {ON_DEMAND_SERVICES.map((srv, idx) => (
+                            <div
+                                key={idx}
+                                className="practice-card p-8 sm:p-10 border-b border-neutral-200 md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0 hover:bg-neutral-50/60 transition-colors group flex flex-col justify-between [transform-style:preserve-3d] will-change-transform"
                             >
-                                <div className="bg-white border border-neutral-200/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full group">
-                                    {/* Top Cover Image */}
-                                    <div className="relative h-48 w-full overflow-hidden bg-neutral-100">
-                                        <img
-                                            src={srv.image}
-                                            alt={srv.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                        <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/80 text-[11px] font-bold text-neutral-800 shadow-sm">
+                                <div>
+                                    {/* Media Thumbnail Container with Overflow Masking */}
+                                    <div className="relative h-52 sm:h-60 rounded-xl overflow-hidden bg-neutral-100 border border-neutral-200/70 mb-8">
+                                        <div className="practice-card-img relative w-full h-full">
+                                            <Image
+                                                src={srv.image}
+                                                alt={srv.title}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        </div>
+                                        {/* Step number pill anchored top-right */}
+                                        <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200/90 text-xs font-mono font-bold text-neutral-800 shadow-sm z-10">
                                             0{idx + 1}
                                         </div>
                                     </div>
 
-                                    {/* Card Body */}
-                                    <div className="p-6 sm:p-7 flex flex-col justify-between flex-1">
-                                        <div>
-                                            <h3 className="text-xl font-bold text-neutral-950 mb-2.5 group-hover:text-blue-600 transition-colors">
-                                                {srv.title}
-                                            </h3>
+                                    {/* Typography */}
+                                    <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 leading-snug mb-3 group-hover:text-blue-600 transition-colors">
+                                        {srv.title}
+                                    </h3>
+                                    <p className="text-sm sm:text-base text-neutral-600 leading-relaxed mb-6 font-normal line-clamp-3">
+                                        {srv.desc}
+                                    </p>
 
-                                            <p className="text-neutral-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                                                {srv.desc}
-                                            </p>
-
-                                            {/* Feature Checklist */}
-                                            <div className="grid grid-cols-2 gap-2.5 mb-6 pt-4 border-t border-neutral-100">
-                                                {srv.features.map((feat, fIdx) => (
-                                                    <div
-                                                        key={fIdx}
-                                                        className="flex items-center gap-1.5 text-xs font-medium text-neutral-700"
-                                                    >
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
-                                                        <span className="truncate">{feat}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="pt-3 border-t border-neutral-100 flex justify-start">
-                                            <Link
-                                                href={srv.href}
-                                                className="w-fit inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors cursor-pointer"
+                                    {/* 2-Column Grid of Features */}
+                                    <div className="grid grid-cols-2 gap-2.5 mb-8 pt-5 border-t border-neutral-100">
+                                        {srv.features.map((feat, fIdx) => (
+                                            <div
+                                                key={fIdx}
+                                                className="practice-feat-item flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-700"
                                             >
-                                                <span>Explore Service</span>
-                                                <FiArrowUpRight className="group-hover:rotate-45 transition-transform duration-300" />
-                                            </Link>
-                                        </div>
+                                                <span className="size-1.5 rounded-full bg-blue-600 shrink-0" />
+                                                <span className="truncate">{feat}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            </FollowerPointerCard>
-                        </motion.div>
-                    ))}
+
+                                {/* Call to Action Button */}
+                                <div className="pt-4 border-t border-neutral-100 flex items-center justify-start mt-auto">
+                                    <Link
+                                        href={srv.href}
+                                        className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors cursor-pointer"
+                                    >
+                                        <span>Explore Practice</span>
+                                        <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
