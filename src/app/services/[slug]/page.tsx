@@ -31,7 +31,10 @@ interface PageProps {
 
 export async function generateStaticParams() {
   const services = getAllServices().filter(
-    (s) => s.slug !== "brand-identity" && s.slug !== "digital-marketing"
+    (s) =>
+      s.slug !== "brand-identity" &&
+      s.slug !== "digital-marketing" &&
+      s.slug !== "web-mobile-development"
   );
   return services.map((service) => ({
     slug: service.slug,
