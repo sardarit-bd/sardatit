@@ -30,8 +30,8 @@ export interface ServiceItem {
   href?: string;
   bgClass?: string;
   color?: string;
-  Color?: string;
-  bthIsWhite?: boolean;
+  isBtnWhite?: boolean;
+  bthIsWhite?: boolean; // Backwards compatibility
   badgeTitle?: string;
   stats?: ServiceStat[];
   processSteps?: ServiceProcessStep[];

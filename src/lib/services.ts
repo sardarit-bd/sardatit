@@ -12,55 +12,55 @@ export const SERVICES_DATA: ServiceItem[] = [
     detailedDescription:
       "Create a trusted, global brand with our expert designs and strategies. We help improve your brand's visibility, credibility, and connection with customers both online and offline through cohesive design systems, modern typography, and meaningful brand stories.",
     features: [
-      "Product UI/UX & Design Systems",
-      "Brand Identity & Positioning",
+      "Multi-Platform UI/UX & Design Systems",
+      "Enterprise Brand Architecture & Positioning",
       "Interactive High-Fidelity Prototypes",
-      "Cross-Platform Design Standards",
+      "Design-to-Code Engineering Governance",
     ],
     deliverables: [
-      "Brand Guidelines & Token Kit",
-      "Vector Logo Suite & Typography System",
-      "Social Media & Marketing Collateral",
-      "Color Hierarchy & Custom Iconography",
+      "Multi-Platform Design Tokens (Tailwind, React, Flutter)",
+      "Enterprise UI Component Libraries & Storybook Handoff",
+      "Vector Logo Suite & Global Typography Hierarchy",
+      "Design System Governance & Accessibility Standards (WCAG 2.1)",
     ],
     image: "/image/project/CASA.webp",
     fallbackImage: "/image/service/service1.avif",
-    imageSrc: "/image/service/service1.avif",
     href: "/services/brand-identity",
     bgClass: "bg-[#133BD4]",
     color: "text-white",
-    Color: "text-white",
+    isBtnWhite: true,
     bthIsWhite: true,
     badgeTitle: "Brand Identity",
     stats: [
-      { label: "Brand Recall Boost", value: "+85%" },
-      { label: "Identity Projects Delivered", value: "60+" },
+      { label: "Projects Delivered Globally", value: "500+" },
+      { label: "Client Satisfaction Rate", value: "99%" },
+      { label: "Countries Served", value: "60+" },
       { label: "Design System Adoption", value: "100%" },
     ],
     processSteps: [
       {
         step: "01",
-        title: "Discovery & Archetype Definition",
+        title: "Discovery & Brand Architecture",
         description:
-          "Uncover brand pillars, target demographic motivations, and competitive positioning landscape.",
+          "Uncovering brand pillars, user personas, target market dynamics, and competitive software positioning.",
       },
       {
         step: "02",
-        title: "Visual Conceptualization",
+        title: "Design Tokens & Visual Exploration",
         description:
-          "Exploring typography pairings, logo geometry, moodboards, and distinct aesthetic palettes.",
+          "Defining typography scales, atomic color tokens, dark/light contrast ratios, and distinct brand geometry.",
       },
       {
         step: "03",
-        title: "Comprehensive System Design",
+        title: "Component System & Prototyping",
         description:
-          "Establishing component tokens, iconography, stationery, and multi-channel digital applications.",
+          "Architecting modular UI kits in Figma, interactive micro-interactions, and multi-tenant design patterns.",
       },
       {
         step: "04",
-        title: "Brand Guidelines Handoff",
+        title: "Storybook & Production Handoff",
         description:
-          "Delivering export-ready design kits, guidelines, and production-ready vector assets.",
+          "Delivering production-ready token JSONs, developer documentation, Storybook integration, and WCAG compliance audit.",
       },
     ],
   },
@@ -93,7 +93,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     href: "/services/web-mobile-development",
     bgClass: "bg-[#ffd500]",
     color: "text-black",
-    Color: "text-black",
+    isBtnWhite: false,
     bthIsWhite: false,
     badgeTitle: "Web & Mobile",
     stats: [
@@ -157,7 +157,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     href: "/services/ai-automation-solutions",
     bgClass: "bg-[#ff531a]",
     color: "text-white",
-    Color: "text-white",
+    isBtnWhite: true,
     bthIsWhite: true,
     badgeTitle: "AI & Automation",
     stats: [
@@ -221,7 +221,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     href: "/services/digital-marketing",
     bgClass: "bg-[#0F172A]",
     color: "text-white",
-    Color: "text-white",
+    isBtnWhite: true,
     bthIsWhite: true,
     badgeTitle: "Digital Marketing",
     stats: [

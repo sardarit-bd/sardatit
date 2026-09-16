@@ -71,10 +71,10 @@ export function ServiceShowcaseCard() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className={`group w-fit inline-flex items-center gap-3 px-4 py-2.5 ${service.bthIsWhite ? "bg-white text-black" : "bg-black text-white"} font-semibold text-sm md:text-base transition-all duration-300 hover:scale-[1.02]`}
+                className={`group w-fit inline-flex items-center gap-3 px-4 py-2.5 ${(service.isBtnWhite ?? service.bthIsWhite) ? "bg-white text-black" : "bg-black text-white"} font-semibold text-sm md:text-base transition-all duration-300 hover:scale-[1.02]`}
               >
                 <span>Start a Project</span>
-                <span className={`flex items-center justify-center size-7 rounded-full ${service.bthIsWhite ? "bg-black/10 text-black group-hover:bg-black/10 group-hover:text-black" : "bg-white text-black group-hover:bg-white group-hover:text-black"}  transition-all duration-300`}>
+                <span className={`flex items-center justify-center size-7 rounded-full ${(service.isBtnWhite ?? service.bthIsWhite) ? "bg-black/10 text-black group-hover:bg-black/10 group-hover:text-black" : "bg-white text-black group-hover:bg-white group-hover:text-black"}  transition-all duration-300`}>
                   <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:rotate-45" />
                 </span>
               </Link>

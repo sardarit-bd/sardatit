@@ -7,13 +7,17 @@ import LeadersChapterShowcase from "@/components/sections/LeadersChapterShowcase
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
+    Cpu,
+    GitFork,
+    Globe,
+    Layers,
+    ShieldCheck,
+    Zap
+} from "lucide-react";
+import {
     FiCpu,
-    FiGlobe,
     FiLayers,
-    FiLock,
     FiMessageSquare,
-    FiRepeat,
-    FiTarget,
     FiZap
 } from "react-icons/fi";
 import CompanyGallerySection from "../../components/sections/CompanyGallerySection";
@@ -53,34 +57,34 @@ const values = [
 
 const features = [
     {
-        icon: FiLayers,
+        icon: Layers,
         title: "Full-Cycle Product Engineering",
-        desc: "From initial product discovery and high-fidelity UI/UX design to scalable full-stack development and zero-downtime deployment.",
+        desc: "From discovery architecture and UI/UX design systems to enterprise full-stack software and cloud deployment.",
     },
     {
-        icon: FiGlobe,
-        title: "Global Delivery Footprint",
-        desc: "Proven engineering track record shipping production platforms for enterprises across 60+ countries with agile sprint alignment.",
+        icon: Globe,
+        title: "Global Footprint Across 60+ Countries",
+        desc: "Proven track record delivering scalable digital solutions worldwide with seamless agile timezone alignment.",
     },
     {
-        icon: FiCpu,
-        title: "Modern Battle-Tested Stack",
-        desc: "Architecting resilient web, mobile, and AI solutions using Next.js, Node.js, Python, Flutter, Docker, and AWS cloud infrastructure.",
+        icon: Cpu,
+        title: "Modern Battle-Tested Tech Stack",
+        desc: "High-throughput architectures built on Next.js, React, Node.js, Python, Flutter, Docker, and AWS.",
     },
     {
-        icon: FiRepeat,
+        icon: GitFork,
         title: "Transparent Sprints & Milestones",
-        desc: "Weekly live demos, transparent milestone sign-offs, clear communication channels, and full developer repository access.",
+        desc: "Sprint visibility through weekly live demo walkthroughs, continuous deployment, and direct git repository access.",
     },
     {
-        icon: FiLock,
-        title: "100% IP & Code Ownership",
-        desc: "Complete handover of clean, fully-documented source code, design kits, and intellectual property ownership from day one.",
+        icon: ShieldCheck,
+        title: "100% IP & Source Code Ownership",
+        desc: "Complete transfer of fully-documented repositories, design systems, and software IP to your enterprise on day one.",
     },
     {
-        icon: FiZap,
-        title: "Post-Launch Scaling & SLAs",
-        desc: "Dedicated long-term maintenance, uptime monitoring, performance optimization, and continuous feature roadmapping.",
+        icon: Zap,
+        title: "Enterprise Security & SLA Scalability",
+        desc: "Strict data privacy guardrails, post-launch maintenance, 99.9% uptime architectures, and continuous performance tuning.",
     },
 ];
 
@@ -240,7 +244,7 @@ export default function AboutPage() {
             <ImpactStats />
 
             {/* 6. CORE CAPABILITIES & ENGINEERING STRENGTHS */}
-            <section className="w-full py-16 sm:py-24 bg-[#F8FAFC] text-neutral-900 border-y border-neutral-200/60">
+            <section className="w-full py-16 sm:py-24 bg-white text-neutral-900">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-12">
                     <SectionHeader
                         tag="ENGINEERING STRENGTHS"
@@ -250,29 +254,59 @@ export default function AboutPage() {
                         width="max-w-4xl"
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16">
+                    {/* Minimalist Border-Divided Column Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 border-t border-b border-neutral-200/80 mt-12 sm:mt-16">
                         {features.map((feature, idx) => {
                             const Icon = feature.icon;
+                            // Precise border matrix per breakpoint (1-col mobile, 2-col tablet, 3-col desktop)
+                            const isMobileLast = idx === 5;
+                            const isMdRightBorder = idx % 2 === 0;
+                            const isMdBottomBorder = idx < 4;
+                            const isLgRightBorder = idx % 3 !== 2;
+                            const isLgBottomBorder = idx < 3;
+
                             return (
                                 <motion.div
                                     key={feature.title}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 15 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: idx * 0.08 }}
-                                    className="p-8 bg-white border border-neutral-200/80 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-500/40 transition-all duration-300 flex flex-col justify-between group"
+                                    transition={{ duration: 0.4, delay: idx * 0.06 }}
+                                    className={`p-8 md:p-10 lg:p-12 flex flex-col justify-start group transition-colors duration-300 hover:bg-neutral-50/70 border-neutral-200/80 ${
+                                        isMobileLast ? "border-b-0" : "border-b"
+                                    } ${
+                                        isMdRightBorder ? "md:border-r" : "md:border-r-0"
+                                    } ${
+                                        isMdBottomBorder ? "md:border-b" : "md:border-b-0"
+                                    } ${
+                                        isLgRightBorder ? "lg:border-r" : "lg:border-r-0"
+                                    } ${
+                                        isLgBottomBorder ? "lg:border-b" : "lg:border-b-0"
+                                    }`}
                                 >
-                                    <div>
-                                        <div className="size-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                            <Icon />
+                                    {/* Minimalist Stroke Icon with Two-Tone Accent */}
+                                    <div className="mb-6 flex items-center justify-between">
+                                        <div className="relative flex items-center">
+                                            <Icon
+                                                className="w-8 h-8 sm:w-9 sm:h-9 text-neutral-900 stroke-[1.5] group-hover:text-blue-600 transition-colors duration-300"
+                                            />
+                                            {/* Electric blue highlight accent */}
+                                            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-blue-600 ring-2 ring-white" />
                                         </div>
-                                        <h3 className="text-xl font-bold text-neutral-950 mb-3 tracking-tight">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
-                                            {feature.desc}
-                                        </p>
+                                        <span className="font-mono text-xs text-neutral-300 font-semibold tracking-wider group-hover:text-neutral-500 transition-colors">
+                                            0{idx + 1}
+                                        </span>
                                     </div>
+
+                                    {/* Title */}
+                                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 leading-snug mb-3">
+                                        {feature.title}
+                                    </h3>
+
+                                    {/* Description */}
+                                    <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
+                                        {feature.desc}
+                                    </p>
                                 </motion.div>
                             );
                         })}
