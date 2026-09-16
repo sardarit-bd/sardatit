@@ -144,6 +144,13 @@ export function HomeReviewsAngledSlider({
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
 
+      {/* Responsive "INNOVATION" Background Watermark Text */}
+      <div className="absolute inset-0 w-full overflow-hidden flex items-center justify-center pointer-events-none select-none z-0">
+        <span className="font-black uppercase leading-none tracking-tighter text-5xl sm:text-7xl md:text-8xl lg:text-[140px] xl:text-[160px] text-neutral-900/[0.04] dark:text-white/[0.04] max-w-full text-center truncate select-none pointer-events-none">
+          INNOVATION
+        </span>
+      </div>
+
       {/* Section Header */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 mb-12 sm:mb-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -179,7 +186,7 @@ export function HomeReviewsAngledSlider({
       </div>
 
       {/* 3D Angled Slider Container with Edge Fade Gradients */}
-      <div className="w-full overflow-hidden relative">
+      <div className="w-full overflow-hidden relative z-10">
         {/* Soft edge-fade gradients to conceal 3D bounds seamlessly */}
         <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-40 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-40 pointer-events-none" />

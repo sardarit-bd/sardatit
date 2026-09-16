@@ -1,7 +1,7 @@
 "use client";
 
 import CtaSection from "@/components/Cta";
-import ClientFeedbackAccordion from "@/components/sections/ClientFeedbackAccordion";
+import HomeReviewsAngledSlider from "@/components/home/HomeReviewsAngledSlider";
 import { ImpactStats } from "@/components/sections/ImpactStats";
 import LeadersChapterShowcase from "@/components/sections/LeadersChapterShowcase";
 import { motion } from "framer-motion";
@@ -373,7 +373,7 @@ export default function AboutPage() {
             </section>
 
             {/* 9. TESTIMONIALS & CLIENT REVIEWS */}
-            <ClientFeedbackAccordion />
+            <HomeReviewsAngledSlider />
 
             {/* 10. LANDING PAGE CTA SECTION */}
             <CtaSection />

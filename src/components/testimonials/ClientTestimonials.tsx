@@ -204,8 +204,15 @@ export function ClientTestimonials({
       : testimonials.filter((item) => item.category === selectedCategory);
 
   return (
-    <section className="w-full py-20 lg:py-24 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
+    <section className="w-full py-20 lg:py-24 bg-white relative overflow-hidden">
+      {/* Responsive "INNOVATION" Background Watermark Text */}
+      <div className="absolute inset-0 w-full overflow-hidden flex items-center justify-center pointer-events-none select-none z-0">
+        <span className="font-black uppercase leading-none tracking-tighter text-5xl sm:text-7xl md:text-8xl lg:text-[140px] xl:text-[160px] text-neutral-900/[0.04] dark:text-white/[0.04] max-w-full text-center truncate select-none pointer-events-none">
+          INNOVATION
+        </span>
+      </div>
+
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
         {/* Optional Section Header */}
         {showHeader && (
           <div className="mb-14">
