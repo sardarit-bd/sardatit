@@ -1,5 +1,5 @@
 import CtaSection from "@/components/Cta";
-import ClientFeedbackAccordion from "@/components/sections/ClientFeedbackAccordion";
+import HomeReviewsAngledSlider from "@/components/home/HomeReviewsAngledSlider";
 import CompanyGallerySection from "@/components/sections/CompanyGallerySection";
 import LeadersChapterShowcase from "@/components/sections/LeadersChapterShowcase";
 import { ImpactStats } from "@/components/sections/ImpactStats";
@@ -23,7 +23,7 @@ export default function Home() {
       <ImpactStats />
       <Projects />
       <ServiceShowcaseCard />
-      <ClientFeedbackAccordion />
+      <HomeReviewsAngledSlider />
       {/* Pinned Scroll-Chapter Showcase: Our Leaders (All 11 Leaders) */}
       <LeadersChapterShowcase />
       <CompanyGallerySection />
