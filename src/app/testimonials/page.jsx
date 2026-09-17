@@ -1,8 +1,8 @@
 "use client";
 
-import CtaSection from "@/components/Cta";
-import HomeReviewsAngledSlider from "@/components/home/HomeReviewsAngledSlider";
-import { ImpactStats } from "@/components/sections/ImpactStats";
+import CtaSection from "@/components/modules/cta/CtaSection";
+import HomeReviewsAngledSlider from "@/components/modules/home/HomeReviewsAngledSlider";
+import { ImpactStats } from "@/components/modules/stats/ImpactStats";
 
 export default function TestimonialsPage() {
   return (

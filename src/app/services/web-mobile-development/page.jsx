@@ -1,11 +1,11 @@
 import React from "react";
 import { getServiceBySlug } from "@/lib/services";
-import WebMobileHero from "@/components/web-mobile/WebMobileHero";
-import WebMobileTechStack from "@/components/web-mobile/WebMobileTechStack";
-import WebMobileMethodology from "@/components/web-mobile/WebMobileMethodology";
-import WebMobileDeliverables from "@/components/web-mobile/WebMobileDeliverables";
-import WebMobileAdjacentNav from "@/components/web-mobile/WebMobileAdjacentNav";
-import Cta from "@/components/Cta";
+import WebMobileHero from "@/components/modules/services/web-mobile/WebMobileHero";
+import WebMobileTechStack from "@/components/modules/services/web-mobile/WebMobileTechStack";
+import WebMobileMethodology from "@/components/modules/services/web-mobile/WebMobileMethodology";
+import WebMobileDeliverables from "@/components/modules/services/web-mobile/WebMobileDeliverables";
+import WebMobileAdjacentNav from "@/components/modules/services/web-mobile/WebMobileAdjacentNav";
+import Cta from "@/components/modules/cta/CtaSection";
 
 export const metadata = {
   title: "Enterprise Web & Mobile App Engineering | Sardar IT",

@@ -1,14 +1,13 @@
-import CtaSection from "@/components/Cta";
-import HomeReviewsAngledSlider from "@/components/home/HomeReviewsAngledSlider";
-import CompanyGallerySection from "@/components/sections/CompanyGallerySection";
-import LeadersChapterShowcase from "@/components/sections/LeadersChapterShowcase";
-import { ImpactStats } from "@/components/sections/ImpactStats";
-import Projects from "@/components/sections/projects";
-import Showreel from "@/components/Showreel";
-import { ServiceShowcaseCard } from "@/components/WhyChooseUs";
-// import { Hero } from "../components/Hero";
-import AINeuralNetworkSection from "@/components/services/AINeuralNetworkSection";
-import TrustedBy from "../components/TrustedBy";
+import CtaSection from "@/components/modules/cta/CtaSection";
+import HomeReviewsAngledSlider from "@/components/modules/home/HomeReviewsAngledSlider";
+import CompanyGallerySection from "@/components/modules/gallery/CompanyGallerySection";
+import LeadersChapterShowcase from "@/components/modules/leadership/LeadersChapterShowcase";
+import { ImpactStats } from "@/components/modules/stats/ImpactStats";
+import Projects from "@/components/modules/projects/ProjectsSection";
+import Showreel from "@/components/modules/home/Showreel";
+import { ServiceShowcaseCard } from "@/components/modules/services/ServiceShowcaseCards";
+import AINeuralNetworkSection from "@/components/modules/services/AINeuralNetworkSection";
+import TrustedBy from "@/components/modules/home/TrustedBy";
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import CtaSection from "@/components/Cta";
+import CtaSection from "@/components/modules/cta/CtaSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

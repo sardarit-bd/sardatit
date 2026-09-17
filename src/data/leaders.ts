@@ -1,11 +1,6 @@
-export interface LeaderChapterItem {
-  id: string;
-  name: string;
-  role: string;
-  imageSrc: string;
-  groupId: "founders" | "operations" | "sales";
-  groupName: string;
-}
+import { LeaderChapterItem } from "@/types/leader";
+
+export type { LeaderChapterItem };
 
 export const LEADERS_DATA: LeaderChapterItem[] = [
   // 1. Founders & Executive Leadership (2 people)

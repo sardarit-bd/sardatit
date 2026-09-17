@@ -1,0 +1,187 @@
+"use client";
+
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import ElectricBorder from "@/components/ui/ElectricBorder";
+import SectionHeader from "@/components/ui/SectionHeader";
+import { statsData } from "@/data/stats";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+export function ImpactStats() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const numbersRef = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
+
+      // Check prefers-reduced-motion
+      const prefersReducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) {
+        // Render final counter values directly for users with reduced motion
+        statsData.forEach((stat, idx) => {
+          const numEl = numbersRef.current[idx];
+          if (numEl) {
+            numEl.textContent =
+              stat.decimals > 0
+                ? stat.value.toFixed(stat.decimals)
+                : Math.round(stat.value).toString();
+          }
+        });
+        return;
+      }
+
+      // 4. Staggered card entrance on scroll into view
+      const validCards = cardsRef.current.filter(Boolean);
+      if (validCards.length > 0 && cardsContainerRef.current) {
+        gsap.fromTo(
+          validCards,
+          {
+            opacity: 0,
+            y: 28,
+            scale: 0.95,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: cardsContainerRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // 5. Dynamic numeric count-up animation (runs ONCE per page view, staggered with card entrance)
+        let counted = false;
+        ScrollTrigger.create({
+          trigger: cardsContainerRef.current,
+          start: "top 80%",
+          once: true,
+          onEnter: () => {
+            if (counted) return;
+            counted = true;
+
+            statsData.forEach((stat, idx) => {
+              const numEl = numbersRef.current[idx];
+              if (!numEl) return;
+
+              const counter = { val: 0 };
+              gsap.to(counter, {
+                val: stat.value,
+                duration: 1.8,
+                delay: idx * 0.1, // Staggered to align with card entrance
+                ease: "power2.out",
+                onUpdate: () => {
+                  numEl.textContent =
+                    stat.decimals > 0
+                      ? counter.val.toFixed(stat.decimals)
+                      : Math.round(counter.val).toString();
+                },
+              });
+            });
+          },
+        });
+      }
+    },
+    { scope: sectionRef }
+  );
+
+  return (
+    <section
+      ref={sectionRef}
+      className="py-24 sm:py-28 bg-black text-white relative overflow-hidden"
+    >
+      {/* Background ambient lighting orbs */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="container mx-auto px-6 md:px-12 flex flex-col gap-14 sm:gap-16 relative z-10">
+        {/* Standardized Section Header */}
+        <div ref={headerRef} className="w-full">
+          <SectionHeader
+            tag="Achievement & Impact"
+            title="Success in Action, engineered at global scale."
+            description="Building the future through technology — backed by verified global metrics, high-reliability architecture, and measurable client ROI."
+            theme="dark"
+          />
+        </div>
+
+        {/* 5-Column High-End Stats Grid with ElectricBorder */}
+        <div
+          ref={cardsContainerRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6"
+        >
+          {statsData.map((stat, idx) => (
+            <div
+              key={stat.index}
+              ref={(el) => {
+                cardsRef.current[idx] = el;
+              }}
+              className="w-full flex"
+            >
+              <ElectricBorder
+                color="#00d2ff"
+                speed={0.7}
+                chaos={0.08}
+                borderRadius={22}
+                className="w-full h-full rounded-[22px]"
+              >
+                {/* Modern Dark Glassmorphic Card */}
+                <div className="bg-neutral-900/80 backdrop-blur-xl border border-neutral-800/80 rounded-[22px] p-6 sm:p-8 flex flex-col justify-between h-64 sm:h-72 text-white shadow-2xl relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 w-full">
+                  {/* Subtle inner radial gradient on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none" />
+                  <div className="absolute -top-10 -right-10 w-28 h-28 bg-cyan-500/10 rounded-full blur-xl group-hover:bg-cyan-500/20 transition-all duration-500 pointer-events-none" />
+
+                  {/* Top: Index Tag */}
+                  <div className="relative z-10 flex items-center justify-between">
+                    <span className="text-xs font-mono text-neutral-500 tracking-wider">
+                      {stat.index}
+                    </span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00d2ff]" />
+                  </div>
+
+                  {/* Bottom: Stat Number & Label */}
+                  <div className="relative z-10 flex flex-col gap-1.5">
+                    <div className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white flex items-baseline gap-0.5">
+                      <span
+                        ref={(el) => {
+                          numbersRef.current[idx] = el;
+                        }}
+                      >
+                        0
+                      </span>
+                      <span className="text-cyan-400 font-bold text-3xl sm:text-4xl lg:text-5xl ml-0.5">
+                        {stat.suffix}
+                      </span>
+                    </div>
+                    <p className="text-sm sm:text-base text-neutral-400 font-medium leading-snug">
+                      {stat.label}
+                    </p>
+                  </div>
+                </div>
+              </ElectricBorder>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default ImpactStats;
