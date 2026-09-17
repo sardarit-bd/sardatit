@@ -13,6 +13,31 @@ export const metadata = {
     title: "Brand Identity & Digital Product Design | Sardar IT",
     description:
         "Architecting intuitive digital experiences, tokenized design systems, and cohesive brand identities that scale globally across 60+ countries.",
+    alternates: {
+        canonical: "https://sardaritbd.com/services/brand-identity",
+    },
+    openGraph: {
+        title: "Brand Identity & Digital Product Design | Sardar IT",
+        description:
+            "Architecting intuitive digital experiences, tokenized design systems, and cohesive brand identities that scale globally.",
+        url: "https://sardaritbd.com/services/brand-identity",
+        siteName: "Sardar IT",
+        images: [
+            {
+                url: "/image/project/Recharge_IV.webp",
+                width: 1200,
+                height: 630,
+                alt: "Brand Identity & Design - Sardar IT",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Brand Identity & Digital Product Design | Sardar IT",
+        description:
+            "Architecting intuitive digital experiences, tokenized design systems, and cohesive brand identities that scale globally.",
+        images: ["/image/project/Recharge_IV.webp"],
+    },
 };
 
 export default function BrandIdentityPage() {

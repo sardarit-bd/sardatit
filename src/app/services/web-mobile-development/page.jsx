@@ -10,8 +10,27 @@ import Cta from "@/components/modules/cta/CtaSection";
 export const metadata = {
   title: "Enterprise Web & Mobile App Engineering | Sardar IT",
   description:
-    "Delivering robust, full-stack digital products engineered with Next.js 16, React 19, Flutter, and high-concurrency cloud microservices for enterprise workloads across 60+ countries.",
+    "Delivering robust, full-stack digital products engineered with Next.js, React, Flutter, and cloud microservices for enterprise workloads across 60+ countries.",
+  alternates: {
+    canonical: "https://sardaritbd.com/services/web-mobile-development",
+  },
   openGraph: {
+    title: "Enterprise Web & Mobile App Engineering | Sardar IT",
+    description:
+      "Modern full-stack web and mobile engineering with 99.99% uptime SLA and Core Web Vitals 98/100 benchmark.",
+    url: "https://sardaritbd.com/services/web-mobile-development",
+    siteName: "Sardar IT",
+    images: [
+      {
+        url: "/image/services/web-performance.webp",
+        width: 1200,
+        height: 630,
+        alt: "Enterprise Web & Mobile Engineering - Sardar IT",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Enterprise Web & Mobile App Engineering | Sardar IT",
     description:
       "Modern full-stack web and mobile engineering with 99.99% uptime SLA and Core Web Vitals 98/100 benchmark.",

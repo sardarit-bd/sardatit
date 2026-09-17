@@ -127,7 +127,7 @@ export default function CtaSection() {
             <div className="relative w-32 h-32 sm:w-40 sm:h-44 overflow-hidden mb-4 group">
               <Image
                 src="/image/leaders/Md.-Parvej-Ahammed.webp"
-                alt="Parvej Ahammed"
+                alt="Md. Parvej Ahammed - Managing Director at Sardar IT"
                 fill
                 className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
               />

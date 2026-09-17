@@ -353,7 +353,7 @@ export default function LeadersChapterShowcase({
               >
                 <Image
                   src={leader.imageSrc}
-                  alt={leader.name}
+                  alt={`${leader.name} - ${leader.role} at Sardar IT`}
                   fill
                   sizes="(min-width: 1280px) 50vw, 45vw"
                   className="object-cover object-top pointer-events-none"
@@ -476,7 +476,7 @@ export default function LeadersChapterShowcase({
               <div className="relative z-10 w-full h-[320px] sm:h-[400px] rounded-xl overflow-hidden bg-neutral-100 shadow-md">
                 <Image
                   src={leader.imageSrc}
-                  alt={leader.name}
+                  alt={`${leader.name} - ${leader.role} at Sardar IT`}
                   fill
                   sizes="(max-width: 1023px) 90vw, 400px"
                   className="object-cover object-top"
