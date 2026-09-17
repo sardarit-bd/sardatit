@@ -26,13 +26,13 @@ export const galleryImages: GalleryImageItem[] = [
     category: "Events",
   },
   {
-    src: "/image/galary/G5.jpg",
+    src: "/image/galary/G5.JPG",
     alt: "Creative Designers at Work",
     title: "Design Studio",
     category: "Creativity",
   },
   {
-    src: "/image/galary/G8.JPG",
+    src: "/image/galary/G8.jpg",
     alt: "Sardar IT Family",
     title: "Our Brilliant Team",
     category: "People",
@@ -50,13 +50,13 @@ export const galleryImages: GalleryImageItem[] = [
     category: "People",
   },
   {
-    src: "/image/galary/G9.jpg",
+    src: "/image/galary/G9.JPG",
     alt: "Sardar IT Family",
     title: "Our Brilliant Team",
     category: "People",
   },
   {
-    src: "/image/galary/G11.jpg",
+    src: "/image/galary/g11.jpg",
     alt: "Sardar IT Family",
     title: "Our Brilliant Team",
     category: "People",
