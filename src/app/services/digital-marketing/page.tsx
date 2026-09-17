@@ -17,10 +17,29 @@ export const metadata: Metadata = {
   title: "Digital Marketing & Growth | Sardar IT",
   description:
     "Data-driven performance marketing, SEO, paid media engineering, and conversion rate optimization tailored to scale revenue and maximize ROAS.",
+  alternates: {
+    canonical: "https://sardaritbd.com/services/digital-marketing",
+  },
   openGraph: {
     title: "Digital Marketing & Growth | Sardar IT",
     description:
-      "Accelerate your business growth with targeted digital marketing, SEO, conversion rate optimization, and data-driven marketing campaigns.",
+      "Accelerate business growth with targeted digital marketing, SEO, conversion rate optimization, and data-driven marketing campaigns.",
+    url: "https://sardaritbd.com/services/digital-marketing",
+    siteName: "Sardar IT",
+    images: [
+      {
+        url: "/image/project/White_Cross_Clinic.webp",
+        width: 1200,
+        height: 630,
+        alt: "Digital Marketing - Sardar IT",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Digital Marketing & Growth | Sardar IT",
+    description:
+      "Accelerate business growth with targeted digital marketing, SEO, and conversion optimization.",
     images: ["/image/project/White_Cross_Clinic.webp"],
   },
 };

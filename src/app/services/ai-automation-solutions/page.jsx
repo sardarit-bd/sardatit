@@ -10,7 +10,26 @@ export const metadata = {
   title: "Intelligent Workflow Automation & AI Integration | Sardar IT",
   description:
     "Streamlining enterprise operations with self-hosted n8n pipelines, intelligent webhook workflows, and custom AI agent integrations across 60+ countries.",
+  alternates: {
+    canonical: "https://sardaritbd.com/services/ai-automation-solutions",
+  },
   openGraph: {
+    title: "Intelligent Workflow Automation & AI Integration | Sardar IT",
+    description:
+      "Enterprise workflow automation with self-hosted n8n, Make, custom webhooks, and omnichannel AI agents.",
+    url: "https://sardaritbd.com/services/ai-automation-solutions",
+    siteName: "Sardar IT",
+    images: [
+      {
+        url: "/image/services/isometric-ai-core.png",
+        width: 1200,
+        height: 630,
+        alt: "AI Automation Solutions - Sardar IT",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Intelligent Workflow Automation & AI Integration | Sardar IT",
     description:
       "Enterprise workflow automation with self-hosted n8n, Make, custom webhooks, and omnichannel AI agents.",
