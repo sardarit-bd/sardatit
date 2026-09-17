@@ -1,0 +1,41 @@
+import { BrandLogo } from "@/types/brand";
+
+export const brands: BrandLogo[] = [
+  { name: "Sequoia", src: "/logo/1.avif" },
+  { name: "Kodezi", src: "/logo/2.avif" },
+  { name: "Combinator", src: "/logo/3.avif" },
+  { name: "HeyGen", src: "/logo/4.avif" },
+  { name: "Recruitly", src: "/logo/5.avif" },
+  { name: "techstars", src: "/logo/6.avif" },
+  { name: "Delve", src: "/logo/7.avif" },
+  { name: "Accepty", src: "/logo/8.avif" },
+  { name: "Mavis", src: "/logo/9.avif" },
+  { name: "Oppatravel", src: "/logo/10.avif" },
+  { name: "Medical Student AI", src: "/logo/11.avif" },
+  { name: "500 Global", src: "/logo/12.avif" },
+  { name: "ZeroEssay", src: "/logo/13.avif" },
+  { name: "Seedcamp", src: "/logo/14.avif" },
+  { name: "Empresaa", src: "/logo/16.avif" },
+  { name: "Andreessen Horowitz", src: "/logo/17.avif" },
+  { name: "AI Partner", src: "/logo/18.avif" },
+];
+
+export const brands1: BrandLogo[] = [
+  { name: "Accepty", src: "/logo/8.avif" },
+  { name: "Kodezi", src: "/logo/2.avif" },
+  { name: "Mavis", src: "/logo/9.avif" },
+  { name: "Combinator", src: "/logo/3.avif" },
+  { name: "HeyGen", src: "/logo/4.avif" },
+  { name: "Medical Student AI", src: "/logo/11.avif" },
+  { name: "Recruitly", src: "/logo/5.avif" },
+  { name: "AI Partner", src: "/logo/18.avif" },
+  { name: "Delve", src: "/logo/7.avif" },
+  { name: "techstars", src: "/logo/6.avif" },
+  { name: "Oppatravel", src: "/logo/10.avif" },
+  { name: "ZeroEssay", src: "/logo/13.avif" },
+  { name: "500 Global", src: "/logo/12.avif" },
+  { name: "Empresaa", src: "/logo/16.avif" },
+  { name: "Seedcamp", src: "/logo/14.avif" },
+  { name: "Sequoia", src: "/logo/1.avif" },
+  { name: "Andreessen Horowitz", src: "/logo/17.avif" },
+];
