@@ -96,7 +96,7 @@ export default function Header() {
             >
               <Image
                 src="/image/logo.png"
-                alt="Sardar IT"
+                alt="Sardar IT - Enterprise Software and Digital Solutions"
                 fill
                 className="object-contain object-left"
                 priority
@@ -262,7 +262,7 @@ export default function Header() {
                 >
                   <Image
                     src="/image/logo.png"
-                    alt="Sardar IT"
+                    alt="Sardar IT - Enterprise Software and Digital Solutions"
                     fill
                     className="object-contain object-left"
                     priority

@@ -54,12 +54,35 @@ export async function generateMetadata({
     };
   }
 
+  const title = `${service.title} - Professional Services | Sardar IT`;
+  const description = service.description.slice(0, 155);
+  const canonicalUrl = `https://sardaritbd.com/services/${slug}`;
+
   return {
-    title: `${service.title} - Professional Services | Sardar IT`,
-    description: service.description,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      title: `${service.title} | Sardar IT`,
-      description: service.description,
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Sardar IT",
+      images: [
+        {
+          url: service.image,
+          width: 1200,
+          height: 630,
+          alt: `${service.title} - Sardar IT`,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
       images: [service.image],
     },
   };

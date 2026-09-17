@@ -68,7 +68,7 @@ export default function ServiceSplitView({
           <img
             key={`preload-${service.slug}`}
             src={service.image}
-            alt=""
+            alt={service.title}
             loading="eager"
           />
         ))}
