@@ -8,14 +8,10 @@ import React, { useState } from "react";
 import { FiArrowUpRight, FiCheck, FiLoader } from "react-icons/fi";
 import { SERVICES_OPTIONS, BUDGET_OPTIONS } from "@/data/cta";
 
-// EmailJS Credentials
-// You can set these in .env.local or replace the fallback values directly:
-// NEXT_PUBLIC_EMAILJS_SERVICE_ID
-// NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-// NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
+// EmailJS Credentials read from environment variables
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
 export default function CtaSection() {
   const [formData, setFormData] = useState({
@@ -45,14 +41,23 @@ export default function CtaSection() {
 
     const templateParams = {
       from_name: formData.fullName,
-      to_name: "Parvej Ahammed",
-      company_name: formData.companyName || "N/A",
-      user_email: formData.email,
+      company_name: formData.companyName.trim() || "N/A",
       reply_to: formData.email,
       service_required: formData.serviceRequired,
       project_budget: formData.projectBudget,
+      project_details: formData.projectDetails,
+      to_name: "Parvej Ahammed",
+      user_email: formData.email,
       message: formData.projectDetails,
     };
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setErrorMsg(
+        "Email service is not configured. Please set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY in your environment."
+      );
+      setLoading(false);
+      return;
+    }
 
     try {
       await emailjs.send(
@@ -63,28 +68,22 @@ export default function CtaSection() {
       );
 
       setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          fullName: "",
-          companyName: "",
-          email: "",
-          serviceRequired: "",
-          projectBudget: "",
-          projectDetails: "",
-        });
-      }, 5000);
+      setErrorMsg("");
+      setFormData({
+        fullName: "",
+        companyName: "",
+        email: "",
+        serviceRequired: "",
+        projectBudget: "",
+        projectDetails: "",
+      });
     } catch (error: any) {
       console.error("EmailJS Submission Error:", error);
-      // Show user friendly message if keys are placeholder or network fails
       setErrorMsg(
-        "Could not send email directly. Please verify your EmailJS credentials or contact us via email."
+        error?.text ||
+          error?.message ||
+          "Failed to send inquiry. Please try again or reach out directly at info@sardarit.com."
       );
-      // Still show success for UI demo fallback if needed
-      setSubmitted(false);
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 4000);
     } finally {
       setLoading(false);
     }
@@ -128,7 +127,7 @@ export default function CtaSection() {
             <div className="relative w-32 h-32 sm:w-40 sm:h-44 overflow-hidden mb-4 group">
               <Image
                 src="/image/leaders/Md.-Parvej-Ahammed.webp"
-                alt="Rasel Ahmed"
+                alt="Parvej Ahammed"
                 fill
                 className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
               />
@@ -151,148 +150,149 @@ export default function CtaSection() {
           className="lg:col-span-7 flex flex-col items-center"
         >
           <div className="w-full bg-white p-6 sm:p-10 shadow-lg border border-white/60">
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-16 text-center flex flex-col items-center justify-center"
-              >
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mb-4">
-                  <FiCheck />
-                </div>
-                <h3 className="text-2xl font-bold text-neutral-900 mb-2">
-                  Thank You!
-                </h3>
-                <p className="text-neutral-600 max-w-md">
-                  Your inquiry has been received. Our team will review your project requirements and reach out as soon as possible.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-                {errorMsg && (
-                  <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded font-medium">
-                    {errorMsg}
-                  </div>
-                )}
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+              {/* Clean Inline Success Message */}
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm rounded font-medium flex items-center gap-2.5"
+                >
+                  <FiCheck className="text-emerald-600 text-base shrink-0" />
+                  <span>
+                    Thank you! Your inquiry has been sent successfully. Our team will review your project requirements and reach out shortly.
+                  </span>
+                </motion.div>
+              )}
 
-                {/* Full Name */}
+              {/* Clean Inline Error Message */}
+              {errorMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded font-medium"
+                >
+                  {errorMsg}
+                </motion.div>
+              )}
+
+              {/* Full Name */}
+              <div className="flex flex-col">
+                <label htmlFor="fullName" className="text-sm font-semibold text-neutral-900 mb-1">
+                  Full Name*
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Jane Cooper"
+                  className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
+                  required
+                />
+              </div>
+
+              {/* Company Name & Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div className="flex flex-col">
-                  <label htmlFor="fullName" className="text-sm font-semibold text-neutral-900 mb-1">
-                    Full Name
+                  <label htmlFor="companyName" className="text-sm font-semibold text-neutral-900 mb-1">
+                    Company name
                   </label>
                   <input
                     type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={formData.fullName}
+                    id="companyName"
+                    name="companyName"
+                    value={formData.companyName}
                     onChange={handleChange}
-                    placeholder="Jane Cooper"
+                    placeholder="Ex. Tesla Inc"
+                    className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="email" className="text-sm font-semibold text-neutral-900 mb-1">
+                    Email*
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="You@Example.Com"
                     className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
                     required
                   />
                 </div>
+              </div>
 
-                {/* Company Name & Email */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                  <div className="flex flex-col">
-                    <label htmlFor="companyName" className="text-sm font-semibold text-neutral-900 mb-1">
-                      Company name
-                    </label>
-                    <input
-                      type="text"
-                      id="companyName"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleChange}
-                      placeholder="Ex. Tesla Inc"
-                      className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="email" className="text-sm font-semibold text-neutral-900 mb-1">
-                      Email*
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="You@Example.Com"
-                      className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
-                      required
-                    />
-                  </div>
-                </div>
+              {/* Service required & Project budget (Custom Dropdown Menus) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                <CustomSelect
+                  id="serviceRequired"
+                  name="serviceRequired"
+                  label="Service required*"
+                  value={formData.serviceRequired}
+                  onChange={(val) =>
+                    setFormData((prev) => ({ ...prev, serviceRequired: val }))
+                  }
+                  options={SERVICES_OPTIONS}
+                  placeholder="Select Your Service"
+                  required
+                />
 
-                {/* Service required & Project budget (Custom Dropdown Menus) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                  <CustomSelect
-                    id="serviceRequired"
-                    name="serviceRequired"
-                    label="Service required*"
-                    value={formData.serviceRequired}
-                    onChange={(val) =>
-                      setFormData((prev) => ({ ...prev, serviceRequired: val }))
-                    }
-                    options={SERVICES_OPTIONS}
-                    placeholder="Select Your Service"
-                    required
-                  />
+                <CustomSelect
+                  id="projectBudget"
+                  name="projectBudget"
+                  label="Project budget*"
+                  value={formData.projectBudget}
+                  onChange={(val) =>
+                    setFormData((prev) => ({ ...prev, projectBudget: val }))
+                  }
+                  options={BUDGET_OPTIONS}
+                  placeholder="Select Your Range"
+                  required
+                />
+              </div>
 
-                  <CustomSelect
-                    id="projectBudget"
-                    name="projectBudget"
-                    label="Project budget*"
-                    value={formData.projectBudget}
-                    onChange={(val) =>
-                      setFormData((prev) => ({ ...prev, projectBudget: val }))
-                    }
-                    options={BUDGET_OPTIONS}
-                    placeholder="Select Your Range"
-                    required
-                  />
-                </div>
+              {/* Project details */}
+              <div className="flex flex-col">
+                <label htmlFor="projectDetails" className="text-sm font-semibold text-neutral-900 mb-1">
+                  Project details*
+                </label>
+                <textarea
+                  id="projectDetails"
+                  name="projectDetails"
+                  rows={2}
+                  value={formData.projectDetails}
+                  onChange={handleChange}
+                  placeholder="Tell us more about your idea"
+                  className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base resize-none"
+                  required
+                />
+              </div>
 
-                {/* Project details */}
-                <div className="flex flex-col">
-                  <label htmlFor="projectDetails" className="text-sm font-semibold text-neutral-900 mb-1">
-                    Project details*
-                  </label>
-                  <textarea
-                    id="projectDetails"
-                    name="projectDetails"
-                    rows={2}
-                    value={formData.projectDetails}
-                    onChange={handleChange}
-                    placeholder="Tell us more about your idea"
-                    className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base resize-none"
-                    required
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="group w-full bg-neutral-950 hover:bg-black disabled:bg-neutral-700 text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer flex items-center justify-center gap-3"
-                >
-                  {loading ? (
-                    <>
-                      <FiLoader className="animate-spin text-xl" />
-                      Sending Inquiry...
-                    </>
-                  ) : (
-                    <>
-                      Send inquiry
-                      <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
-                        <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
-                      </span>
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="group w-full bg-neutral-950 hover:bg-black disabled:bg-neutral-700 text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              >
+                {loading ? (
+                  <>
+                    <FiLoader className="animate-spin text-xl" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send inquiry</span>
+                    <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
+                      <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
+                    </span>
+                  </>
+                )}
+              </button>
+            </form>
           </div>
 
           {/* Book A Call Link */}
