@@ -8,7 +8,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { projects } from "@/data/projects";
-import SectionHeader from "@/components/ui/SectionHeader";
 import ProjectCardVertical from "@/components/ui/ProjectCardVertical";
 
 if (typeof window !== "undefined") {
@@ -232,31 +231,29 @@ export default function ProjectsSection() {
         ref={pinRef}
         className="hidden lg:flex relative w-full h-[100dvh] flex-col justify-between py-6 px-10 xl:px-16 overflow-hidden select-none bg-white"
       >
-        {/* 1. PERSISTENT TOP HEADER BAR */}
-        <div className="w-full flex items-center justify-between border-b border-neutral-200/60 pb-4 z-30">
-          <div className="flex items-center gap-3">
-            <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-500 font-semibold flex items-center gap-2">
+        {/* 1. PERSISTENT TOP HEADER AREA */}
+        <div className="w-full flex flex-col border-b border-neutral-200/60 pb-3 xl:pb-4 z-30">
+          <div className="w-full flex items-center justify-between">
+            <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold flex items-center gap-2">
               <span
-                className="size-2 rounded-full bg-blue-500 inline-block shrink-0"
+                className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
                 aria-hidden="true"
               />
               <span className="sr-only">•</span>
               <span>/ SELECTED WORK &amp; CASE STUDIES</span>
             </div>
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-medium ml-2">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-medium">
               Chapter {String(activeIdx + 1).padStart(2, "0")} /{" "}
               {String(totalChapters).padStart(2, "0")}
             </span>
           </div>
 
-          {/* Persistent 'All Case Studies' button */}
-          <Link
-            href="/works"
-            className="group inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full font-medium text-xs xl:text-sm border bg-neutral-900 text-white border-neutral-900 hover:bg-neutral-800 transition-all duration-300 hover:opacity-90 hover:scale-[1.02] shadow-sm shrink-0"
-          >
-            <span>All Case Studies</span>
-            <FiArrowUpRight className="text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight mt-3 mb-2">
+            Featured Works &amp; Real-World Case Studies
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-600 max-w-2xl font-normal leading-relaxed">
+            Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
+          </p>
         </div>
 
         {/* 2. MAIN CHAPTER STAGE (Single Unified Card per Project + Faint Background Index Number) */}
@@ -379,9 +376,9 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        {/* 3. HORIZONTAL STEPPER NAVIGATION (Fixed to bottom of pinned viewport) */}
-        <div className="w-full pt-4 pb-2 border-t border-neutral-200/70 z-30">
-          <div className="max-w-6xl mx-auto flex items-center justify-between gap-1 xl:gap-2">
+        {/* 3. HORIZONTAL STEPPER NAVIGATION & RELOCATED CTA */}
+        <div className="w-full pt-4 pb-2 border-t border-neutral-200/70 z-30 flex flex-col items-center">
+          <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-1 xl:gap-2">
             {projects.map((project, idx) => {
               const isActive = activeIdx === idx;
               return (
@@ -425,6 +422,17 @@ export default function ProjectsSection() {
               );
             })}
           </div>
+
+          {/* Relocated 'All Case Studies' CTA button */}
+          <div className="mt-5 xl:mt-6 flex justify-center">
+            <Link
+              href="/works"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neutral-900 text-white hover:bg-blue-600 text-sm font-semibold tracking-wide transition-colors duration-300 shadow-sm hover:shadow-md"
+            >
+              <span>All Case Studies</span>
+              <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -433,15 +441,22 @@ export default function ProjectsSection() {
           Normal unpinned scrolling with clean stacked vertical card grid
          ========================================================================= */}
       <div className="block lg:hidden py-16 px-6 sm:px-8">
-        <SectionHeader
-          tag="Selected Work & Case Studies"
-          title="Products we've designed, built, and shipped."
-          description="Explore selected case studies that showcase how we build scalable digital solutions from idea to launch."
-          ctaText="All Case Studies"
-          ctaLink="/works"
-          theme="light"
-          className="mb-10"
-        />
+        <div className="mb-10 flex flex-col">
+          <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold flex items-center gap-2">
+            <span
+              className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
+              aria-hidden="true"
+            />
+            <span className="sr-only">•</span>
+            <span>/ SELECTED WORK &amp; CASE STUDIES</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight mt-3 mb-2">
+            Featured Works &amp; Real-World Case Studies
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-600 max-w-2xl font-normal leading-relaxed">
+            Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project) => (
@@ -461,6 +476,17 @@ export default function ProjectsSection() {
               priority={project.priority}
             />
           ))}
+        </div>
+
+        {/* Relocated Bottom CTA on mobile */}
+        <div className="mt-10 sm:mt-12 flex justify-center">
+          <Link
+            href="/works"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neutral-900 text-white hover:bg-blue-600 text-sm font-semibold tracking-wide transition-colors duration-300 shadow-sm hover:shadow-md"
+          >
+            <span>All Case Studies</span>
+            <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
       </div>
     </section>
