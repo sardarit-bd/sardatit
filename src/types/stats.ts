@@ -1,7 +1,9 @@
 export interface StatMetric {
   index: string;
-  value: number;
-  suffix: string;
   label: string;
-  decimals: number;
+  number?: string;
+  value?: number;
+  suffix?: string;
+  decimals?: number;
+  lottiePath?: string;
 }

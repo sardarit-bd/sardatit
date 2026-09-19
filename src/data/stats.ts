@@ -1,39 +1,34 @@
 import { StatMetric } from "@/types/stats";
 
-export const statsData: StatMetric[] = [
+export const statsData: (StatMetric & { lottiePath?: string })[] = [
   {
-    index: "/01",
-    value: 99,
-    suffix: "%",
+    number: "99%",
     label: "Client Satisfaction",
-    decimals: 0,
+    index: "01",
+    lottiePath: "/lottie/stat-1.json",
   },
   {
-    index: "/02",
-    value: 500,
-    suffix: "+",
+    number: "500+",
     label: "Projects Completed",
-    decimals: 0,
+    index: "02",
+    lottiePath: "/lottie/stat-2.json",
   },
   {
-    index: "/03",
-    value: 60,
-    suffix: "+",
+    number: "60+",
     label: "Countries Served",
-    decimals: 0,
+    index: "03",
+    lottiePath: "/lottie/stat-3.json",
   },
   {
-    index: "/04",
-    value: 15,
-    suffix: "+",
+    number: "15+",
     label: "Active Platforms & Products",
-    decimals: 0,
+    index: "04",
+    lottiePath: "/lottie/stat-4.json",
   },
   {
-    index: "/05",
-    value: 50,
-    suffix: "+",
+    number: "50+",
     label: "Specialized Engineers & Team",
-    decimals: 0,
+    index: "05",
+    lottiePath: "/lottie/stat-5.json",
   },
 ];
