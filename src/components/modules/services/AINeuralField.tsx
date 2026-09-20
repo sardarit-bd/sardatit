@@ -314,6 +314,12 @@ function ParticleField({
     };
   }, [count, scatterCloud]);
 
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+    };
+  }, [geometry]);
+
   // Track per-particle highlight factor [0..1] for smooth lerp back to base
   const highlightArr = useRef<Float32Array>(new Float32Array(count));
   useEffect(() => {
@@ -581,7 +587,7 @@ function CameraRig() {
     // 6.552 / (0.828427 * Z * aspect) = 0.78  ==>  Z = 10.14 / aspect
     const zForTargetWidth = 10.14 / Math.max(aspect, 0.5);
     // Clamp to ensure bold, dominant presentation across ultrawide desktop down to narrow mobile screens
-    const targetZ = Math.max(5.2, Math.min(zForTargetWidth, 10.2));
+    const targetZ = Math.max(5.2, Math.min(zForTargetWidth, 12.8));
     camera.position.set(0, 0, targetZ);
     camera.updateProjectionMatrix();
   }, [camera, size.width, size.height]);
@@ -601,21 +607,8 @@ export default function AINeuralField({
   onTransitionStart,
   motionConfig,
 }: AINeuralFieldProps) {
-  const [particleCount, setParticleCount] = useState(6200);
+  const [particleCount] = useState(5400);
   const hoverRef = useRef(false);
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      const w = window.innerWidth;
-      // High-density stardust particle count tailored for device classes
-      setParticleCount(
-        w < 640 ? 3000 : w < 1024 ? 4400 : 6200
-      );
-    };
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
 
   return (
     <div

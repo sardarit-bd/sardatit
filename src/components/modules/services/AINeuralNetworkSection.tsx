@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import HyperText from "@/components/ui/HyperText";
 
 import type { ParticleMotionConfig } from "./AINeuralField";
 
@@ -24,11 +25,10 @@ export default function AINeuralNetworkSection({
 }: AINeuralNetworkSectionProps) {
   return (
     <section
-      className={`relative z-0 overflow-hidden isolate w-full ${
-        isHero
-          ? "min-h-screen flex flex-col justify-between pt-28 sm:pt-32 pb-8 sm:pb-12 text-white"
-          : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
-      } ${className}`}
+      className={`relative z-0 overflow-hidden isolate w-full ${isHero
+        ? "min-h-screen flex flex-col justify-between pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-8 md:pb-12 text-white"
+        : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
+        } ${className}`}
     >
       {/* Background Image Implementation for Hero */}
       {isHero && (
@@ -50,7 +50,7 @@ export default function AINeuralNetworkSection({
       <div className="relative z-10 flex-1 w-full flex items-center justify-center my-auto">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className="relative w-full h-[380px] sm:h-[500px] lg:h-[600px] xl:h-[640px] bg-transparent"
+            className="relative w-full h-[300px] sm:h-[420px] md:h-[500px] lg:h-[580px] xl:h-[620px] bg-transparent"
             style={{ contain: "layout paint size", transform: "translateZ(0)" }}
           >
             <AINeuralField
@@ -70,23 +70,99 @@ export default function AINeuralNetworkSection({
         </div>
       </div>
 
-      {/* "Scroll to explore" Indicator */}
+      {/* Bottom Center Minimalist Selection Frame with HyperText */}
       {isHero && (
-        <div className="relative z-10 flex flex-col items-center justify-center pt-4 pb-2 select-none">
-          <span className="font-mono text-[10px] sm:text-xs tracking-[0.2em] uppercase font-semibold text-slate-300 mb-2.5">
+        <aside
+          aria-label="Overview"
+          className="absolute bottom-14 sm:bottom-8 md:bottom-12 lg:bottom-14 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
+        >
+          {/* Minimalist Selection Frame with 4 corner anchor handles */}
+          <div className="relative border border-white/20 p-3 sm:p-3.5 bg-transparent group text-center">
+            {/* 4 Corner Anchor Square Handles (tiny solid square handles with hairline alignment) */}
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -top-0.5 -left-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -top-0.5 -right-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -bottom-0.5 -left-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -bottom-0.5 -right-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+
+            {/* Monospace Metadata Tag */}
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-cyan-300 uppercase">
+                [ SARDAR IT / NEXT-GEN ]
+              </span>
+              <span className="font-mono text-[8px] sm:text-[9px] text-white/40 tracking-wider">
+                SYS.01 // ENG
+              </span>
+            </div>
+
+            {/* Headline with Auto-looping Magic UI HyperText scramble */}
+            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white tracking-tight leading-snug mt-0.5">
+              <HyperText
+                text="Engineering Digital Frontiers"
+                autoLoopInterval={5500}
+                className="inline-block text-white font-semibold tracking-tight"
+              />
+            </h3>
+
+            {/* Description */}
+            <p className="text-[11px] sm:text-xs text-white/70 mt-1 leading-relaxed font-sans max-w-xs sm:max-w-sm mx-auto">
+              Building scalable software, intelligent AI systems, and modern digital experiences.
+            </p>
+          </div>
+        </aside>
+      )}
+
+      {/* Bottom-Right "Scroll to explore" Indicator */}
+      {isHero && (
+        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 lg:right-12 z-20 flex flex-col items-end sm:items-center gap-1 select-none pointer-events-auto scale-80 sm:scale-100 origin-bottom-right">
+          <motion.span
+            animate={{
+              textShadow: [
+                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+                "-1.2px 0 rgba(0, 240, 255, 0.7), 1.2px 0 rgba(255, 90, 0, 0.7)",
+                "-1.8px 0.2px rgba(0, 240, 255, 0.9), 1.8px -0.2px rgba(255, 90, 0, 0.9)",
+                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+              ],
+            }}
+            transition={{
+              duration: 2.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            whileHover={{
+              textShadow: "-2.2px 0 rgba(0, 240, 255, 1), 2.2px 0 rgba(255, 90, 0, 1)",
+              scale: 1.03,
+            }}
+            className="font-mono text-[9px] sm:text-[11px] tracking-[0.22em] sm:tracking-[0.25em] uppercase font-bold text-[#f8fafc] mb-1.5 sm:mb-2 cursor-default transition-transform whitespace-nowrap"
+            style={{
+              textShadow: "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+              fontFamily: 'ui-monospace, "SF Mono", "JetBrains Mono", "Space Mono", Menlo, Monaco, Consolas, monospace',
+            }}
+          >
             Scroll to explore
-          </span>
+          </motion.span>
           <div className="flex flex-col items-center gap-1 text-slate-300">
             {/* Mouse capsule with animated scrolling dot */}
-            <div className="w-5 h-8 rounded-full border border-white/40 flex items-start justify-center p-1 bg-white/10 backdrop-blur-xs shadow-xs">
+            <div className="w-4.5 h-7 sm:w-5 sm:h-8 rounded-full border border-white/30 flex items-start justify-center p-1 bg-slate-950/40 backdrop-blur-xs shadow-xs">
               <motion.div
-                animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
+                animate={{ y: [0, 7, 0], opacity: [1, 0.3, 1] }}
                 transition={{
                   duration: 1.6,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="w-1 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+                className="w-1 h-1.5 sm:h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]"
               />
             </div>
             {/* Subtle downward chevron */}
@@ -98,7 +174,7 @@ export default function AINeuralNetworkSection({
                 ease: "easeInOut",
                 delay: 0.2,
               }}
-              className="w-3.5 h-3.5 text-slate-300 mt-1"
+              className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400/80 mt-0.5"
               fill="none"
               stroke="currentColor"
               strokeWidth="2.2"
