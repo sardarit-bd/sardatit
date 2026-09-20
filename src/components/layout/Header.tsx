@@ -11,9 +11,6 @@ import { headerNavItems as navItems } from "@/data/navigation";
 import { ServiceItem } from "@/types/service";
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
 
-const navLinkClass =
-  "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
-
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
     <span className="relative block w-6 h-5" aria-hidden="true">
@@ -49,6 +46,10 @@ export default function Header() {
   const [hoveredService, setHoveredService] = useState<ServiceItem>(SERVICES_DATA[0]);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const navLinkClass = isScrolled
+    ? "relative text-base xl:text-lg text-neutral-800 hover:text-blue-600 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-blue-600 after:transition-all after:duration-300 after:ease-out hover:after:w-full font-medium"
+    : "relative text-base xl:text-lg text-white/90 hover:text-cyan-300 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 after:ease-out hover:after:w-full font-medium";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -82,33 +83,37 @@ export default function Header() {
     <>
       <header
         className={[
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full ",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
           isScrolled
-            ? "bg-background/80 shadow-sm backdrop-blur-md"
-            : "bg-transparent",
+            ? "bg-white/90 backdrop-blur-md border-b border-neutral-200/60 text-neutral-900 shadow-sm"
+            : "bg-transparent text-white",
         ].join(" ")}
       >
         <div className="container py-2 md:py-0 overflow-hidden">
           <nav className="flex items-center justify-between h-16 md:h-20">
-            <Link
-              href="/"
-              className="relative flex items-center h-14 w-42 md:h-10 md:w-48"
-            >
-              <Image
-                src="/image/logo.png"
-                alt="Sardar IT - Enterprise Software and Digital Solutions"
-                fill
-                className="object-contain object-left"
-                priority
-              />
-            </Link>
+            <div className="relative flex items-center">
+              {/* Original Clean Logo */}
+              <Link
+                href="/"
+                className="relative flex items-center h-10 w-44 md:h-11 md:w-48 group"
+              >
+                <Image
+                  src="/image/logo.png"
+                  alt="Sardar IT - Enterprise Software and Digital Solutions"
+                  fill
+                  quality={100}
+                  className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.01]"
+                  priority
+                />
+              </Link>
+            </div>
 
-            <div className="hidden lg:flex items-center gap-8 ">
+            <div className="hidden lg:flex items-center gap-8">
               {navItems.map((item) =>
                 item.hasDropdown ? (
                   <div
                     key={item.label}
-                    className="relative"
+                    className="relative group"
                     onMouseEnter={openServicesMenu}
                     onMouseLeave={scheduleCloseServicesMenu}
                   >
@@ -119,11 +124,20 @@ export default function Header() {
                       aria-expanded={isServicesOpen}
                     >
                       {item.label}
-                      <span className="flex items-center justify-center w-4 h-4 rounded-full border border-border/70">
+                      <span
+                        className={`flex items-center justify-center w-4 h-4 rounded-full border transition-colors ${isScrolled
+                          ? "border-neutral-300 text-neutral-700 group-hover:border-blue-600 group-hover:text-blue-600"
+                          : "border-white/30 text-white/90 group-hover:border-cyan-300 group-hover:text-cyan-300"
+                          }`}
+                      >
                         <HiChevronDown
                           className={[
                             "w-2.5 h-2.5 transition-transform duration-200",
-                            isServicesOpen ? "rotate-180" : "",
+                            isServicesOpen
+                              ? isScrolled
+                                ? "rotate-180 text-blue-600"
+                                : "rotate-180 text-cyan-300"
+                              : "",
                           ].join(" ")}
                         />
                       </span>
@@ -147,7 +161,8 @@ export default function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-0! -mr-2 size-13! flex items-center justify-center"
+              className={`lg:hidden p-0! -mr-2 size-13! flex items-center justify-center transition-colors ${isScrolled ? "text-neutral-900" : "text-white"
+                }`}
               aria-label="Open menu"
             >
               <HamburgerIcon isOpen={isMobileMenuOpen} />

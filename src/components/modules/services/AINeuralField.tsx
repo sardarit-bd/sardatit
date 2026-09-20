@@ -65,11 +65,12 @@ function sampleTextPoints(text: string, count: number): Float32Array {
   const { data } = ctx.getImageData(0, 0, CANVAS_W, CANVAS_H);
   const rawCandidates: { x: number; y: number }[] = [];
 
-  // Fine 2px sampling step for dense, solid letter coverage
-  for (let y = 0; y < CANVAS_H; y += 2) {
-    for (let x = 0; x < CANVAS_W; x += 2) {
-      const alpha = data[(y * CANVAS_W + x) * 4 + 3];
-      if (alpha > 125) {
+  // Fine 1.5px sampling step for ultra-dense, crisp letter coverage
+  for (let y = 0; y < CANVAS_H; y += 1.5) {
+    const rowOffset = Math.floor(y) * CANVAS_W;
+    for (let x = 0; x < CANVAS_W; x += 1.5) {
+      const alpha = data[(rowOffset + Math.floor(x)) * 4 + 3];
+      if (alpha > 85) {
         rawCandidates.push({ x, y });
       }
     }
@@ -94,7 +95,7 @@ function sampleTextPoints(text: string, count: number): Float32Array {
     positions[i * 3] = (p.x - CANVAS_W / 2) * WORLD_SCALE;
     positions[i * 3 + 1] = -(p.y - CANVAS_H / 2) * WORLD_SCALE;
     // Planar z-depth keeps letterforms razor-sharp
-    positions[i * 3 + 2] = (rng() - 0.5) * 0.02;
+    positions[i * 3 + 2] = (rng() - 0.5) * 0.015;
   }
 
   return positions;
@@ -110,7 +111,7 @@ function makeScatterCloud(count: number, spread = 8.5): Float32Array {
   return positions;
 }
 
-/** Crisp circular sprite with anti-aliased edge for solid rendering under NormalBlending */
+/** Crisp circular sprite with anti-aliased edge for fine stardust rendering */
 function useDotTexture() {
   return useMemo(() => {
     if (typeof document === "undefined") return null;
@@ -128,10 +129,10 @@ function useDotTexture() {
       size / 2,
       size / 2
     );
-    // Solid circular core with smooth edge anti-aliasing
+    // Crisp circular point with sharp edge anti-aliasing without heavy bloom bleeding
     gradient.addColorStop(0, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.75, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.92, "rgba(255,255,255,0.85)");
+    gradient.addColorStop(0.78, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.92, "rgba(240,249,255,0.85)");
     gradient.addColorStop(1, "rgba(255,255,255,0)");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
@@ -248,16 +249,16 @@ function ParticleField({
     const pos = new Float32Array(scatterCloud);
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
 
-    // Base resting palette: vibrant Sardar IT primary brand blues (#2563eb, #1d4ed8, #3b82f6)
+    // Base resting palette: pure luminous white with crystal cyan/ice blue highlights
     const colors = new Float32Array(count * 3);
     const baseCols = new Float32Array(count * 3);
-    const colorPrimary = new THREE.Color("#2563eb"); // Tailwind blue-600
-    const colorDeep = new THREE.Color("#1d4ed8");    // Tailwind blue-700
-    const colorAccent = new THREE.Color("#3b82f6");  // Tailwind blue-500
+    const colorWhite = new THREE.Color("#ffffff");       // Pure luminous crisp white
+    const colorIceBlue = new THREE.Color("#e0f2fe");     // Crystal ice blue highlight (sky-100)
+    const colorCyanLight = new THREE.Color("#bae6fd");   // Subtle crystal cyan highlight (sky-200)
 
     for (let i = 0; i < count; i++) {
       const rand = Math.random();
-      const col = rand > 0.45 ? colorPrimary : rand > 0.18 ? colorDeep : colorAccent;
+      const col = rand > 0.35 ? colorWhite : rand > 0.15 ? colorIceBlue : colorCyanLight;
       colors[i * 3] = col.r;
       colors[i * 3 + 1] = col.g;
       colors[i * 3 + 2] = col.b;
@@ -272,9 +273,9 @@ function ParticleField({
     scales.fill(1.0);
     geo.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
 
-    // Smooth per-particle alpha: resting ~0.85 -> hover/excited 1.0
+    // Smooth per-particle alpha: 1.0 full brightness and opacity
     const alphas = new Float32Array(count);
-    alphas.fill(0.85);
+    alphas.fill(1.0);
     geo.setAttribute("aAlpha", new THREE.BufferAttribute(alphas, 1));
 
     // Hover / Excited state near cursor: vibrant electric cyan/blue accent (#38bdf8 / #0ea5e9)
@@ -487,18 +488,18 @@ function ParticleField({
 
       if (currentH > 0.001 || targetHighlight > 0.001) {
         hasActiveHighlights = true;
-        // Smooth transition to electric cyan (#38bdf8) without ever washing out to gray/white
+        // Smooth transition to electric cyan (#38bdf8) on cursor interaction
         colorArr[ix] = baseColors[ix] + (highlightR - baseColors[ix]) * currentH;
         colorArr[ix + 1] = baseColors[ix + 1] + (highlightG - baseColors[ix + 1]) * currentH;
         colorArr[ix + 2] = baseColors[ix + 2] + (highlightB - baseColors[ix + 2]) * currentH;
-        scaleArr[i] = 1.0 + currentH * 0.45;
-        alphaArr[i] = 0.85 + currentH * 0.15; // 0.85 base -> 1.0 full opacity on hover
+        scaleArr[i] = 1.0 + currentH * 0.35;
+        alphaArr[i] = 1.0;
       } else if (prevH > 0.001) {
         colorArr[ix] = baseColors[ix];
         colorArr[ix + 1] = baseColors[ix + 1];
         colorArr[ix + 2] = baseColors[ix + 2];
         scaleArr[i] = 1.0;
-        alphaArr[i] = 0.85;
+        alphaArr[i] = 1.0;
       }
     }
 
@@ -549,15 +550,15 @@ function ParticleField({
     <group ref={groupRef}>
       <points ref={pointsRef} geometry={geometry}>
         <pointsMaterial
-          size={0.052}
+          size={0.025}
           vertexColors
           map={texture ?? undefined}
           transparent
           opacity={1.0}
-          alphaTest={0.01}
+          alphaTest={0.005}
           depthWrite={false}
           sizeAttenuation
-          blending={THREE.NormalBlending}
+          blending={THREE.AdditiveBlending}
           onBeforeCompile={onBeforeCompile}
         />
       </points>
@@ -600,15 +601,15 @@ export default function AINeuralField({
   onTransitionStart,
   motionConfig,
 }: AINeuralFieldProps) {
-  const [particleCount, setParticleCount] = useState(3400);
+  const [particleCount, setParticleCount] = useState(6200);
   const hoverRef = useRef(false);
 
   useEffect(() => {
     const updateDimensions = () => {
       const w = window.innerWidth;
-      // High-performance particle count tailored for device classes
+      // High-density stardust particle count tailored for device classes
       setParticleCount(
-        w < 640 ? 1800 : w < 1024 ? 2600 : 3400
+        w < 640 ? 3000 : w < 1024 ? 4400 : 6200
       );
     };
     updateDimensions();
