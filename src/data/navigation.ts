@@ -19,9 +19,9 @@ export const footerData: FooterData = {
     href: "/contact",
   },
   socialLinks: [
-    { name: "facebook", href: "https://facebook.com" },
+    { name: "facebook", href: "https://www.facebook.com/sardaritbd/" },
     { name: "instagram", href: "https://instagram.com" },
-    { name: "linkedin", href: "https://linkedin.com" },
+    { name: "linkedin", href: "https://www.linkedin.com/company/sardarit212021/" },
     { name: "twitter", href: "https://twitter.com" },
   ],
   navColumns: [
@@ -61,7 +61,7 @@ export const footerData: FooterData = {
         { label: "Clutch", href: "https://clutch.co" },
         { label: "Behance", href: "https://behance.net" },
         { label: "Dribbble", href: "https://dribbble.com" },
-        { label: "LinkedIn", href: "https://linkedin.com" },
+        { label: "LinkedIn", href: "https://www.linkedin.com/company/sardarit212021/" },
       ],
     },
   ],

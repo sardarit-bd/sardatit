@@ -264,17 +264,17 @@ export default function LeadersChapterShowcase({
         className="hidden lg:flex relative w-full h-[100dvh] flex-col justify-between py-8 px-12 xl:px-20 overflow-hidden select-none"
       >
         {/* 1. PERSISTENT TOP BAR */}
-        <div className="w-full flex items-center justify-between border-b border-neutral-200/60 pb-5 z-30">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-900 px-2.5 py-1 rounded bg-neutral-100 border border-neutral-200">
-              SARDAR IT
-            </span>
-            <span className="text-xs tracking-wider uppercase font-semibold text-neutral-400">
-              Leadership & Vision
-            </span>
+        <div className="w-full flex items-center justify-between pb-4 border-b border-neutral-200/60 mb-8 z-30">
+          <div className="text-xs font-semibold uppercase tracking-widest text-blue-600 flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full bg-blue-600 inline-block shrink-0"
+              aria-hidden="true"
+            />
+            <span className="sr-only">•</span>
+            <span>/ EXECUTIVE LEADERSHIP</span>
           </div>
-          <div className="text-xs font-mono uppercase tracking-widest text-neutral-500">
-            Our Leaders — Chapter {String(activeIdx + 1).padStart(2, "0")}/{String(totalChapters).padStart(2, "0")}
+          <div className="text-xs font-mono font-medium text-neutral-400 uppercase tracking-wider">
+            CHAPTER {String(activeIdx + 1).padStart(2, "0")}/{String(totalChapters).padStart(2, "0")}
           </div>
         </div>
 
@@ -440,9 +440,14 @@ export default function LeadersChapterShowcase({
         {/* Mobile Section Header */}
         {showMobileHeader && (
           <div className="border-b border-neutral-200 pb-4">
-            <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500">
-              Our Leaders — Sardar IT
-            </span>
+            <div className="text-xs font-semibold uppercase tracking-widest text-blue-600 flex items-center gap-2 mb-2">
+              <span
+                className="w-2 h-2 rounded-full bg-blue-600 inline-block shrink-0"
+                aria-hidden="true"
+              />
+              <span className="sr-only">•</span>
+              <span>/ EXECUTIVE LEADERSHIP</span>
+            </div>
             <h2 className="text-3xl font-extrabold text-neutral-900 mt-1">
               Leadership & Vision
             </h2>

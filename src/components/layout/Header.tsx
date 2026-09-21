@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { HiChevronDown } from "react-icons/hi";
@@ -10,9 +11,6 @@ import { SERVICES_DATA } from "@/data/services";
 import { headerNavItems as navItems } from "@/data/navigation";
 import { ServiceItem } from "@/types/service";
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
-
-const navLinkClass =
-  "relative text:md xl:text-lg text-text hover:text-text/80 transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-out hover:after:w-full";
 
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
@@ -43,11 +41,39 @@ function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
 }
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [hoveredService, setHoveredService] = useState<ServiceItem>(SERVICES_DATA[0]);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isTransparentHero = isHomePage && !isScrolled;
+
+  const getNavLinkClass = (href?: string, hasDropdown?: boolean) => {
+    const isActive = href
+      ? href === "/"
+        ? pathname === "/"
+        : pathname.startsWith(href)
+      : hasDropdown
+        ? pathname.startsWith("/services")
+        : false;
+
+    if (isTransparentHero) {
+      return `relative text-base xl:text-lg transition-opacity duration-200 after:absolute after:left-0 after:bottom-0 after:h-[1px] after:bg-white after:transition-all after:duration-300 after:ease-out hover:after:w-full font-medium ${
+        isActive
+          ? "text-white after:w-full font-semibold"
+          : "text-white/90 hover:text-white after:w-0"
+      }`;
+    }
+
+    return `relative text-base xl:text-lg transition-colors after:absolute after:left-0 after:bottom-0 after:h-[1px] after:bg-neutral-900 after:transition-all after:duration-300 after:ease-out hover:after:w-full font-medium ${
+      isActive
+        ? "text-black after:w-full font-semibold"
+        : "text-neutral-800 hover:text-black after:w-0"
+    }`;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +82,11 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsServicesOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
@@ -82,48 +113,61 @@ export default function Header() {
     <>
       <header
         className={[
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full ",
-          isScrolled
-            ? "bg-background/80 shadow-sm backdrop-blur-md"
-            : "bg-transparent",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
+          isTransparentHero
+            ? "bg-transparent text-white"
+            : "bg-white/95 backdrop-blur-md border-b border-neutral-200/60 text-neutral-900 shadow-xs",
         ].join(" ")}
       >
         <div className="container py-2 md:py-0 overflow-hidden">
           <nav className="flex items-center justify-between h-16 md:h-20">
-            <Link
-              href="/"
-              className="relative flex items-center h-14 w-42 md:h-10 md:w-48"
-            >
-              <Image
-                src="/image/logo.png"
-                alt="Sardar IT - Enterprise Software and Digital Solutions"
-                fill
-                className="object-contain object-left"
-                priority
-              />
-            </Link>
+            <div className="relative flex items-center">
+              {/* Original Clean Logo */}
+              <Link
+                href="/"
+                className="relative flex items-center h-10 w-44 md:h-11 md:w-48 group"
+              >
+                <Image
+                  src="/image/logo.png"
+                  alt="Sardar IT - Enterprise Software and Digital Solutions"
+                  fill
+                  quality={100}
+                  className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.01]"
+                  priority
+                />
+              </Link>
+            </div>
 
-            <div className="hidden lg:flex items-center gap-8 ">
+            <div className="hidden lg:flex items-center gap-8">
               {navItems.map((item) =>
                 item.hasDropdown ? (
                   <div
                     key={item.label}
-                    className="relative"
+                    className="relative group"
                     onMouseEnter={openServicesMenu}
                     onMouseLeave={scheduleCloseServicesMenu}
                   >
                     <button
                       type="button"
                       onClick={() => setIsServicesOpen((prev) => !prev)}
-                      className={`inline-flex items-center gap-1.5 ${navLinkClass} cursor-pointer bg-transparent border-0 p-0`}
+                      className={`inline-flex items-center gap-1.5 ${getNavLinkClass(undefined, true)} cursor-pointer bg-transparent border-0 p-0`}
                       aria-expanded={isServicesOpen}
                     >
                       {item.label}
-                      <span className="flex items-center justify-center w-4 h-4 rounded-full border border-border/70">
+                      <span
+                        className={`flex items-center justify-center w-4 h-4 rounded-full border transition-colors ${isTransparentHero
+                          ? "border-white/30 text-white/80 group-hover:border-white group-hover:text-white"
+                          : "border-neutral-300 text-neutral-700 group-hover:border-neutral-900 group-hover:text-neutral-900"
+                          }`}
+                      >
                         <HiChevronDown
                           className={[
                             "w-2.5 h-2.5 transition-transform duration-200",
-                            isServicesOpen ? "rotate-180" : "",
+                            isServicesOpen
+                              ? isTransparentHero
+                                ? "rotate-180 text-white"
+                                : "rotate-180 text-neutral-900"
+                              : "",
                           ].join(" ")}
                         />
                       </span>
@@ -133,7 +177,7 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={navLinkClass}
+                    className={getNavLinkClass(item.href)}
                   >
                     {item.label}
                   </Link>
@@ -147,7 +191,8 @@ export default function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-0! -mr-2 size-13! flex items-center justify-center"
+              className={`lg:hidden p-0! -mr-2 size-13! flex items-center justify-center transition-colors ${isTransparentHero ? "text-white" : "text-neutral-900"
+                }`}
               aria-label="Open menu"
             >
               <HamburgerIcon isOpen={isMobileMenuOpen} />
@@ -248,15 +293,17 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0  z-50 bg-background lg:hidden"
+            className="fixed inset-0 z-50 bg-white text-neutral-900 lg:hidden"
           >
-            <div className="flex flex-col h-full py-2 pb-20 pr-4 pl-6 ">
+            <div className="flex flex-col h-full py-2 pb-20 pr-4 pl-6">
               <div className="flex items-center justify-between">
                 <Link
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  href="/"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    if (pathname === "/") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
                   }}
                   className="relative flex items-center h-8 w-32 md:h-9 md:w-36"
                 >
@@ -271,7 +318,7 @@ export default function Header() {
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close menu"
-                  className="lg:hidden p-0!  size-13! flex items-center justify-center rounded-full!"
+                  className="lg:hidden p-0! size-13! flex items-center justify-center rounded-full! text-neutral-900"
                 >
                   <HamburgerIcon isOpen={true} />
                 </button>
@@ -289,7 +336,7 @@ export default function Header() {
                       <button
                         type="button"
                         onClick={() => setIsServicesOpen((prev) => !prev)}
-                        className="flex items-center justify-between text-3xl font-semibold hover:text-text/80 transition-colors text-left w-full cursor-pointer bg-transparent border-0 p-0 text-text"
+                        className="flex items-center justify-between text-3xl font-semibold hover:text-neutral-600 transition-colors text-left w-full cursor-pointer bg-transparent border-0 p-0 text-neutral-900"
                       >
                         <span>{item.label}</span>
                         <HiChevronDown
@@ -304,7 +351,7 @@ export default function Header() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="flex flex-col gap-3 pl-4 border-l-2 border-border/50 mt-1"
+                            className="flex flex-col gap-3 pl-4 border-l-2 border-neutral-200 mt-1"
                           >
                             {SERVICES_DATA.map((srv) => (
                               <Link
@@ -314,7 +361,11 @@ export default function Header() {
                                   setIsServicesOpen(false);
                                   setIsMobileMenuOpen(false);
                                 }}
-                                className="text-xl font-medium text-muted-foreground hover:text-text transition-colors py-1"
+                                className={`text-xl font-medium transition-colors py-1 ${
+                                  pathname === `/services/${srv.slug}`
+                                    ? "text-black font-semibold"
+                                    : "text-neutral-600 hover:text-neutral-900"
+                                }`}
                               >
                                 {srv.title}
                               </Link>
@@ -333,7 +384,11 @@ export default function Header() {
                       <Link
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-3xl font-semibold hover:text-text/80 transition-colors"
+                        className={`text-3xl font-semibold transition-colors ${
+                          pathname === item.href
+                            ? "text-black font-bold"
+                            : "text-neutral-900 hover:text-neutral-600"
+                        }`}
                       >
                         {item.label}
                       </Link>

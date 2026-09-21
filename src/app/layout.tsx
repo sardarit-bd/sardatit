@@ -111,7 +111,8 @@ const jsonLd = {
         },
       ],
       sameAs: [
-        "https://www.linkedin.com/company/sardarit",
+        "https://www.linkedin.com/company/sardarit212021/",
+        "https://www.facebook.com/sardaritbd/",
         "https://clutch.co",
         "https://behance.net",
         "https://dribbble.com",

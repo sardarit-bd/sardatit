@@ -1,12 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import HyperText from "@/components/ui/HyperText";
 
 import type { ParticleMotionConfig } from "./AINeuralField";
 
 const AINeuralField = dynamic(() => import("./AINeuralField"), {
+  ssr: false,
+});
+
+const KineticGrid = dynamic(() => import("@/components/ui/kinetic-grid"), {
   ssr: false,
 });
 
@@ -21,151 +27,44 @@ export default function AINeuralNetworkSection({
   isHero = true,
   motionConfig,
 }: AINeuralNetworkSectionProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [holdDuration, setHoldDuration] = useState(6);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const handleIndexChange = (index: number, duration?: number) => {
-    setActiveIndex(index);
-    if (duration) setHoldDuration(duration);
-    setIsTransitioning(false);
-  };
-
-  const handleTransitionStart = () => {
-    setIsTransitioning(true);
-  };
-
   return (
     <section
-      className={`relative overflow-hidden bg-white text-neutral-900 ${
-        isHero
-          ? "pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-12 lg:pb-14"
-          : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100"
-      } ${className}`}
+      className={`relative z-0 overflow-hidden isolate w-full ${isHero
+        ? "h-screen min-h-screen text-white"
+        : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
+        } ${className}`}
     >
-      {/* Keyframe animations for Shiny Text & GPU Shimmer */}
-      <style>{`
-        @keyframes shinyText {
-          0% {
-            background-position: 100% 0;
-          }
-          100% {
-            background-position: -100% 0;
-          }
-        }
-        .animate-shiny-text {
-          background-image: linear-gradient(
-            110deg,
-            #64748b 35%,
-            #0284c7 48%,
-            #38bdf8 50%,
-            #0284c7 52%,
-            #64748b 65%
-          );
-          background-size: 200% 100%;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          color: transparent;
-          animation: shinyText 4.5s ease-in-out infinite;
-        }
+      {/* Background Image Implementation for Hero */}
+      {isHero && (
+        <>
+          {/* Layer 0: Background Base */}
+          <Image
+            src="/hero/hero-img.png"
+            alt="Hero Background"
+            fill
+            priority
+            quality={100}
+            className="object-cover object-center pointer-events-none select-none -z-20"
+          />
+          {/* Subtle backdrop overlay to preserve contrast without washing out the background image */}
+          <div className="absolute inset-0 bg-slate-950/20 backdrop-blur-[0.5px] pointer-events-none -z-10" />
 
-        @keyframes gridLinePulse {
-          0% {
-            transform: translate3d(-35%, -35%, 0);
-          }
-          100% {
-            transform: translate3d(35%, 35%, 0);
-          }
-        }
-      `}</style>
-
-      {/* 1. Precision Hairline Grid: ultra-soft blueprint lines (subtle, non-distracting) */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-60"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-        }}
-      />
-
-      {/* 2. Line-Only Shimmer Pulse: continuous, gap-free soft gleam strictly along the 1px grid lines */}
-      <div
-        className="absolute inset-0 pointer-events-none overflow-hidden opacity-35"
-        style={{
-          contain: "strict",
-          transform: "translateZ(0)",
-          maskImage:
-            "linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)",
-          WebkitMaskImage:
-            "linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)",
-          maskSize: "56px 56px",
-          WebkitMaskSize: "56px 56px",
-        }}
-      >
-        <div
-          className="absolute -top-[50%] -bottom-[50%] -left-[50%] -right-[50%] pointer-events-none will-change-transform"
-          style={{
-            background:
-              "linear-gradient(135deg, transparent 40%, rgba(37, 99, 235, 0.3) 47%, rgba(6, 182, 212, 0.45) 50%, rgba(37, 99, 235, 0.3) 53%, transparent 60%)",
-            animation: "gridLinePulse 4s ease-in-out infinite",
-            transform: "translate3d(-35%, -35%, 0)",
-          }}
-        />
-      </div>
-
-      {/* Framed Container */}
-      <div className="container relative mx-auto px-3 sm:px-6 lg:px-12">
-        <div className="relative w-full border border-slate-200/80 rounded-2xl bg-slate-50/[0.25] p-2.5 sm:p-5 lg:p-6 shadow-xs">
-          {/* 4-corner bracket markers */}
-          <span className="absolute -top-1.5 -left-1.5 sm:-top-2 sm:-left-2 w-3.5 h-3.5 sm:w-4 sm:h-4 border-t-2 border-l-2 border-slate-300 pointer-events-none" />
-          <span className="absolute -top-1.5 -right-1.5 sm:-top-2 sm:-right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 border-t-2 border-r-2 border-slate-300 pointer-events-none" />
-          <span className="absolute -bottom-1.5 -left-1.5 sm:-bottom-2 sm:-left-2 w-3.5 h-3.5 sm:w-4 sm:h-4 border-b-2 border-l-2 border-slate-300 pointer-events-none" />
-          <span className="absolute -bottom-1.5 -right-1.5 sm:-bottom-2 sm:-right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 border-b-2 border-r-2 border-slate-300 pointer-events-none" />
-
-          {/* Top metadata tags */}
-          <div className="flex items-center justify-between px-2 sm:px-3 pt-1 mb-2">
-            {/* Slot-machine rolling counter for [ AI / 0X ] */}
-            <div className="font-mono text-[11px] sm:text-xs tracking-widest text-slate-500 font-semibold uppercase tabular-nums inline-flex items-center select-none">
-              <span>[ AI /&nbsp;</span>
-              <div className="relative inline-flex h-4 w-[2.2ch] overflow-hidden items-center justify-center">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.span
-                    key={activeIndex}
-                    initial={{ y: 12, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -12, opacity: 0 }}
-                    transition={{
-                      y: { type: "spring", stiffness: 320, damping: 26 },
-                      opacity: { duration: 0.18 },
-                    }}
-                    className="inline-block"
-                  >
-                    {String(activeIndex + 1).padStart(2, "0")}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <span>&nbsp;]</span>
-            </div>
-
-            <div className="inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[11px] sm:text-xs tracking-widest text-slate-400 font-semibold uppercase">
-                Neural Field / Active
-              </span>
-            </div>
+          {/* Layer 1: Transparent Kinetic Grid Overlay */}
+          <div className="absolute inset-0 z-0 pointer-events-auto">
+            <KineticGrid className="w-full h-full bg-transparent" />
           </div>
+        </>
+      )}
 
-          {/* Clean full-width particle canvas with responsive container height */}
+      {/* Fullscreen Unbounded Particle Canvas (Strict Optical Center) */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className="relative w-full h-[280px] sm:h-[400px] lg:h-[500px] xl:h-[540px]"
+            className="relative w-full h-[320px] sm:h-[450px] md:h-[550px] lg:h-[650px] bg-transparent"
             style={{ contain: "layout paint size", transform: "translateZ(0)" }}
           >
             <AINeuralField
-              className="absolute inset-0"
-              onIndexChange={handleIndexChange}
-              onTransitionStart={handleTransitionStart}
+              className="absolute inset-0 bg-transparent"
               motionConfig={{
                 waveSpeed: 1.8,
                 waveFrequency: 0.9,
@@ -178,88 +77,124 @@ export default function AINeuralNetworkSection({
               }}
             />
           </div>
+        </div>
+      </div>
 
-          {/* Bottom frame strip with responsive wrap for tagline & progress */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 px-2 sm:px-3 pt-3 mt-2 border-t border-slate-100">
+      {/* Bottom Center Minimalist Selection Frame with HyperText */}
+      {isHero && (
+        <aside
+          aria-label="Overview"
+          className="absolute bottom-28 sm:bottom-32 md:bottom-36 lg:bottom-44 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
+        >
+          {/* Minimalist Selection Frame with 4 corner anchor handles */}
+          <div className="relative border border-white/20 p-3 sm:p-3.5 bg-transparent group text-center">
+            {/* 4 Corner Anchor Square Handles (tiny solid square handles with hairline alignment) */}
             <span
-              className="font-mono text-[10px] sm:text-xs tracking-wider uppercase font-semibold inline-block text-transparent bg-clip-text select-none animate-shiny-text leading-tight"
-              style={{
-                backgroundImage:
-                  "linear-gradient(110deg, #64748b 35%, #0284c7 48%, #38bdf8 50%, #0284c7 52%, #64748b 65%)",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                color: "transparent",
-                animation: "shinyText 4.5s ease-in-out infinite",
-              }}
-            >
-              Building the Future Through Technology
-            </span>
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -top-0.5 -left-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -top-0.5 -right-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -bottom-0.5 -left-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
+            <span
+              className="w-1.5 h-1.5 bg-neutral-950 border border-white/70 absolute -bottom-0.5 -right-0.5 pointer-events-none"
+              aria-hidden="true"
+            />
 
-            {/* Timer Progress Bar placed directly above SARDAR IT ENGINE */}
-            <div className="flex items-center sm:flex-col sm:items-end justify-between sm:justify-start w-full sm:w-auto gap-2 sm:gap-1.5 pt-1 sm:pt-0">
-              <div className="w-20 sm:w-28 h-[2px] bg-slate-200/90 rounded-full overflow-hidden">
-                <motion.div
-                  key={`${activeIndex}-${isTransitioning ? "transit" : "fill"}`}
-                  initial={{ width: "0%" }}
-                  animate={{ width: isTransitioning ? "0%" : "100%" }}
-                  transition={{
-                    duration: isTransitioning ? 0 : holdDuration,
-                    ease: "linear",
-                  }}
-                  className="h-full bg-[#2563eb] rounded-full"
-                />
-              </div>
-              <span className="font-mono text-[9px] sm:text-[11px] tracking-widest text-slate-400 uppercase select-none">
-                Sardar IT Engine
+            {/* Monospace Metadata Tag */}
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-blue-400 uppercase">
+                [ SARDAR IT / NEXT-GEN ]
+              </span>
+              <span className="font-mono text-[8px] sm:text-[9px] text-white/40 tracking-wider">
+                SYS.01 // ENG
               </span>
             </div>
-          </div>
-        </div>
 
-        {/* "Scroll to explore" Indicator */}
-        {isHero && (
-          <div className="flex flex-col items-center justify-center pt-8 sm:pt-10 select-none">
-            <span className="font-mono text-[10px] sm:text-xs tracking-[0.2em] uppercase font-semibold text-slate-400 mb-2.5">
-              Scroll to explore
-            </span>
-            <div className="flex flex-col items-center gap-1 text-slate-400">
-              {/* Mouse capsule with animated scrolling dot */}
-              <div className="w-5 h-8 rounded-full border border-slate-300 flex items-start justify-center p-1 bg-white/70 shadow-xs">
-                <motion.div
-                  animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
-                  transition={{
-                    duration: 1.6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="w-1 h-2 rounded-full bg-slate-400"
-                />
-              </div>
-              {/* Subtle downward chevron */}
-              <motion.svg
-                animate={{ y: [0, 3, 0] }}
+            {/* Headline with Auto-looping Magic UI HyperText scramble */}
+            <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white tracking-tight leading-snug mt-0.5">
+              <HyperText
+                text="Engineering Digital Frontiers"
+                autoLoopInterval={5500}
+                className="inline-block text-white font-semibold tracking-tight"
+              />
+            </h3>
+
+            {/* Description */}
+            <p className="text-[11px] sm:text-xs text-white/70 mt-1 leading-relaxed font-sans max-w-xs sm:max-w-sm mx-auto">
+              Building scalable software, intelligent AI systems, and modern digital experiences.
+            </p>
+          </div>
+        </aside>
+      )}
+
+      {/* Bottom-Right "Scroll to explore" Indicator */}
+      {isHero && (
+        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 lg:right-12 z-20 flex flex-col items-end sm:items-center gap-1 select-none pointer-events-auto scale-80 sm:scale-100 origin-bottom-right">
+          <motion.span
+            animate={{
+              textShadow: [
+                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+                "-1.2px 0 rgba(0, 240, 255, 0.7), 1.2px 0 rgba(255, 90, 0, 0.7)",
+                "-1.8px 0.2px rgba(0, 240, 255, 0.9), 1.8px -0.2px rgba(255, 90, 0, 0.9)",
+                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+              ],
+            }}
+            transition={{
+              duration: 2.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            whileHover={{
+              textShadow: "-2.2px 0 rgba(0, 240, 255, 1), 2.2px 0 rgba(255, 90, 0, 1)",
+              scale: 1.03,
+            }}
+            className="font-mono text-[9px] sm:text-[11px] tracking-[0.22em] sm:tracking-[0.25em] uppercase font-bold text-[#f8fafc] mb-1.5 sm:mb-2 cursor-default transition-transform whitespace-nowrap"
+            style={{
+              textShadow: "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+              fontFamily: 'ui-monospace, "SF Mono", "JetBrains Mono", "Space Mono", Menlo, Monaco, Consolas, monospace',
+            }}
+          >
+            Scroll to explore
+          </motion.span>
+          <div className="flex flex-col items-center gap-1 text-slate-300">
+            {/* Mouse capsule with animated scrolling dot */}
+            <div className="w-4.5 h-7 sm:w-5 sm:h-8 rounded-full border border-white/30 flex items-start justify-center p-1 bg-slate-950/40 backdrop-blur-xs shadow-xs">
+              <motion.div
+                animate={{ y: [0, 7, 0], opacity: [1, 0.3, 1] }}
                 transition={{
                   duration: 1.6,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 0.2,
                 }}
-                className="w-3.5 h-3.5 text-slate-400 mt-1"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </motion.svg>
+                className="w-1 h-1.5 sm:h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+              />
             </div>
+            {/* Subtle downward chevron */}
+            <motion.svg
+              animate={{ y: [0, 3, 0] }}
+              transition={{
+                duration: 1.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.2,
+              }}
+              className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400/80 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </motion.svg>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
-
-

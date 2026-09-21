@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { FiGitPullRequest, FiCpu, FiShare2, FiServer } from "react-icons/fi";
 
 const AUTOMATION_TIERS = [
@@ -65,7 +66,13 @@ export default function AITechStack() {
     <section className="w-full py-24 sm:py-32 bg-[#FBFBFC] border-t border-neutral-200/80 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="max-w-3xl mb-16"
+        >
           <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-[#133BD4] font-semibold mb-4">
             <span className="size-2 rounded-full bg-[#133BD4] shrink-0" aria-hidden="true" />
             <span>/ AUTOMATION STACK MATRIX</span>
@@ -76,26 +83,33 @@ export default function AITechStack() {
           <p className="text-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl">
             Enterprise orchestration engines, frontier AI APIs, and seamless webhook connectors deployed to eliminate manual tasks with zero per-run SaaS fees.
           </p>
-        </div>
+        </motion.div>
 
         {/* 4-Column Grid of Architecture Tiers */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-b border-neutral-200 bg-white">
           {AUTOMATION_TIERS.map((cat, idx) => {
             const IconComponent = cat.icon;
+            const isActive = activeTab === idx;
             return (
-              <div
+              <motion.div
                 key={cat.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
                 onMouseEnter={() => setActiveTab(idx)}
-                className={`p-8 border-b lg:border-b-0 border-neutral-200 md:border-r last:border-r-0 transition-colors flex flex-col justify-between ${
-                  activeTab === idx ? "bg-neutral-50/80 ring-1 ring-[#133BD4]/20" : "hover:bg-neutral-50/50"
+                className={`p-8 border-b lg:border-b-0 border-neutral-200 md:border-r last:border-r-0 transition-all duration-300 ease-out flex flex-col justify-between group/card relative ${
+                  isActive
+                    ? "bg-neutral-50/90 ring-1 ring-[#133BD4]/20 shadow-md -translate-y-1 z-10"
+                    : "hover:bg-neutral-50/50 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-lg hover:z-10"
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="size-11 rounded-xl bg-blue-50 text-[#133BD4] flex items-center justify-center font-semibold">
+                    <div className="size-11 rounded-xl bg-blue-50 text-[#133BD4] flex items-center justify-center font-semibold transition-transform duration-300 group-hover/card:scale-105">
                       <IconComponent className="w-5 h-5" />
                     </div>
-                    <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded bg-neutral-100 text-neutral-700">
+                    <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded bg-neutral-100 text-neutral-700 transition-colors duration-200 group-hover/card:bg-blue-100/70 group-hover/card:text-[#133BD4]">
                       {cat.badge}
                     </span>
                   </div>
@@ -108,16 +122,24 @@ export default function AITechStack() {
                   {cat.stack.map((item, sIdx) => (
                     <div
                       key={sIdx}
-                      className="flex items-center justify-between py-1.5 px-2.5 rounded bg-neutral-50 border border-neutral-200/60 text-xs"
+                      className="group/item flex items-center justify-between py-1.5 px-2.5 rounded bg-neutral-50 hover:bg-blue-50/60 border border-neutral-200/60 hover:border-blue-300/60 transition-all duration-200 text-xs cursor-default"
                     >
-                      <span className={`font-semibold ${item.highlight ? "text-[#133BD4]" : "text-neutral-800"}`}>
+                      <span
+                        className={`font-semibold transition-colors duration-200 ${
+                          item.highlight
+                            ? "text-[#133BD4] group-hover/item:text-blue-700"
+                            : "text-neutral-800 group-hover/item:text-neutral-950"
+                        }`}
+                      >
                         {item.name}
                       </span>
-                      <span className="text-[10px] text-neutral-500 font-mono">{item.tag}</span>
+                      <span className="text-[10px] text-neutral-500 group-hover/item:text-blue-600 font-mono transition-colors duration-200 px-1.5 py-0.5 rounded bg-transparent group-hover/item:bg-white group-hover/item:shadow-2xs">
+                        {item.tag}
+                      </span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

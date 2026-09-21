@@ -52,6 +52,8 @@ export default function Footer() {
                     key={social.name}
                     href={social.href}
                     aria-label={social.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex h-9 w-9 items-center justify-center border border-(--border)/60 text-background transition-colors hover:bg-background hover:text-text rotate-45 mt-2"
                   >
                     <Icon className="h-3.5 w-3.5 -rotate-45" />
@@ -152,16 +154,20 @@ function FooterColumnBlock({
         {column.title}
       </h3>
       <ul className="flex flex-col items-start">
-        {column.links.map((link) => (
-          <li key={link.label} className="mb-3 last:mb-0">
-            <Link
-              href={link.href}
-              className="block text-sm text-text-accent transition-colors hover:text-background"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
+        {column.links.map((link) => {
+          const isExternal = link.href.startsWith("http");
+          return (
+            <li key={link.label} className="mb-3 last:mb-0">
+              <Link
+                href={link.href}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="block text-sm text-text-accent transition-colors hover:text-background"
+              >
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
