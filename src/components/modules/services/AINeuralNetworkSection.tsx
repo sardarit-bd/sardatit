@@ -12,6 +12,10 @@ const AINeuralField = dynamic(() => import("./AINeuralField"), {
   ssr: false,
 });
 
+const KineticGrid = dynamic(() => import("@/components/ui/kinetic-grid"), {
+  ssr: false,
+});
+
 interface AINeuralNetworkSectionProps {
   className?: string;
   isHero?: boolean;
@@ -33,16 +37,22 @@ export default function AINeuralNetworkSection({
       {/* Background Image Implementation for Hero */}
       {isHero && (
         <>
+          {/* Layer 0: Background Base */}
           <Image
             src="/hero/hero-img.png"
             alt="Hero Background"
             fill
             priority
             quality={100}
-            className="object-cover object-center pointer-events-none select-none -z-10"
+            className="object-cover object-center pointer-events-none select-none -z-20"
           />
           {/* Subtle backdrop overlay to preserve contrast without washing out the background image */}
           <div className="absolute inset-0 bg-slate-950/20 backdrop-blur-[0.5px] pointer-events-none -z-10" />
+
+          {/* Layer 1: Transparent Kinetic Grid Overlay */}
+          <div className="absolute inset-0 z-0 pointer-events-auto">
+            <KineticGrid className="w-full h-full bg-transparent" />
+          </div>
         </>
       )}
 
