@@ -112,7 +112,7 @@ export default function AINeuralNetworkSection({
                 [ SARDAR IT / NEXT-GEN ]
               </span>
               <span className="font-mono text-[8px] sm:text-[9px] text-white/40 tracking-wider">
-                SYS.01 // ENG
+                {"SYS.01 // ENG"}
               </span>
             </div>
 
