@@ -148,9 +148,9 @@ export default function BrandSectorsShowcase() {
                                     type="button"
                                     onClick={() => setActiveSector(idx)}
                                     onMouseEnter={() => setActiveSector(idx)}
-                                    className={`relative w-full p-4 sm:p-5 rounded-2xl transition-all duration-200 text-left flex items-center justify-between group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                                    className={`relative isolate w-full p-4 sm:p-5 rounded-2xl transition-all duration-200 text-left flex items-center justify-between group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                                         isActive
-                                            ? "text-white"
+                                            ? "bg-neutral-950 text-white shadow-xl"
                                             : "text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/70"
                                     }`}
                                 >
@@ -158,7 +158,7 @@ export default function BrandSectorsShowcase() {
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeSectorIndicator"
-                                            className="absolute inset-0 bg-neutral-950 rounded-2xl shadow-xl -z-10"
+                                            className="absolute inset-0 bg-neutral-950 rounded-2xl shadow-xl z-0"
                                             transition={{ type: "spring", stiffness: 380, damping: 32 }}
                                         />
                                     )}
@@ -167,13 +167,13 @@ export default function BrandSectorsShowcase() {
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeSectorBar"
-                                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 rounded-r-full bg-blue-500"
+                                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 rounded-r-full bg-blue-500 z-10"
                                             transition={{ type: "spring", stiffness: 380, damping: 32 }}
                                         />
                                     )}
 
                                     {/* Left Side: Index + Icon + Title */}
-                                    <div className="flex items-center gap-4 min-w-0 pl-1 sm:pl-2">
+                                    <div className="relative z-10 flex items-center gap-4 min-w-0 pl-1 sm:pl-2">
                                         <span
                                             className={`font-mono text-xs sm:text-sm font-bold transition-colors shrink-0 ${
                                                 isActive
@@ -201,7 +201,7 @@ export default function BrandSectorsShowcase() {
 
                                     {/* Right Indicator Arrow */}
                                     <div
-                                        className={`size-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
+                                        className={`relative z-10 size-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
                                             isActive
                                                 ? "bg-blue-600 text-white"
                                                 : "text-neutral-400 group-hover:text-neutral-700 group-hover:translate-x-0.5"
