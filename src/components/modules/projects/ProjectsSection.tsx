@@ -236,35 +236,36 @@ export default function ProjectsSection() {
          ========================================================================= */}
       <div
         ref={pinRef}
-        className="hidden lg:flex relative w-full h-[calc(100dvh-80px)] flex-col justify-between py-4 lg:py-5 px-8 xl:px-14 overflow-visible select-none bg-white"
+        className="hidden lg:flex relative w-full h-[calc(100dvh-80px)] flex-col justify-between py-4 lg:py-5 overflow-visible select-none bg-white"
       >
         {/* 1. PERSISTENT TOP HEADER AREA */}
-        <div className="w-full flex flex-col border-b border-neutral-200/60 pb-2.5 z-30 mb-4 lg:mb-6 overflow-visible">
-          <div className="w-full flex items-center justify-between">
-            <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold flex items-center gap-2">
-              <span
-                className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
-                aria-hidden="true"
-              />
-              <span className="sr-only">•</span>
-              <span>/ SELECTED WORK &amp; CASE STUDIES</span>
+        <div className="w-full z-30 mb-2 lg:mb-4 overflow-visible">
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-200/60 pb-3 md:pb-5">
+              <div>
+                <div className="text-xs sm:text-sm font-mono tracking-widest text-blue-600 uppercase font-semibold flex items-center gap-2">
+                  <span
+                    className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>/ SELECTED WORK &amp; CASE STUDIES</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 mt-2">
+                  Featured Works &amp; Real-World Case Studies
+                </h2>
+                <p className="text-sm text-neutral-500 mt-2 max-w-xl font-normal leading-relaxed">
+                  Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
+                </p>
+              </div>
+              <span className="font-mono text-xs text-neutral-400 self-start md:self-auto uppercase tracking-widest font-medium shrink-0 whitespace-nowrap">
+                {`CHAPTER ${String(activeIdx + 1).padStart(2, "0")} // ${String(totalChapters).padStart(2, "0")}`}
+              </span>
             </div>
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-medium">
-              Chapter {String(activeIdx + 1).padStart(2, "0")} /{" "}
-              {String(totalChapters).padStart(2, "0")}
-            </span>
           </div>
-
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight mt-2 mb-1">
-            Featured Works &amp; Real-World Case Studies
-          </h2>
-          <p className="text-sm text-neutral-600 max-w-xl font-normal leading-relaxed">
-            Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
-          </p>
         </div>
 
         {/* 2. MAIN CHAPTER STAGE (Single Unified Card per Project + Faint Background Index Number) */}
-        <div className="relative flex-1 w-full flex items-center my-4 lg:my-6 min-h-0 overflow-hidden">
+        <div className="relative flex-1 w-full flex items-center my-3 lg:my-4 min-h-0 overflow-hidden">
           {/* HUGE FAINT BACKGROUND NUMBER */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
             {projects.map((_, index) => (
@@ -281,7 +282,7 @@ export default function ProjectsSection() {
           </div>
 
           {/* CHAPTER CARDS CONTAINER (Single card per project holding text + image) */}
-          <div className="relative z-10 w-full h-full max-w-7xl mx-auto flex items-center justify-center">
+          <div className="relative z-10 w-full h-full container mx-auto px-6 md:px-12 flex items-center justify-center">
             {projects.map((project, index) => {
               const isActive = activeIdx === index;
               return (
@@ -290,9 +291,9 @@ export default function ProjectsSection() {
                   ref={(el) => {
                     chapterRefs.current[index] = el;
                   }}
-                  className={`absolute inset-y-0 left-[3%] xl:left-[4%] w-[94%] xl:w-[92%] h-full flex items-center justify-between gap-10 xl:gap-16 will-change-transform ${isActive
-                    ? "pointer-events-auto z-30"
-                    : "pointer-events-none select-none z-10"
+                  className={`absolute inset-y-0 left-6 md:left-12 right-6 md:right-12 h-full flex items-center justify-between gap-10 xl:gap-16 will-change-transform ${isActive
+                      ? "pointer-events-auto z-30"
+                      : "pointer-events-none select-none z-10"
                     }`}
                   aria-hidden={!isActive}
                 >
@@ -400,7 +401,7 @@ export default function ProjectsSection() {
 
         {/* 3. HORIZONTAL STEPPER NAVIGATION & RELOCATED CTA */}
         <div className="w-full pt-3 pb-1 border-t border-neutral-200/70 z-30 flex flex-col items-center mt-4 mb-2">
-          <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-1 xl:gap-2">
+          <div className="container mx-auto px-6 md:px-12 flex items-center justify-between gap-1 xl:gap-2">
             {projects.map((project, idx) => {
               const isActive = activeIdx === idx;
               return (
@@ -459,8 +460,8 @@ export default function ProjectsSection() {
           MOBILE & TABLET FALLBACK (< lg: 1024px)
           Normal unpinned scrolling with clean stacked vertical card grid
          ========================================================================= */}
-      <div className="block lg:hidden px-6 sm:px-8">
-        <div className="flex flex-col mb-4 lg:mb-6 overflow-visible">
+      <div className="block lg:hidden container mx-auto px-6 md:px-12">
+        <div className="flex flex-col mb-4 lg:mb-6 overflow-visible border-b border-neutral-200/60 pb-4">
           <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold flex items-center gap-2">
             <span
               className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
