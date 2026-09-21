@@ -26,7 +26,7 @@ export default function AINeuralNetworkSection({
   return (
     <section
       className={`relative z-0 overflow-hidden isolate w-full ${isHero
-        ? "min-h-screen flex flex-col justify-between pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-8 md:pb-12 text-white"
+        ? "h-screen min-h-screen text-white"
         : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
         } ${className}`}
     >
@@ -46,11 +46,11 @@ export default function AINeuralNetworkSection({
         </>
       )}
 
-      {/* Fullscreen Unbounded Particle Canvas */}
-      <div className="relative z-10 flex-1 w-full flex items-center justify-center my-auto">
+      {/* Fullscreen Unbounded Particle Canvas (Strict Optical Center) */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className="relative w-full h-[300px] sm:h-[420px] md:h-[500px] lg:h-[580px] xl:h-[620px] bg-transparent"
+            className="relative w-full h-[320px] sm:h-[450px] md:h-[550px] lg:h-[650px] bg-transparent"
             style={{ contain: "layout paint size", transform: "translateZ(0)" }}
           >
             <AINeuralField
@@ -74,7 +74,7 @@ export default function AINeuralNetworkSection({
       {isHero && (
         <aside
           aria-label="Overview"
-          className="absolute bottom-14 sm:bottom-8 md:bottom-12 lg:bottom-14 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
+          className="absolute bottom-28 sm:bottom-32 md:bottom-36 lg:bottom-44 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
         >
           {/* Minimalist Selection Frame with 4 corner anchor handles */}
           <div className="relative border border-white/20 p-3 sm:p-3.5 bg-transparent group text-center">
@@ -98,7 +98,7 @@ export default function AINeuralNetworkSection({
 
             {/* Monospace Metadata Tag */}
             <div className="flex items-center justify-center gap-2 mb-1">
-              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-cyan-300 uppercase">
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-blue-400 uppercase">
                 [ SARDAR IT / NEXT-GEN ]
               </span>
               <span className="font-mono text-[8px] sm:text-[9px] text-white/40 tracking-wider">
