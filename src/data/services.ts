@@ -8,7 +8,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     label: "Brand Identity",
     shortTitle: "Product & Brand",
     description:
-      "Architecting intuitive digital experiences, design systems, and cohesive brand identities that resonate across global markets.",
+      "We turn complex ideas into clean, frictionless interfaces and scalable design systems that make your brand memorable from day one.",
     detailedDescription:
       "Create a trusted, global brand with our expert designs and strategies. We help improve your brand's visibility, credibility, and connection with customers both online and offline through cohesive design systems, modern typography, and meaningful brand stories.",
     features: [
@@ -27,7 +27,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     fallbackImage: "/image/project/CASA.webp",
     imageSrc: "/image/project/CASA.webp",
     href: "/services/brand-identity",
-    bgClass: "bg-white border border-neutral-200/80",
+    bgClass: "bg-[#DCEBFA] border border-[#C8E0F7]",
     color: "text-neutral-900",
     isBtnWhite: false,
     bthIsWhite: false,
@@ -72,7 +72,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     label: "Web and Mobile App Development",
     shortTitle: "Engineering",
     description:
-      "Delivering robust, full-stack digital products engineered with modern frameworks to serve high-concurrency enterprise workloads.",
+      "No fragile spaghetti code. We engineer web and mobile apps focused on sub-second loads, rock-solid uptime, and clean maintainability.",
     detailedDescription:
       "We design and build high-performance web applications and mobile apps tailored for speed, scalability, and exceptional user experience. Utilizing modern stacks like Next.js, React, React Native, and robust cloud APIs, we transform vision into production-ready software.",
     features: [
@@ -91,10 +91,10 @@ export const SERVICES_DATA: ServiceItem[] = [
     fallbackImage: "/image/services/web-performance.webp",
     imageSrc: "/image/services/mobile-dual-mockup.webp",
     href: "/services/web-mobile-development",
-    bgClass: "bg-[#0B1120]",
-    color: "text-white",
-    isBtnWhite: true,
-    bthIsWhite: true,
+    bgClass: "bg-[#DFF1D8] border border-[#CCE9C2]",
+    color: "text-neutral-900",
+    isBtnWhite: false,
+    bthIsWhite: false,
     badgeTitle: "Web & Mobile Engineering",
     stats: [
       { label: "Projects Delivered Globally", value: "500+" },
@@ -136,7 +136,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     label: "Workflow Automation & AI",
     shortTitle: "Automation",
     description:
-      "Streamlining enterprise operations with self-hosted n8n pipelines, intelligent webhook workflows, and custom AI agent integrations across 60+ countries.",
+      "Connect your CRMs, databases, and daily tools into seamless, self-hosted pipelines that save hundreds of team hours every month without extra SaaS fees.",
     detailedDescription:
       "Eliminate repetitive manual tasks and eliminate per-task SaaS fees. We architect production-grade workflow automation using self-hosted n8n, Make, custom webhooks, and intelligent LLM agents that connect seamlessly with your CRM, ERP, and payment systems.",
     features: [
@@ -155,10 +155,10 @@ export const SERVICES_DATA: ServiceItem[] = [
     fallbackImage: "/image/services/isometric-ai-core.png",
     imageSrc: "/image/services/isometric-ai-core.png",
     href: "/services/ai-automation-solutions",
-    bgClass: "bg-[#133BD4]",
-    color: "text-white",
-    isBtnWhite: true,
-    bthIsWhite: true,
+    bgClass: "bg-[#FDEBB6] border border-[#F7DB8E]",
+    color: "text-neutral-900",
+    isBtnWhite: false,
+    bthIsWhite: false,
     badgeTitle: "Workflow Automation & AI",
     stats: [
       { label: "Projects Delivered Globally", value: "500+" },
@@ -200,7 +200,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     label: "Digital Marketing and Growth",
     shortTitle: "Global Growth",
     description:
-      "Scaling digital reach across 60+ countries through data-backed performance strategies, technical SEO, and conversion optimization.",
+      "High-intent organic search, performance engineering, and conversion rate audits built to bring qualified clients through your front door.",
     detailedDescription:
       "Accelerate your business growth with targeted digital marketing, SEO, conversion rate optimization, and data-driven marketing campaigns. We align customer acquisition channels with compounding organic visibility to maximize your ROI.",
     features: [
@@ -219,7 +219,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     fallbackImage: "/image/services/digital-marketing.png",
     imageSrc: "/image/services/digital-marketing.png",
     href: "/services/digital-marketing",
-    bgClass: "bg-[#F1F5F9]",
+    bgClass: "bg-[#FDD9CE] border border-[#FAC3B3]",
     color: "text-neutral-900",
     isBtnWhite: false,
     bthIsWhite: false,
