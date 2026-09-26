@@ -5,12 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
 import { HiChevronDown } from "react-icons/hi";
-import { SERVICES_DATA } from "@/data/services";
 import { headerNavItems as navItems } from "@/data/navigation";
-import { ServiceItem } from "@/types/service";
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
+import MegaMenu, { CORE_SERVICES } from "./MegaMenu";
 
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
@@ -46,10 +44,10 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [hoveredService, setHoveredService] = useState<ServiceItem>(SERVICES_DATA[0]);
+  const headerRef = useRef<HTMLElement>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isTransparentHero = isHomePage && !isScrolled;
+  const isTransparentHero = isHomePage && !isScrolled && !isServicesOpen;
 
   const getNavLinkClass = (href?: string, hasDropdown?: boolean) => {
     const isActive = href
@@ -95,6 +93,24 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(event.target as Node)
+      ) {
+        setIsServicesOpen(false);
+      }
+    };
+
+    if (isServicesOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isServicesOpen]);
+
   const openServicesMenu = () => {
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
@@ -112,6 +128,7 @@ export default function Header() {
   return (
     <>
       <header
+        ref={headerRef}
         className={[
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
           isTransparentHero
@@ -119,7 +136,7 @@ export default function Header() {
             : "bg-white/95 backdrop-blur-md border-b border-neutral-200/60 text-neutral-900 shadow-xs",
         ].join(" ")}
       >
-        <div className="container py-2 md:py-0 overflow-hidden">
+        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-2 md:py-0">
           <nav className="flex items-center justify-between h-16 md:h-20">
             <div className="relative flex items-center">
               {/* Original Clean Logo */}
@@ -200,90 +217,13 @@ export default function Header() {
           </nav>
         </div>
 
-        <AnimatePresence>
-          {isServicesOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              onMouseEnter={openServicesMenu}
-              onMouseLeave={scheduleCloseServicesMenu}
-              className="hidden lg:block absolute top-full inset-x-0 bg-gray-200 backdrop-blur-lg border-t border-b border-gray-200 z-50"
-            >
-              <div className="container mx-auto px-6 md:px-12 py-8">
-                <div className="grid grid-cols-12 gap-8 items-center justify-between">
-                  <div className="col-span-7">
-                    <h2 className="text-md font-semibold tracking-wide uppercase text-gray-700">/ All Services</h2>
-                    <ul className="flex flex-col gap-4 mt-8">
-                      {SERVICES_DATA.map((service) => {
-                        const isHovered =
-                          hoveredService.slug === service.slug;
-                        return (
-                          <li
-                            onClick={() => { setIsServicesOpen(false); }}
-                            key={service.slug}
-                            onMouseEnter={() => setHoveredService(service)}
-                            className="flex items-center justify-start group cursor-pointer"
-                          >
-                            <Link
-                              href={`/services/${service.slug}`}
-                              className={`flex items-center justify-start w-full gap-3 text-xl xl:text-3xl font-semibold transition-all duration-300 text-left ${isHovered
-                                ? "text-gray-700"
-                                : "text-gray-600 hover:text-gray-500"
-                                }`}
-                            >
-                              <span>{service.title}</span>
-                              <FaArrowRightLong
-                                className={`text-lg transition-all duration-300 ${isHovered
-                                  ? "opacity-100 translate-x-1 text-gray-700"
-                                  : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-gray-600"
-                                  }`}
-                              />
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-
-                  <div className="col-span-5">
-                    <div className="relative h-64 xl:h-72 w-full overflow-hidden rounded-xl">
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={hoveredService.slug}
-                          initial={{ opacity: 0, scale: 0.96 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.96 }}
-                          transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="relative w-full h-full"
-                        >
-                          <Image
-                            src={hoveredService.image}
-                            alt={hoveredService.title}
-                            fill
-                            className="object-cover transition-transform duration-700 hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-5 text-white">
-                            <span className="text-xs uppercase tracking-wider text-white/70 font-semibold mb-1">
-                              Featured Service
-                            </span>
-                            <h4 className="text-lg font-bold text-white mb-1">
-                              {hoveredService.title}
-                            </h4>
-                            <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
-                              {hoveredService.description}
-                            </p>
-                          </div>
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* 3-Column Structured Mega Menu */}
+        <MegaMenu
+          isOpen={isServicesOpen}
+          onClose={() => setIsServicesOpen(false)}
+          onMouseEnter={openServicesMenu}
+          onMouseLeave={scheduleCloseServicesMenu}
+        />
       </header>
 
       <AnimatePresence>
@@ -351,23 +291,24 @@ export default function Header() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="flex flex-col gap-3 pl-4 border-l-2 border-neutral-200 mt-1"
+                            className="flex flex-col gap-2 pl-4 border-l-2 border-neutral-200 mt-2 py-1"
                           >
-                            {SERVICES_DATA.map((srv) => (
+                            {CORE_SERVICES.map((srv) => (
                               <Link
-                                key={srv.slug}
-                                href={`/services/${srv.slug}`}
+                                key={srv.id}
+                                href={srv.href}
                                 onClick={() => {
                                   setIsServicesOpen(false);
                                   setIsMobileMenuOpen(false);
                                 }}
-                                className={`text-xl font-medium transition-colors py-1 ${
-                                  pathname === `/services/${srv.slug}`
-                                    ? "text-black font-semibold"
-                                    : "text-neutral-600 hover:text-neutral-900"
+                                className={`text-base font-medium transition-colors py-2 flex items-center justify-between group ${
+                                  pathname === srv.href
+                                    ? "text-blue-600 font-semibold"
+                                    : "text-neutral-700 hover:text-blue-600"
                                 }`}
                               >
-                                {srv.title}
+                                <span>{srv.title}</span>
+                                <span className="text-xs text-neutral-400 group-hover:text-blue-600 transition-colors">→</span>
                               </Link>
                             ))}
                           </motion.div>
