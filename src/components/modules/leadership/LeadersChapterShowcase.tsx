@@ -7,6 +7,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { LEADERS_DATA, LeaderChapterItem } from "@/data/leaders";
+import { Alex_Brush } from "next/font/google";
+
+const signatureFont = Alex_Brush({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -64,7 +71,7 @@ export default function LeadersChapterShowcase({
                 zIndex: 10,
               });
             }
-            if (numEl) gsap.set(numEl, { opacity: 0.08, scale: 1 });
+            if (numEl) gsap.set(numEl, { opacity: 1, scale: 1 });
           } else {
             if (textEl) gsap.set(textEl, { opacity: 0, y: 25, pointerEvents: "none" });
             if (imgEl) {
@@ -78,19 +85,17 @@ export default function LeadersChapterShowcase({
                 zIndex: 5,
               });
             }
-            if (numEl) gsap.set(numEl, { opacity: 0, scale: 0.9 });
+            if (numEl) gsap.set(numEl, { opacity: 0, scale: 0.92 });
           }
         });
 
-        // Master pinned scroll timeline with smooth scrub
+        // Master scroll timeline with smooth scrub
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
-            pin: pinRef.current,
             start: "top top",
-            end: () => `+=${(totalChapters - 1) * 110}%`,
+            end: "bottom bottom",
             scrub: 0.8,
-            anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               const progress = self.progress;
@@ -217,7 +222,7 @@ export default function LeadersChapterShowcase({
               nextNum,
               { opacity: 0, scale: 0.92 },
               {
-                opacity: 0.08,
+                opacity: 1,
                 scale: 1,
                 duration: 0.45,
                 ease: "power2.out",
@@ -237,182 +242,200 @@ export default function LeadersChapterShowcase({
 
   // Jump to specific chapter when clicking vertical dot navigation
   const handleDotClick = (targetIndex: number) => {
-    const st = scrollTriggerRef.current;
-    if (st) {
-      const scrollPos = st.start + (targetIndex / (totalChapters - 1)) * (st.end - st.start);
-      // Support Lenis smooth scroll if present on window
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
-      if (lenis) {
-        lenis.scrollTo(scrollPos);
-      } else {
-        window.scrollTo({ top: scrollPos, behavior: "smooth" });
-      }
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const sectionTop = scrollTop + rect.top;
+    const totalScroll = rect.height - window.innerHeight;
+    const targetScroll = sectionTop + (targetIndex / (totalChapters - 1)) * totalScroll;
+
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
+    if (lenis) {
+      lenis.scrollTo(targetScroll);
+    } else {
+      window.scrollTo({ top: targetScroll, behavior: "smooth" });
     }
   };
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full bg-[#fbfbfd] text-neutral-900 border-t border-neutral-200/60 overflow-hidden"
+      className="relative w-full bg-white text-neutral-900 border-t border-neutral-200/60 h-auto lg:h-[770vh]"
       aria-label="Our Leaders Chapter Showcase"
     >
       {/* =========================================================================
-          DESKTOP PINNED EXPERIENCE (Hidden on mobile < lg)
+          DESKTOP PINNED VIEWPORT EXPERIENCE (Hidden on mobile < lg)
          ========================================================================= */}
       <div
         ref={pinRef}
-        className="hidden lg:flex relative w-full h-[100dvh] flex-col justify-between py-8 px-12 xl:px-20 overflow-hidden select-none"
+        className="hidden lg:flex sticky top-0 h-screen w-full flex-col justify-between overflow-hidden bg-white pt-16 md:pt-20 select-none"
       >
-        {/* 1. PERSISTENT TOP BAR */}
-        <div className="w-full flex items-center justify-between pb-4 border-b border-neutral-200/60 mb-8 z-30">
-          <div className="text-xs font-semibold uppercase tracking-widest text-blue-600 flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full bg-blue-600 inline-block shrink-0"
-              aria-hidden="true"
-            />
-            <span className="sr-only">•</span>
-            <span>/ EXECUTIVE LEADERSHIP</span>
-          </div>
-          <div className="text-xs font-mono font-medium text-neutral-400 uppercase tracking-wider">
-            CHAPTER {String(activeIdx + 1).padStart(2, "0")}/{String(totalChapters).padStart(2, "0")}
+        {/* 1. STATIC TOP HEADER BAR (Pinned inside viewport at top) */}
+        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-6 lg:pt-8 pb-4 border-b border-neutral-100 z-30 shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-semibold uppercase tracking-widest text-blue-600 flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full bg-blue-600 inline-block shrink-0 animate-pulse"
+                aria-hidden="true"
+              />
+              <span className="sr-only">•</span>
+              <span>/ EXECUTIVE LEADERSHIP</span>
+            </div>
+            <div className="text-xs font-mono font-medium text-neutral-400 uppercase tracking-wider">
+              CHAPTER {String(activeIdx + 1).padStart(2, "0")} / {String(totalChapters).padStart(2, "0")}
+            </div>
           </div>
         </div>
 
-        {/* 2. MAIN CHAPTER STAGE (Left Text + Right Portrait + Faint Background Number) */}
-        <div className="relative flex-1 w-full flex items-center justify-between my-auto py-6">
-          {/* HUGE FAINT BACKGROUND NUMBER (Bottom-Left) */}
-          <div className="absolute left-0 bottom-0 pointer-events-none select-none z-0">
-            {LEADERS_DATA.map((_, index) => (
-              <div
-                key={`bg-num-${index}`}
-                ref={(el) => {
-                  bgNumberRefs.current[index] = el;
-                }}
-                className="absolute left-0 bottom-0 text-[18vw] font-black text-neutral-900/10 leading-none tracking-tighter select-none will-change-transform"
-              >
-                {String(index + 1).padStart(2, "0")}
-              </div>
-            ))}
-          </div>
-
-          {/* LEFT COLUMN: CHAPTER EYEBROW, LEADER NAME, ROLE */}
-          <div className="relative z-10 w-[50%] max-w-xl pr-8">
-            {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => (
-              <div
-                key={`text-${leader.id}`}
-                ref={(el) => {
-                  textGroupRefs.current[index] = el;
-                }}
-                className="absolute inset-y-0 left-0 flex flex-col justify-center will-change-transform"
-              >
-                {/* Thin rule + Group Eyebrow */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-[2px] bg-neutral-900" />
-                  <span className="text-xs xl:text-sm font-mono font-bold tracking-widest uppercase text-neutral-600">
-                    {String(index + 1).padStart(2, "0")} — {leader.groupName}
-                  </span>
-                </div>
-
-                {/* Leader Name Heading */}
-                <h2 className="text-4xl xl:text-5xl 2xl:text-6xl font-black tracking-tight text-neutral-900 leading-[1.1] mb-3">
-                  {leader.name}
-                </h2>
-
-                {/* Leader Role */}
-                <p className="text-lg xl:text-xl font-medium text-neutral-500 tracking-normal">
-                  {leader.role}
-                </p>
-
-                {/* Subtle Pillar Tag */}
-                <div className="mt-8 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white border border-neutral-200/80 shadow-sm text-neutral-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    Key Executive
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* RIGHT COLUMN: LEADER PORTRAIT WITH 3D PERSPECTIVE */}
-          <div
-            className="relative z-10 w-[45%] max-w-lg xl:max-w-xl h-[58vh] xl:h-[65vh] flex items-center justify-center"
-            style={{ perspective: "1200px" }}
-          >
-            {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => (
-              <div
-                key={`img-${leader.id}`}
-                ref={(el) => {
-                  imageGroupRefs.current[index] = el;
-                }}
-                style={{
-                  transformStyle: "preserve-3d",
-                  backfaceVisibility: "hidden",
-                }}
-                className="absolute inset-0 w-full h-full rounded-2xl xl:rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.16)] border border-neutral-200/90 bg-neutral-100 will-change-transform select-none"
-              >
-                <Image
-                  src={leader.imageSrc}
-                  alt={`${leader.name} - ${leader.role} at Sardar IT`}
-                  fill
-                  sizes="(min-width: 1280px) 50vw, 45vw"
-                  className="object-cover object-top pointer-events-none"
-                  priority={index < 2}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
-                {/* Subtle glass gloss highlight edge */}
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/30 rounded-2xl xl:rounded-3xl pointer-events-none" />
-              </div>
-            ))}
-          </div>
-
-          {/* RIGHT-EDGE VERTICAL DOT NAVIGATION */}
-          <nav
-            aria-label="Chapter navigation"
-            className="absolute right-6 xl:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end"
-          >
-            {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => {
-              const isActive = activeIdx === index;
-              // Add visual separation between the 3 groups (between 1 & 2, and 6 & 7)
-              const isGroupSeparator = index === 1 || index === 6;
-
-              return (
-                <div
-                  key={`dot-${leader.id}`}
-                  className={`flex items-center gap-3 py-1.5 ${
-                    isGroupSeparator ? "mb-3" : "mb-1"
-                  }`}
-                >
-                  {/* Label for active chapter */}
-                  {isActive && (
-                    <span className="hidden xl:inline-block text-xs font-mono font-bold text-neutral-900 bg-white/95 px-2.5 py-1 rounded-md shadow-sm border border-neutral-200 animate-fadeIn">
-                      {leader.name}
-                    </span>
-                  )}
-
-                  {/* Interactive Dot button */}
-                  <button
-                    type="button"
-                    onClick={() => handleDotClick(index)}
-                    aria-label={`Jump to chapter ${index + 1}: ${leader.name}`}
-                    className="relative group p-1 flex items-center justify-center focus:outline-none"
+        {/* 2. FLEXIBLE MIDDLE AREA (Profile Details & Photo Card Stage) */}
+        <div className="flex-1 flex items-center z-20 w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-2 min-h-0 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-center w-full relative">
+            {/* LEFT PROFILE DETAILS COLUMN (Span 7 cols) */}
+            <div className="relative z-10 lg:col-span-7 flex flex-col justify-center min-h-[360px] sm:min-h-[400px] lg:min-h-[440px]">
+              {/* Subtle Texture Watermark Number */}
+              <div className="absolute -top-10 -left-6 pointer-events-none select-none z-0">
+                {LEADERS_DATA.map((_, index) => (
+                  <div
+                    key={`bg-num-${index}`}
+                    ref={(el) => {
+                      bgNumberRefs.current[index] = el;
+                    }}
+                    className="absolute top-0 left-0 text-7xl sm:text-8xl lg:text-[130px] xl:text-[150px] font-black text-neutral-900/[0.04] leading-none tracking-tighter select-none will-change-transform"
                   >
-                    <span
-                      className={`block rounded-full transition-all duration-300 ${
-                        isActive
-                          ? "w-3.5 h-3.5 bg-neutral-900 ring-4 ring-neutral-900/20 scale-110"
-                          : "w-2 h-2 bg-neutral-300 hover:bg-neutral-600 hover:scale-125"
-                      }`}
-                    />
-                  </button>
-                </div>
-              );
-            })}
-          </nav>
-        </div>
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                ))}
+              </div>
 
-        {/* 3. BOTTOM BAR: SCROLL HINT & PROGRESS INDICATOR */}
-        <div className="w-full flex items-center justify-between border-t border-neutral-200/60 pt-4 z-30">
+              {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => (
+                <div
+                  key={`text-${leader.id}`}
+                  ref={(el) => {
+                    textGroupRefs.current[index] = el;
+                  }}
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-start z-10 will-change-transform pr-4"
+                >
+                  {/* 1. Category / Track Label */}
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="w-5 h-[1.5px] bg-slate-300" />
+                    <span className="font-mono text-xs tracking-widest uppercase text-slate-400 font-medium">
+                      {String(index + 1).padStart(2, "0")} — {leader.groupName}
+                    </span>
+                  </div>
+
+                  {/* 2. Executive Name (Primary Big Heading) */}
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-2">
+                    {leader.name}
+                  </h2>
+
+                  {/* 3. Role / Designation (Secondary Subheading) */}
+                  <p className="text-lg sm:text-xl font-medium text-slate-600 mb-6">
+                    {leader.role}
+                  </p>
+
+                  {/* 4. Bio Description */}
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl mb-6 font-normal">
+                    {leader.bio}
+                  </p>
+
+                  {/* 5. Sub-Label, Divider & Signature */}
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-slate-400 font-medium block mb-2">
+                    {leader.subLabel || leader.role.toUpperCase()}
+                  </span>
+                  <div className="w-10 h-[1.5px] bg-slate-300 mb-6" />
+
+                  <div className="h-10 sm:h-12 flex items-center">
+                    <span
+                      className={`${signatureFont.className} text-[#1e293b] text-3xl sm:text-4xl leading-none select-none tracking-normal font-normal`}
+                    >
+                      {leader.signature || leader.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* RIGHT PORTRAIT CARD & DOT NAVIGATION (Span 5 cols) */}
+            <div className="relative z-10 lg:col-span-5 flex items-center justify-between gap-6 w-full h-[52vh] sm:h-[55vh] lg:h-[58vh] max-h-[560px]">
+              {/* 3D Perspective Portrait Stage */}
+              <div
+                className="relative flex-1 h-full w-full max-w-[420px] xl:max-w-[460px] mx-auto"
+                style={{ perspective: "1200px" }}
+              >
+                {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => (
+                  <div
+                    key={`img-${leader.id}`}
+                    ref={(el) => {
+                      imageGroupRefs.current[index] = el;
+                    }}
+                    style={{
+                      transformStyle: "preserve-3d",
+                      backfaceVisibility: "hidden",
+                    }}
+                    className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-neutral-200/90 bg-neutral-100 will-change-transform select-none"
+                  >
+                    <Image
+                      src={leader.imageSrc}
+                      alt={`${leader.name} - ${leader.role} at Sardar IT`}
+                      fill
+                      sizes="(min-width: 1280px) 460px, 420px"
+                      className="object-cover object-top pointer-events-none"
+                      priority={index < 2}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-white/30 rounded-3xl pointer-events-none" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Vertically Centered Right-Edge Dot Navigation */}
+              <nav
+                aria-label="Chapter navigation"
+                className="flex flex-col items-end shrink-0 z-40 my-auto py-2"
+              >
+                {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => {
+                  const isActive = activeIdx === index;
+                  const isGroupSeparator = index === 1 || index === 6;
+
+                    return (
+                      <div
+                        key={`dot-${leader.id}`}
+                        className={`flex items-center gap-2.5 py-1 ${
+                          isGroupSeparator ? "mb-2.5" : "mb-0.5"
+                        }`}
+                      >
+                        {/* Active Leader Tooltip Tag */}
+                        {isActive && (
+                          <span className="hidden xl:inline-block text-[11px] font-mono font-bold text-neutral-800 bg-white/95 px-2.5 py-1 rounded-md shadow-xs border border-neutral-200/80 animate-fadeIn whitespace-nowrap">
+                            {leader.name}
+                          </span>
+                        )}
+
+                        {/* Interactive Dot Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleDotClick(index)}
+                          aria-label={`Jump to chapter ${index + 1}: ${leader.name}`}
+                          className="relative group p-1 flex items-center justify-center focus:outline-none cursor-pointer"
+                        >
+                          <span
+                            className={`block rounded-full transition-all duration-300 ${
+                              isActive
+                                ? "w-3 h-3 bg-neutral-900 ring-4 ring-neutral-900/20 scale-110"
+                                : "w-2 h-2 bg-neutral-300 hover:bg-neutral-600 hover:scale-125"
+                            }`}
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </nav>
+              </div>
+            </div>
+          </div>
+
+        {/* 3. STATIC BOTTOM FOOTER BAR (Pinned inside viewport at bottom) */}
+        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 shrink-0 z-20 pb-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
           <div className="text-xs font-mono text-neutral-400">
             {LEADERS_DATA[activeIdx]?.groupName}
           </div>
@@ -436,7 +459,7 @@ export default function LeadersChapterShowcase({
       {/* =========================================================================
           MOBILE FALLBACK (In-flow stacked layout for < lg, no scroll-jacking)
          ========================================================================= */}
-      <div className="lg:hidden w-full py-16 px-6 sm:px-10 flex flex-col gap-12">
+      <div className="lg:hidden w-full max-w-[1400px] mx-auto px-6 sm:px-8 py-16 sm:py-20 flex flex-col gap-12">
         {/* Mobile Section Header */}
         {showMobileHeader && (
           <div className="border-b border-neutral-200 pb-4">
@@ -458,27 +481,27 @@ export default function LeadersChapterShowcase({
         )}
 
         {/* Mobile Stacked Leader Cards */}
-        <div className="flex flex-col gap-14">
+        <div className="flex flex-col gap-10">
           {LEADERS_DATA.map((leader: LeaderChapterItem, index: number) => (
             <article
               key={`mob-${leader.id}`}
-              className="relative flex flex-col gap-4 bg-white rounded-2xl p-5 shadow-sm border border-neutral-200 overflow-hidden"
+              className="relative flex flex-col gap-4 bg-white rounded-3xl p-6 shadow-sm border border-neutral-200/80 overflow-hidden"
             >
-              {/* Huge background index number */}
-              <span className="absolute top-2 right-4 text-7xl font-black text-neutral-100 select-none pointer-events-none">
+              {/* Background index number */}
+              <span className="absolute top-3 right-5 text-6xl font-black text-neutral-100 select-none pointer-events-none">
                 {String(index + 1).padStart(2, "0")}
               </span>
 
               {/* Group Eyebrow */}
               <div className="relative z-10 flex items-center gap-2">
-                <span className="w-4 h-[2px] bg-neutral-900" />
-                <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-neutral-500">
+                <span className="w-4 h-[1.5px] bg-neutral-400" />
+                <span className="font-mono text-xs tracking-wider uppercase text-neutral-500">
                   {leader.groupName}
                 </span>
               </div>
 
               {/* Portrait Image */}
-              <div className="relative z-10 w-full h-[320px] sm:h-[400px] rounded-xl overflow-hidden bg-neutral-100 shadow-md">
+              <div className="relative z-10 w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-neutral-100 shadow-md">
                 <Image
                   src={leader.imageSrc}
                   alt={`${leader.name} - ${leader.role} at Sardar IT`}
@@ -490,13 +513,38 @@ export default function LeadersChapterShowcase({
               </div>
 
               {/* Leader Info */}
-              <div className="relative z-10 flex flex-col">
-                <h3 className="text-2xl font-bold text-neutral-900">
+              <div className="relative z-10 flex flex-col items-start">
+                {/* 1. Executive Name (Primary Big Heading) */}
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 mb-1">
                   {leader.name}
                 </h3>
-                <p className="text-sm font-medium text-neutral-600 mt-0.5">
+
+                {/* 2. Role / Designation (Secondary Subheading) */}
+                <p className="text-base sm:text-lg font-medium text-slate-600 mb-4">
                   {leader.role}
                 </p>
+
+                {/* 3. Bio Description */}
+                {leader.bio && (
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                    {leader.bio}
+                  </p>
+                )}
+
+                {/* 4. Sub-Label & Divider */}
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-slate-400 font-medium block mb-2">
+                  {leader.subLabel || leader.role.toUpperCase()}
+                </span>
+                <div className="w-10 h-[1.5px] bg-slate-300 mb-4" />
+
+                {/* 5. Executive Signature Element */}
+                <div className="h-10 flex items-center">
+                  <span
+                    className={`${signatureFont.className} text-[#1e293b] text-3xl leading-none select-none tracking-normal font-normal`}
+                  >
+                    {leader.signature || leader.name}
+                  </span>
+                </div>
               </div>
             </article>
           ))}

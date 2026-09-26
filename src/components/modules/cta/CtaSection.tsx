@@ -276,7 +276,7 @@ export default function CtaSection() {
               <button
                 type="submit"
                 disabled={loading}
-                className="group w-full bg-neutral-950 hover:bg-black disabled:bg-neutral-700 text-white font-medium py-4 px-6 text-base sm:text-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="group w-full bg-[#133BD4] hover:bg-[#0f2eb0] disabled:bg-neutral-700 text-white font-medium py-3.5 px-8 rounded-full text-base sm:text-lg transition-all duration-200 shadow-lg shadow-[#133BD4]/30 hover:shadow-xl active:scale-[0.99] mt-2 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
                 {loading ? (
                   <>
@@ -286,7 +286,7 @@ export default function CtaSection() {
                 ) : (
                   <>
                     <span>Send inquiry</span>
-                    <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133bd4] transition-colors">
+                    <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133BD4] transition-colors">
                       <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
                     </span>
                   </>
@@ -317,14 +317,14 @@ export default function CtaSection() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
-            className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 shadow-xl border border-neutral-200 flex items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
+            className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full shadow-xl border border-neutral-200 flex items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
           >
             <span>
               This website uses <strong className="font-bold">Cookies.</strong>
             </span>
             <button
               onClick={() => setShowCookies(false)}
-              className="bg-black hover:bg-neutral-800 text-white px-4 py-1 text-xs font-semibold transition-colors cursor-pointer"
+              className="bg-[#133BD4] hover:bg-[#0f2eb0] text-white rounded-full px-5 py-1.5 text-xs font-semibold transition-colors cursor-pointer"
             >
               Accept
             </button>

@@ -203,7 +203,7 @@ export default function BrandSectorsShowcase() {
                                     <div
                                         className={`relative z-10 size-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
                                             isActive
-                                                ? "bg-blue-600 text-white"
+                                                ? "bg-[#133BD4] text-white"
                                                 : "text-neutral-400 group-hover:text-neutral-700 group-hover:translate-x-0.5"
                                         }`}
                                     >
@@ -300,7 +300,7 @@ export default function BrandSectorsShowcase() {
 
                                         <Link
                                             href="#contact"
-                                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all duration-200 shadow-md shadow-blue-600/20 hover:shadow-blue-600/40 shrink-0 cursor-pointer"
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#133BD4] hover:bg-[#0f2eb0] text-white font-semibold text-sm transition-all duration-200 shadow-md shadow-[#133BD4]/25 hover:shadow-[#133BD4]/40 shrink-0 cursor-pointer"
                                         >
                                             <span>Request Architecture Brief</span>
                                             <FiArrowRight className="w-4 h-4" />

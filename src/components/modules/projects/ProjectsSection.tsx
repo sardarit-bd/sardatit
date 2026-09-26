@@ -350,7 +350,7 @@ export default function ProjectsSection() {
 
                       <Link
                         href={project.link}
-                        className="group relative z-30 pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs xl:text-sm font-semibold transition-all duration-300 hover:shadow-md hover:scale-[1.02] cursor-pointer"
+                        className="group relative z-30 pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#133BD4] hover:bg-[#0f2eb0] shadow-md shadow-[#133BD4]/25 text-white text-xs xl:text-sm font-semibold transition-all duration-300 hover:scale-[1.02] cursor-pointer"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <span>{project.ctaLabel || "View Case Study"}</span>
@@ -411,14 +411,14 @@ export default function ProjectsSection() {
                     type="button"
                     onClick={() => handleStepClick(idx)}
                     className={`group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive
-                      ? "bg-blue-50 text-blue-700 border border-blue-200 shadow-xs"
+                      ? "bg-[#133BD4]/10 text-[#133BD4] border border-[#133BD4]/25 shadow-xs"
                       : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100/80"
                       }`}
                     aria-label={`Jump to chapter ${idx + 1}: ${project.title}`}
                   >
                     <span
                       className={`size-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${isActive
-                        ? "bg-blue-600 text-white"
+                        ? "bg-[#133BD4] text-white"
                         : "bg-neutral-200 text-neutral-600 group-hover:bg-neutral-300"
                         }`}
                     >
@@ -426,7 +426,7 @@ export default function ProjectsSection() {
                     </span>
                     <span
                       className={`text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-colors ${isActive
-                        ? "text-blue-900 font-bold"
+                        ? "text-[#133BD4] font-bold"
                         : "text-neutral-600 group-hover:text-neutral-900"
                         }`}
                     >
@@ -447,7 +447,7 @@ export default function ProjectsSection() {
           <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
             <Link
               href="/works"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-neutral-900 text-white hover:bg-blue-600 text-sm font-semibold tracking-wide shadow-md transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
             >
               <span>All Case Studies</span>
               <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -502,7 +502,7 @@ export default function ProjectsSection() {
         <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
           <Link
             href="/works"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-neutral-900 text-white hover:bg-blue-600 text-sm font-semibold tracking-wide shadow-md transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
           >
             <span>All Case Studies</span>
             <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

@@ -179,8 +179,8 @@ export default function ServiceSplitView({
                   <div
                     className={`shrink-0 size-10 sm:size-11 rounded-full border flex items-center justify-center transition-all duration-300 ${
                       isActive
-                        ? "bg-blue-600 border-blue-500 text-white shadow-md shadow-blue-600/30"
-                        : "bg-neutral-50 border-neutral-200 text-neutral-500 group-hover:text-blue-600 group-hover:border-blue-200 group-hover:bg-blue-50/50"
+                        ? "bg-[#133BD4] border-[#133BD4] text-white shadow-md shadow-[#133BD4]/30"
+                        : "bg-neutral-50 border-neutral-200 text-neutral-500 group-hover:text-[#133BD4] group-hover:border-[#133BD4]/30 group-hover:bg-blue-50/50"
                     }`}
                   >
                     <FiArrowUpRight
@@ -256,7 +256,7 @@ export default function ServiceSplitView({
                       <div className="flex items-center gap-3.5 flex-wrap">
                         <Link
                           href={`/services/${activeService.slug}`}
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition-all hover:gap-3 cursor-pointer"
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#133BD4] hover:bg-[#0f2eb0] text-white text-sm font-semibold shadow-lg shadow-[#133BD4]/30 transition-all hover:gap-3 cursor-pointer"
                         >
                           <span>Explore Practice</span>
                           <FiArrowUpRight className="w-4 h-4" />

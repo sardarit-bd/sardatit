@@ -119,10 +119,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <div className="shrink-0 flex items-center md:self-end">
           <Link
             href={effectiveCtaLink}
-            className={`group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-sm border transition-all duration-300 hover:opacity-90 hover:scale-[1.02] shadow-sm shrink-0 ${
+            className={`group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-sm border transition-all duration-300 hover:scale-[1.02] shadow-md shrink-0 ${
               isDark
                 ? "bg-white text-neutral-900 border-white hover:bg-neutral-100"
-                : "bg-neutral-900 text-white border-neutral-900 hover:bg-neutral-800"
+                : "bg-[#133BD4] hover:bg-[#0f2eb0] text-white border-transparent shadow-[#133BD4]/25"
             }`}
           >
             <span>{effectiveCtaText}</span>

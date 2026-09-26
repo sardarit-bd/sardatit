@@ -5,4 +5,7 @@ export interface LeaderChapterItem {
   imageSrc: string;
   groupId: "founders" | "operations" | "sales";
   groupName: string;
+  bio?: string;
+  subLabel?: string;
+  signature?: string;
 }
