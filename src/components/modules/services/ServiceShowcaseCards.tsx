@@ -218,11 +218,11 @@ export function ServiceShowcaseCard() {
                 {/* Primary CTA Button */}
                 <Link
                   href={card.href}
-                  className="group inline-flex items-center gap-2.5 bg-gradient-to-b from-[#141b2b] to-[#070a11] text-white text-sm font-medium rounded-full px-6 py-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_12px_24px_-6px_rgba(15,23,42,0.35)] hover:shadow-[0_16px_32px_-6px_rgba(15,23,42,0.45)] transition-all duration-300 active:scale-95 mt-8"
+                  className="group inline-flex items-center gap-2.5 bg-[#133BD4] hover:bg-[#0f2eb0] text-white text-sm font-semibold rounded-full px-6 py-3.5 shadow-md shadow-[#133BD4]/30 hover:shadow-lg hover:shadow-[#133BD4]/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-8 cursor-pointer"
                 >
                   <span>{card.ctaText}</span>
-                  <span className="flex items-center justify-center size-5 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
-                    <ArrowUpRight className="w-3.5 h-3.5 text-white transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <span className="flex items-center justify-center size-5 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133BD4] transition-colors">
+                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </Link>
               </motion.div>

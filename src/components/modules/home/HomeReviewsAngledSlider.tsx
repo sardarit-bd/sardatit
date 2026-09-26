@@ -94,7 +94,7 @@ export function HomeReviewsAngledSlider({
           {shouldShowButton && (
             <Link
               href="/testimonials"
-              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-neutral-950 text-white hover:bg-[#133bd4] font-semibold text-sm transition-all duration-300 shadow-sm hover:scale-[1.02] shrink-0 self-start md:self-end"
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#133BD4] hover:bg-[#0f2eb0] text-white font-semibold text-sm transition-all duration-300 shadow-md shadow-[#133BD4]/25 hover:scale-[1.02] shrink-0 self-start md:self-end"
             >
               <span>See Client Feedback</span>
               <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:rotate-45" />

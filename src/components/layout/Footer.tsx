@@ -39,11 +39,11 @@ export default function Footer() {
 
             <Link
               href={cta.href}
-              className="group flex items-center gap-x-4 bg-highlight py-2 px-4 text-md font-semibold text-text transition-transform hover:scale-[1.02]"
+              className="group inline-flex items-center gap-x-3.5 bg-[#133BD4] hover:bg-[#0f2eb0] text-white rounded-full font-semibold px-6 py-3 transition-all duration-300 hover:scale-[1.02] shadow-md shadow-[#133BD4]/25"
             >
-              {cta.label}
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-text text-highlight">
-                <FiArrowDown className="h-4 w-4 animate-bounce translate-y-1" strokeWidth={2.5} />
+              <span>{cta.label}</span>
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#133BD4] transition-colors">
+                <FiArrowDown className="h-3.5 w-3.5 animate-bounce translate-y-0.5" strokeWidth={2.5} />
               </span>
             </Link>
 

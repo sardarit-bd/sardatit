@@ -57,7 +57,7 @@ export default function AIHero({ service }) {
                 <BookaCallBtn text="Book Automation Audit" />
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 text-neutral-800 font-semibold text-sm hover:bg-neutral-100 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 text-neutral-800 font-semibold text-sm transition-all hover:border-[#133BD4]/60 hover:text-[#133BD4] hover:bg-blue-50/40 cursor-pointer"
                 >
                   <span>Explore Workflows</span>
                   <FiArrowUpRight className="w-4 h-4" />

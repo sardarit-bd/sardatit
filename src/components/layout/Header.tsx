@@ -213,7 +213,7 @@ export default function Header() {
             </div>
 
             <div className="hidden lg:block">
-              <BookaCallBtn />
+              <BookaCallBtn variant={isHeroGlass ? "hero" : "scrolled"} />
             </div>
 
             <button

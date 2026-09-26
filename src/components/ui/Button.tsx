@@ -2,56 +2,68 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  href?: string;
-  className?: string;
-};
 
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: string;
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  children: React.ReactNode;
+}
+
+/**
+ * Standardized Sardar IT Design System Button Component
+ * - Primary Brand Color: #133BD4 (hover #0f2eb0)
+ * - Geometry: rounded-full
+ */
 export function Button({
   children,
   onClick,
-  href = "",
+  href,
   type = "button",
+  variant = "primary",
+  size = "md",
   className = "",
+  disabled,
   ...props
 }: ButtonProps) {
-  if (onClick) {
+  const sizeStyles = {
+    sm: "px-4 py-2 text-xs",
+    md: "px-6 py-3 text-sm",
+    lg: "px-8 py-3.5 text-base sm:text-lg",
+  };
+
+  const variantStyles = {
+    primary:
+      "bg-[#133BD4] hover:bg-[#0f2eb0] text-white shadow-md shadow-[#133BD4]/25 hover:shadow-lg hover:shadow-[#133BD4]/35",
+    secondary:
+      "bg-neutral-900 hover:bg-black text-white shadow-md",
+    outline:
+      "border border-neutral-300 text-neutral-800 hover:border-[#133BD4]/60 hover:text-[#133BD4] hover:bg-blue-50/40",
+    ghost:
+      "text-neutral-700 hover:text-[#133BD4] hover:bg-blue-50/50",
+  };
+
+  const baseStyles = `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
+
+  if (href) {
     return (
-      <button
-        {...props}
-        onClick={onClick}
-        className={`inline-flex items-center gap-2 ${type == "button" ? "px-6 md:px-8! py-3.5" : "p-3.5 "}  text-sm md:text-lg! font-medium text-white 
-         relative overflow-hidden ${className}`}
-        style={{
-          background: "linear-gradient(135deg, #203eec 0%, #00d4ff 100%)",
-        }}
-      >
+      <Link href={href} className={baseStyles}>
         {children}
-      </button>
+      </Link>
     );
   }
 
   return (
-    <motion.div
-      initial={{ boxShadow: "0 4px 20px rgba(32, 62, 236, 0.3)" }}
-      whileHover={{
-        boxShadow:
-          "0 8px 30px rgba(32, 62, 236, 0.5), 0 0 40px rgba(0, 212, 255, 0.3)",
-      }}
-      transition={{ duration: 0.2 }}
-      className="inline-block rounded-sm"
+    <button
+      {...props}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={baseStyles}
     >
-      <Link
-        href={href}
-        className={`inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium text-white rounded-sm relative overflow-hidden bg-[linear-gradient(135deg,#203eec_0%,#00d4ff_100%)] ${className}`}
-        // style={{
-        //   background: "linear-gradient(135deg, #203eec 0%, #00d4ff 100%)",
-        // }}
-      >
-        {children}
-      </Link>
-    </motion.div>
+      {children}
+    </button>
   );
 }
 
