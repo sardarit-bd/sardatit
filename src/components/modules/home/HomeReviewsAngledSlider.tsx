@@ -56,7 +56,7 @@ export function HomeReviewsAngledSlider({
       : pathname !== "/testimonials";
 
   return (
-    <section className={`w-full py-20 sm:py-28 bg-[#F8FAFC] text-neutral-900 border-t border-neutral-200/80 overflow-hidden relative ${className}`}>
+    <section className={`w-full py-20 sm:py-28 bg-[#FAFAFA] text-neutral-900 border-t border-neutral-200/80 overflow-hidden relative ${className}`}>
       {/* Background Ambient Glow Accents */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
@@ -68,9 +68,10 @@ export function HomeReviewsAngledSlider({
         </span>
       </div>
 
-      {/* Section Header */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 mb-12 sm:mb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      {/* Standard Unified Page Container Constraints */}
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div className="max-w-2xl">
             {/* Eyebrow: Blue dot + uppercase mono text */}
             <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-3">
@@ -100,74 +101,74 @@ export function HomeReviewsAngledSlider({
             </Link>
           )}
         </div>
-      </div>
 
-      {/* 3D Angled Slider Container with Edge Fade Gradients */}
-      <div className="w-full overflow-hidden relative z-10">
-        {/* Soft edge-fade gradients to conceal 3D bounds seamlessly */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-40 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-40 pointer-events-none" />
+        {/* 3D Angled Slider Container with Edge Fade Gradients Constrained within Container */}
+        <div className="w-full overflow-hidden relative">
+          {/* Soft edge-fade gradients inside container */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none" />
 
-        <AngledSlider<ReviewItem>
-          items={REVIEWS_DATA}
-          angle={18}
-          speed={35}
-          direction="left"
-          containerHeight="520px"
-          cardWidth="360px"
-          gap="32px"
-          renderItem={(item) => (
-            <div
-              className="bg-white border border-neutral-200/90 rounded-2xl p-7 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] hover:border-blue-500/40 transition-colors duration-200 flex flex-col justify-between h-[380px] text-left"
-            >
-              {/* Top: Star Rating & Service Pill Tag */}
-              <div className="flex items-center justify-between gap-3 border-b border-neutral-100 pb-4">
-                <StarRating rating={item.rating} />
-                <span className="text-[11px] font-semibold text-[#133bd4] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100/80 truncate max-w-[170px]">
-                  {item.service}
-                </span>
-              </div>
+          <AngledSlider<ReviewItem>
+            items={REVIEWS_DATA}
+            angle={18}
+            speed={35}
+            direction="left"
+            containerHeight="520px"
+            cardWidth="360px"
+            gap="32px"
+            renderItem={(item) => (
+              <div
+                className="bg-white border border-neutral-200/90 rounded-2xl p-7 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] hover:border-blue-500/40 transition-colors duration-200 flex flex-col justify-between h-[380px] text-left"
+              >
+                {/* Top: Star Rating & Service Pill Tag */}
+                <div className="flex items-center justify-between gap-3 border-b border-neutral-100 pb-4">
+                  <StarRating rating={item.rating} />
+                  <span className="text-[11px] font-semibold text-[#133bd4] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100/80 truncate max-w-[170px]">
+                    {item.service}
+                  </span>
+                </div>
 
-              {/* Middle: Client Quote */}
-              <div className="my-auto py-2">
-                <FaQuoteLeft className="text-neutral-200 text-xl mb-2.5" />
-                <p className="text-neutral-700 text-sm sm:text-base leading-relaxed italic font-normal line-clamp-4">
-                  &quot;{item.quote}&quot;
-                </p>
-              </div>
-
-              {/* Bottom: Client Name + Verified Checkmark + Role/Company + Country Flag */}
-              <div className="pt-4 border-t border-neutral-100 flex items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <h4 className="text-sm sm:text-base font-bold text-neutral-950 truncate">
-                      {item.name}
-                    </h4>
-                    <BsPatchCheckFill
-                      className="text-[#133bd4] size-3.5 shrink-0"
-                      title="Verified Client Review"
-                    />
-                  </div>
-                  <p className="text-xs text-neutral-500 truncate mt-0.5">
-                    {item.role} · <span className="text-neutral-700 font-medium">{item.company}</span>
+                {/* Middle: Client Quote */}
+                <div className="my-auto py-2">
+                  <FaQuoteLeft className="text-neutral-200 text-xl mb-2.5" />
+                  <p className="text-neutral-700 text-sm sm:text-base leading-relaxed italic font-normal line-clamp-4">
+                    &quot;{item.quote}&quot;
                   </p>
                 </div>
 
-                {/* Country Flag Badge */}
-                <span
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-xs font-semibold text-neutral-700 shrink-0 shadow-2xs"
-                  title={item.country}
-                >
-                  <span className="text-sm leading-none">{item.flag}</span>
-                </span>
-              </div>
-            </div>
-          )}
-        />
+                {/* Bottom: Client Name + Verified Checkmark + Role/Company + Country Flag */}
+                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <h4 className="text-sm sm:text-base font-bold text-neutral-950 truncate">
+                        {item.name}
+                      </h4>
+                      <BsPatchCheckFill
+                        className="text-[#133bd4] size-3.5 shrink-0"
+                        title="Verified Client Review"
+                      />
+                    </div>
+                    <p className="text-xs text-neutral-500 truncate mt-0.5">
+                      {item.role} · <span className="text-neutral-700 font-medium">{item.company}</span>
+                    </p>
+                  </div>
 
+                  {/* Country Flag Badge */}
+                  <span
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-xs font-semibold text-neutral-700 shrink-0 shadow-2xs"
+                    title={item.country}
+                  >
+                    <span className="text-sm leading-none">{item.flag}</span>
+                  </span>
+                </div>
+              </div>
+            )}
+          />
+        </div>
       </div>
     </section>
   );
 }
 
+export const TestimonialsSection = HomeReviewsAngledSlider;
 export default HomeReviewsAngledSlider;
