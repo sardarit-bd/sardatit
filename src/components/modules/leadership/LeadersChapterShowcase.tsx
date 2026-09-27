@@ -372,7 +372,7 @@ export default function LeadersChapterShowcase({
                       transformStyle: "preserve-3d",
                       backfaceVisibility: "hidden",
                     }}
-                    className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-neutral-200/90 bg-neutral-100 will-change-transform select-none"
+                    className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-neutral-100 will-change-transform select-none"
                   >
                     <Image
                       src={leader.imageSrc}
@@ -397,42 +397,40 @@ export default function LeadersChapterShowcase({
                   const isActive = activeIdx === index;
                   const isGroupSeparator = index === 1 || index === 6;
 
-                    return (
-                      <div
-                        key={`dot-${leader.id}`}
-                        className={`flex items-center gap-2.5 py-1 ${
-                          isGroupSeparator ? "mb-2.5" : "mb-0.5"
+                  return (
+                    <div
+                      key={`dot-${leader.id}`}
+                      className={`flex items-center gap-2.5 py-1 ${isGroupSeparator ? "mb-2.5" : "mb-0.5"
                         }`}
-                      >
-                        {/* Active Leader Tooltip Tag */}
-                        {isActive && (
-                          <span className="hidden xl:inline-block text-[11px] font-mono font-bold text-neutral-800 bg-white/95 px-2.5 py-1 rounded-md shadow-xs border border-neutral-200/80 animate-fadeIn whitespace-nowrap">
-                            {leader.name}
-                          </span>
-                        )}
+                    >
+                      {/* Active Leader Tooltip Tag */}
+                      {isActive && (
+                        <span className="hidden xl:inline-block text-[11px] font-mono font-bold text-neutral-800 bg-white/95 px-2.5 py-1 rounded-md shadow-xs border border-neutral-200/80 animate-fadeIn whitespace-nowrap">
+                          {leader.name}
+                        </span>
+                      )}
 
-                        {/* Interactive Dot Button */}
-                        <button
-                          type="button"
-                          onClick={() => handleDotClick(index)}
-                          aria-label={`Jump to chapter ${index + 1}: ${leader.name}`}
-                          className="relative group p-1 flex items-center justify-center focus:outline-none cursor-pointer"
-                        >
-                          <span
-                            className={`block rounded-full transition-all duration-300 ${
-                              isActive
-                                ? "w-3 h-3 bg-neutral-900 ring-4 ring-neutral-900/20 scale-110"
-                                : "w-2 h-2 bg-neutral-300 hover:bg-neutral-600 hover:scale-125"
+                      {/* Interactive Dot Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDotClick(index)}
+                        aria-label={`Jump to chapter ${index + 1}: ${leader.name}`}
+                        className="relative group p-1 flex items-center justify-center focus:outline-none cursor-pointer"
+                      >
+                        <span
+                          className={`block rounded-full transition-all duration-300 ${isActive
+                            ? "w-3 h-3 bg-neutral-900 ring-4 ring-neutral-900/20 scale-110"
+                            : "w-2 h-2 bg-neutral-300 hover:bg-neutral-600 hover:scale-125"
                             }`}
-                          />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </nav>
-              </div>
+                        />
+                      </button>
+                    </div>
+                  );
+                })}
+              </nav>
             </div>
           </div>
+        </div>
 
         {/* 3. STATIC BOTTOM FOOTER BAR (Pinned inside viewport at bottom) */}
         <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 shrink-0 z-20 pb-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
@@ -442,9 +440,8 @@ export default function LeadersChapterShowcase({
 
           {/* Center scroll hint (hidden when on final chapter) */}
           <div
-            className={`flex items-center gap-2 text-xs font-medium text-neutral-500 transition-opacity duration-300 ${
-              activeIdx === totalChapters - 1 ? "opacity-0" : "opacity-100"
-            }`}
+            className={`flex items-center gap-2 text-xs font-medium text-neutral-500 transition-opacity duration-300 ${activeIdx === totalChapters - 1 ? "opacity-0" : "opacity-100"
+              }`}
           >
             <span>Scroll for next leader</span>
             <ArrowDown className="w-3.5 h-3.5 animate-bounce text-neutral-700" />
