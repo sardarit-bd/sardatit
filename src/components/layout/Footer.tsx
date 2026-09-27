@@ -23,9 +23,20 @@ export default function Footer() {
     footerData;
 
   return (
-    <footer className="w-full min-h-[calc(100vh-5rem)] lg:h-[calc(100vh-5rem)] bg-[#111111] text-white flex flex-col justify-between overflow-hidden pt-8 pb-4 relative z-10">
+    <footer className="w-full min-h-[calc(100vh-5rem)] lg:h-[calc(100vh-5rem)] bg-[#050B24] border-t border-[#133BD4]/20 text-white flex flex-col justify-between overflow-hidden pt-8 pb-4 relative z-10">
+      {/* Dual Atmospheric Brand Lighting */}
+      {/* 1. Ambient Top & Lateral Mesh Glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 right-1/4 h-[380px] w-[380px] rounded-full bg-gradient-to-br from-[#133BD4]/20 to-[#38bdf8]/10 blur-[130px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/4 -left-20 h-[300px] w-[300px] rounded-full bg-[#133BD4]/15 blur-[110px]"
+      />
+
       {/* Top Section: Navigation Columns & Company Details */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 shrink-0 pt-2">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 shrink-0 pt-2 relative z-10">
         <div className="flex flex-col items-start justify-between gap-y-10 lg:flex-row lg:gap-x-12">
           {/* Brand Info & Socials */}
           <div className="flex basis-full flex-col items-start gap-y-6 lg:basis-1/4 lg:max-w-xs">
@@ -39,7 +50,7 @@ export default function Footer() {
 
             <Link
               href={cta.href}
-              className="group inline-flex items-center gap-x-3.5 bg-[#133BD4] hover:bg-[#0f2eb0] text-white rounded-full font-semibold px-6 py-3 transition-all duration-300 hover:scale-[1.02] shadow-md shadow-[#133BD4]/25"
+              className="group inline-flex items-center gap-x-3.5 bg-[#133BD4] hover:bg-[#0f2eb0] text-white rounded-full font-semibold px-6 py-3 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-[#133BD4]/30"
             >
               <span>{cta.label}</span>
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#133BD4] transition-colors">
@@ -57,7 +68,7 @@ export default function Footer() {
                     aria-label={social.name}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center border border-neutral-800 text-white transition-colors hover:bg-white hover:text-black rotate-45 mt-2"
+                    className="flex h-9 w-9 items-center justify-center border border-white/10 text-white transition-colors hover:bg-white hover:text-black hover:border-white rotate-45 mt-2"
                   >
                     <Icon className="h-3.5 w-3.5 -rotate-45" />
                   </Link>
@@ -128,7 +139,7 @@ export default function Footer() {
       </div>
 
       {/* Middle Section: Copyright & Bottom Sub-Bar */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between text-xs text-neutral-400 border-t border-neutral-800/70 pt-3 shrink-0">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between text-xs text-neutral-400 border-t border-white/[0.08] pt-3 shrink-0 relative z-10">
         <p className="text-xs text-neutral-400">
           {footerData.copyright}
         </p>
@@ -141,6 +152,12 @@ export default function Footer() {
 
       {/* Bottom Section: Balanced Canvas TechText Component */}
       <div className="w-full flex-1 min-h-[160px] max-h-[260px] flex items-center justify-center overflow-hidden select-none relative">
+        {/* Primary Brand Radial Glow behind TechText */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[240px] w-full max-w-[950px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#133BD4]/35 via-[#133BD4]/15 to-transparent blur-[90px]"
+        />
+
         <TechText
           text="Sardar IT"
           fontSize={220}
@@ -154,7 +171,7 @@ export default function Footer() {
           draggable={true}
           selection={true}
           labels={true}
-          className="w-full h-full"
+          className="w-full h-full relative z-10"
         />
       </div>
     </footer>
