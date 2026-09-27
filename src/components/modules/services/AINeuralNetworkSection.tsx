@@ -32,7 +32,7 @@ export default function AINeuralNetworkSection({
   return (
     <section
       className={`relative z-0 overflow-hidden isolate w-full ${isHero
-        ? "h-screen min-h-screen text-white"
+        ? "h-[85svh] min-h-[520px] sm:h-[90svh] sm:min-h-[600px] lg:h-[100svh] lg:min-h-[100svh] text-white"
         : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
         } ${className}`}
     >
@@ -58,11 +58,11 @@ export default function AINeuralNetworkSection({
         </>
       )}
 
-      {/* Fullscreen Unbounded Particle Canvas (Strict Optical Center) */}
+      {/* Fullscreen Unbounded Particle Canvas (Optically balanced for mobile and desktop) */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className="relative w-full h-[320px] sm:h-[450px] md:h-[550px] lg:h-[650px] bg-transparent"
+            className="relative w-full h-[340px] sm:h-[450px] md:h-[550px] lg:h-[650px] bg-transparent"
             style={{ contain: "layout paint size", transform: "translateZ(0)" }}
           >
             <AINeuralField
@@ -86,7 +86,7 @@ export default function AINeuralNetworkSection({
       {isHero && (
         <aside
           aria-label="Overview"
-          className="absolute bottom-28 sm:bottom-32 md:bottom-36 lg:bottom-44 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
+          className="absolute bottom-24 sm:bottom-24 md:bottom-28 lg:bottom-44 left-1/2 -translate-x-1/2 z-20 w-[90%] sm:w-auto max-w-sm md:max-w-md select-none pointer-events-auto"
         >
           {/* Minimalist Selection Frame with 4 corner anchor handles */}
           <div className="relative border border-white/20 p-3 sm:p-3.5 bg-transparent group text-center">
@@ -137,7 +137,7 @@ export default function AINeuralNetworkSection({
 
       {/* Bottom-Right "Scroll to explore" Indicator */}
       {isHero && (
-        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 lg:right-12 z-20 flex flex-col items-end sm:items-center gap-1 select-none pointer-events-auto scale-80 sm:scale-100 origin-bottom-right">
+        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 lg:right-12 z-20 flex flex-col items-end sm:items-center gap-1 select-none pointer-events-auto scale-75 sm:scale-100 origin-bottom-right">
           <motion.span
             animate={
               prefersReducedMotion
