@@ -11,8 +11,8 @@ export function CompanyGallerySection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { margin: "200px" });
 
-  // Duplicate array to ensure smooth infinite loop
-  const duplicatedImages = [...galleryImages, ...galleryImages, ...galleryImages];
+  // 2x duplication for lightweight, seamless infinite loop
+  const duplicatedImages = [...galleryImages, ...galleryImages];
 
   return (
     <section ref={sectionRef} className="relative w-full bg-black py-20 lg:py-20 overflow-hidden text-white">
@@ -20,6 +20,9 @@ export function CompanyGallerySection() {
       <div className="absolute inset-0 z-0 pointer-events-none opacity-80">
         <FloatingLines
           linesGradient={["#133BD4", "#1d4ed8", "#38bdf8", "#133BD4"]}
+          lineCount={[4, 3, 4]}
+          renderScale={0.8}
+          antialias={false}
           backgroundColor="#000000"
           animationSpeed={1}
           interactive={true}
@@ -49,7 +52,7 @@ export function CompanyGallerySection() {
           {/* Moving Image Track */}
           <motion.div
             className="flex gap-6 sm:gap-8 shrink-0 items-center transform-gpu will-change-transform"
-            animate={isInView ? { x: ["0%", "-33.333%"] } : undefined}
+            animate={isInView ? { x: ["0%", "-50%"] } : undefined}
             transition={{
               duration: 35,
               repeat: Infinity,

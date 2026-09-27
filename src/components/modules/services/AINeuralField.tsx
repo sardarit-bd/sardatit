@@ -4,6 +4,7 @@ import React, { useMemo, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /* ------------------------------------------------------------------ */
 /*  Text -> Particle Sampling (Dense, Sharp & Dynamic Font Auto-Fit)  */
@@ -181,6 +182,7 @@ interface ParticleFieldProps {
   count: number;
   hoverRef: React.RefObject<boolean>;
   visibleRef: React.RefObject<boolean>;
+  reducedMotion: boolean;
   onIndexChange?: (index: number, holdDuration?: number) => void;
   onTransitionStart?: () => void;
   motionConfig?: ParticleMotionConfig;
@@ -190,6 +192,7 @@ function ParticleField({
   count,
   hoverRef,
   visibleRef,
+  reducedMotion,
   onIndexChange,
   onTransitionStart,
   motionConfig,
@@ -245,15 +248,40 @@ function ParticleField({
   const currentIndexRef = useRef(0);
   const nextIndexRef = useRef(1);
 
-  // Geometry attributes
-  const { geometry, baseColors, highlightColor, onBeforeCompile } = useMemo(() => {
+  // Shader Uniforms Ref
+  const uniformsRef = useRef({
+    uTime: { value: 0 },
+    uBlend: { value: 0 },
+    uMorphArc: { value: 0 },
+    uMouseWorld: { value: new THREE.Vector2(-9999, -9999) },
+    uHoverActive: { value: 0 },
+    uWaveSpeed: { value: DEFAULT_MOTION_CONFIG.waveSpeed },
+    uWaveFrequency: { value: DEFAULT_MOTION_CONFIG.waveFrequency },
+    uWaveAmplitudeZ: { value: DEFAULT_MOTION_CONFIG.waveAmplitudeZ },
+    uWaveAmplitudeY: { value: DEFAULT_MOTION_CONFIG.waveAmplitudeY },
+    uReducedMotion: { value: 0 },
+  });
+
+  const activeShaderRef = useRef<THREE.WebGLProgramParametersWithUniforms | null>(null);
+
+  // Geometry attributes & OnBeforeCompile Shader Extension
+  const { geometry, onBeforeCompile } = useMemo(() => {
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(scatterCloud);
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
 
+    // Target shape for GPU vertex morphing
+    const targetPos = new Float32Array(shapes[0]);
+    geo.setAttribute("aTargetPosition", new THREE.BufferAttribute(targetPos, 3));
+
+    // Curvature displacement for GPU morph arching
+    geo.setAttribute(
+      "aMorphCurvature",
+      new THREE.BufferAttribute(new Float32Array(morphCurvatures), 3)
+    );
+
     // Base resting palette: pure luminous white with crystal cyan/ice blue highlights
     const colors = new Float32Array(count * 3);
-    const baseCols = new Float32Array(count * 3);
     const colorWhite = new THREE.Color("#ffffff");       // Pure luminous crisp white
     const colorIceBlue = new THREE.Color("#e0f2fe");     // Crystal ice blue highlight (sky-100)
     const colorCyanLight = new THREE.Color("#bae6fd");   // Subtle crystal cyan highlight (sky-200)
@@ -264,57 +292,99 @@ function ParticleField({
       colors[i * 3] = col.r;
       colors[i * 3 + 1] = col.g;
       colors[i * 3 + 2] = col.b;
-      baseCols[i * 3] = col.r;
-      baseCols[i * 3 + 1] = col.g;
-      baseCols[i * 3 + 2] = col.b;
     }
     geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-    // Smooth per-particle hover scale multiplier
-    const scales = new Float32Array(count);
-    scales.fill(1.0);
-    geo.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
-
-    // Smooth per-particle alpha: 1.0 full brightness and opacity
-    const alphas = new Float32Array(count);
-    alphas.fill(1.0);
-    geo.setAttribute("aAlpha", new THREE.BufferAttribute(alphas, 1));
-
-    // Hover / Excited state near cursor: vibrant electric cyan/blue accent (#38bdf8 / #0ea5e9)
-    const hlColor = new THREE.Color("#38bdf8"); // Tailwind sky-400
-
-    // Hook aScale and aAlpha attributes into PointsMaterial shader
+    // Hook custom uniforms and GPU cloth wave + morphing into PointsMaterial
     const hook = (shader: THREE.WebGLProgramParametersWithUniforms) => {
+      // Connect our persistent uniforms
+      Object.assign(shader.uniforms, uniformsRef.current);
+      activeShaderRef.current = shader;
+
       shader.vertexShader = shader.vertexShader.replace(
         "#include <common>",
         `#include <common>
-         attribute float aScale;
-         attribute float aAlpha;
-         varying float vAlpha;`
+         uniform float uTime;
+         uniform float uBlend;
+         uniform float uMorphArc;
+         uniform vec2 uMouseWorld;
+         uniform float uHoverActive;
+         uniform float uWaveSpeed;
+         uniform float uWaveFrequency;
+         uniform float uWaveAmplitudeZ;
+         uniform float uWaveAmplitudeY;
+         uniform float uReducedMotion;
+
+         attribute vec3 aTargetPosition;
+         attribute vec3 aMorphCurvature;
+        `
       );
+
+      // Reimplement morph blend, cloth wave math, and hover proximity in vertex shader
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <color_vertex>",
+        `
+         vec3 basePos = mix(position, aTargetPosition, uBlend);
+         if (uMorphArc > 0.0001) {
+           basePos += aMorphCurvature * uMorphArc;
+         }
+
+         if (uReducedMotion < 0.5) {
+           float waveTime1 = uTime * (uWaveSpeed * 1.5);
+           float waveTime2 = uTime * (uWaveSpeed * 2.2);
+
+           float phase1 = waveTime1 - basePos.x * uWaveFrequency + basePos.y * (uWaveFrequency * 0.25);
+           float phase2 = waveTime2 - basePos.x * (uWaveFrequency * 1.5) - basePos.y * (uWaveFrequency * 0.35);
+
+           float waveZ = sin(phase1) * (uWaveAmplitudeZ * 0.78) + sin(phase2) * (uWaveAmplitudeZ * 0.22);
+           float waveY = cos(phase1) * (uWaveAmplitudeY * 0.75) + sin(phase2) * (uWaveAmplitudeY * 0.25);
+
+           basePos.y += waveY;
+           basePos.z += waveZ;
+         }
+
+         float h = 0.0;
+         if (uHoverActive > 0.001 && uReducedMotion < 0.5) {
+           float dx = basePos.x - uMouseWorld.x;
+           float dy = basePos.y - uMouseWorld.y;
+           float distSq = dx * dx + dy * dy;
+           float proximityRadius = 1.65;
+           float proximityRadiusSq = 2.7225;
+           if (distSq < proximityRadiusSq) {
+             float normDist = sqrt(distSq) / proximityRadius;
+             h = (1.0 - normDist * normDist * (3.0 - 2.0 * normDist)) * uHoverActive;
+           }
+         }
+
+         #if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA ) || defined( USE_INSTANCING_COLOR ) || defined( USE_BATCHING_COLOR )
+           vColor = vec4( 1.0 );
+         #endif
+
+         #ifdef USE_COLOR
+           vec3 highlightColor = vec3(0.2196078, 0.7411765, 0.972549); // Electric Cyan #38bdf8
+           vColor.rgb = mix(color, highlightColor, h);
+         #endif
+        `
+      );
+
+      // Pass the computed basePos into the transformation pipeline
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <begin_vertex>",
+        `vec3 transformed = basePos;`
+      );
+
+      // Dynamic hover scale in vertex shader
       shader.vertexShader = shader.vertexShader.replace(
         "gl_PointSize = size;",
-        `gl_PointSize = size * aScale;
-         vAlpha = aAlpha;`
-      );
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <common>",
-        `#include <common>
-         varying float vAlpha;`
-      );
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "gl_FragColor = vec4( outgoingLight, diffuseColor.a );",
-        "gl_FragColor = vec4( outgoingLight, diffuseColor.a * vAlpha );"
+        `gl_PointSize = size * (1.0 + h * 0.35);`
       );
     };
 
     return {
       geometry: geo,
-      baseColors: baseCols,
-      highlightColor: hlColor,
       onBeforeCompile: hook,
     };
-  }, [count, scatterCloud]);
+  }, [count, scatterCloud, shapes, morphCurvatures]);
 
   useEffect(() => {
     return () => {
@@ -322,18 +392,27 @@ function ParticleField({
     };
   }, [geometry]);
 
-  // Track per-particle highlight factor [0..1] for smooth lerp back to base
-  const highlightArr = useRef<Float32Array>(new Float32Array(count));
-  useEffect(() => {
-    highlightArr.current = new Float32Array(count);
-  }, [count]);
-
   const transitionStartRef = useRef<number | null>(null);
   const holdStartRef = useRef<number | null>(null);
   const entranceDoneRef = useRef(false);
+  const hoverStrengthRef = useRef(0);
 
   // Entrance: assemble from scatter cloud into the first word
   useEffect(() => {
+    if (reducedMotion) {
+      entranceDoneRef.current = true;
+      const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
+      (posAttr.array as Float32Array).set(shapes[0]);
+      posAttr.needsUpdate = true;
+      const targetAttr = geometry.getAttribute("aTargetPosition") as THREE.BufferAttribute;
+      if (targetAttr) {
+        (targetAttr.array as Float32Array).set(shapes[1]);
+        targetAttr.needsUpdate = true;
+      }
+      onIndexChangeRef.current?.(0, HOLD_SECONDS);
+      return;
+    }
+
     const entrance = { t: 0 };
     const tween = gsap.to(entrance, {
       t: 1,
@@ -352,21 +431,45 @@ function ParticleField({
       onComplete: () => {
         entranceDoneRef.current = true;
         holdStartRef.current = null;
+
+        // Base is now shape 0, next target is shape 1
+        const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
+        (posAttr.array as Float32Array).set(shapes[0]);
+        posAttr.needsUpdate = true;
+
+        const targetAttr = geometry.getAttribute("aTargetPosition") as THREE.BufferAttribute;
+        if (targetAttr) {
+          (targetAttr.array as Float32Array).set(shapes[1]);
+          targetAttr.needsUpdate = true;
+        }
+
         onIndexChangeRef.current?.(0, HOLD_SECONDS);
       },
     });
+
     return () => {
       tween.kill();
     };
-  }, [geometry, scatterCloud, shapes]);
-
-  const hadHighlightsRef = useRef(false);
+  }, [geometry, scatterCloud, shapes, reducedMotion]);
 
   useFrame((state, delta) => {
     if (!visibleRef.current) return;
     if (!pointsRef.current || !groupRef.current || !entranceDoneRef.current) return;
 
     const elapsed = state.clock.getElapsedTime();
+    const config = cfgRef.current;
+    const u = uniformsRef.current;
+
+    // Reduced motion handling: lock to word 0 and disable transitions/wave
+    if (reducedMotion) {
+      u.uReducedMotion.value = 1.0;
+      u.uBlend.value = 0;
+      u.uMorphArc.value = 0;
+      u.uHoverActive.value = 0;
+      return;
+    }
+
+    u.uReducedMotion.value = 0.0;
 
     // Word hold duration timer: hold each word for exactly HOLD_SECONDS
     if (transitionStartRef.current === null) {
@@ -397,132 +500,44 @@ function ParticleField({
         blend = 0;
         morphArc = 0;
         holdStartRef.current = elapsed;
+
+        // Upload the new pair of shapes to the GPU buffer attributes ONCE on transition finish
+        const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
+        (posAttr.array as Float32Array).set(shapes[currentIndexRef.current]);
+        posAttr.needsUpdate = true;
+
+        const targetAttr = geometry.getAttribute("aTargetPosition") as THREE.BufferAttribute;
+        if (targetAttr) {
+          (targetAttr.array as Float32Array).set(shapes[nextIndexRef.current]);
+          targetAttr.needsUpdate = true;
+        }
+
         onIndexChangeRef.current?.(currentIndexRef.current, HOLD_SECONDS);
       }
     }
-
-    const shapeCur = shapes[currentIndexRef.current];
-    const shapeNext = shapes[nextIndexRef.current];
-    const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const posArr = posAttr.array as Float32Array;
-
-    const colorAttr = geometry.getAttribute("color") as THREE.BufferAttribute;
-    const colorArr = colorAttr.array as Float32Array;
-
-    const scaleAttr = geometry.getAttribute("aScale") as THREE.BufferAttribute;
-    const scaleArr = scaleAttr.array as Float32Array;
-
-    const alphaAttr = geometry.getAttribute("aAlpha") as THREE.BufferAttribute;
-    const alphaArr = alphaAttr.array as Float32Array;
 
     // Direct, accurate cursor mapping via R3F state.pointer (bounded to canvas)
     const mouseWorldX = (state.pointer.x * state.viewport.width) / 2;
     const mouseWorldY = (state.pointer.y * state.viewport.height) / 2;
     const isHovered = hoverRef.current;
-    const proximityRadius = 1.65;
-    const proximityRadiusSq = proximityRadius * proximityRadius;
 
-    const config = cfgRef.current;
-
-    // Precomputed loop invariants
-    const speed = config.waveSpeed;
-    const freq = config.waveFrequency;
-    const waveTime1 = elapsed * (speed * 1.5);
-    const waveTime2 = elapsed * (speed * 2.2);
+    // Smooth hover damping
+    const targetHover = isHovered ? 1.0 : 0.0;
     const dampFactor = 1 - Math.exp(-9.0 * delta);
-    const highlightR = highlightColor.r;
-    const highlightG = highlightColor.g;
-    const highlightB = highlightColor.b;
-    const hArr = highlightArr.current;
+    hoverStrengthRef.current += (targetHover - hoverStrengthRef.current) * dampFactor;
 
-    let hasActiveHighlights = false;
+    // Pass small uniforms to GPU (ZERO per-particle CPU loop!)
+    u.uTime.value = elapsed;
+    u.uBlend.value = blend;
+    u.uMorphArc.value = morphArc;
+    u.uMouseWorld.value.set(mouseWorldX, mouseWorldY);
+    u.uHoverActive.value = hoverStrengthRef.current;
+    u.uWaveSpeed.value = config.waveSpeed;
+    u.uWaveFrequency.value = config.waveFrequency;
+    u.uWaveAmplitudeZ.value = config.waveAmplitudeZ;
+    u.uWaveAmplitudeY.value = config.waveAmplitudeY;
 
-    // -----------------------------------------------------------------
-    // 1. POSITION UPDATE: Dynamic Cloth Wave + Morphing (Fast Inline Math)
-    // 2. HOVER UPDATE: Proximity Color Glow & Scale (Zero Displacement)
-    // -----------------------------------------------------------------
-    for (let i = 0; i < count; i++) {
-      const ix = i * 3;
-
-      // Base coordinate morphing
-      let baseX: number;
-      let baseY: number;
-      let baseZ: number;
-
-      if (isTransitioning) {
-        baseX = shapeCur[ix] + (shapeNext[ix] - shapeCur[ix]) * blend;
-        baseY = shapeCur[ix + 1] + (shapeNext[ix + 1] - shapeCur[ix + 1]) * blend;
-        baseZ = shapeCur[ix + 2] + (shapeNext[ix + 2] - shapeCur[ix + 2]) * blend;
-
-        if (morphArc > 0.0001) {
-          baseX += morphCurvatures[ix] * morphArc;
-          baseY += morphCurvatures[ix + 1] * morphArc;
-          baseZ += morphCurvatures[ix + 2] * morphArc;
-        }
-      } else {
-        baseX = shapeCur[ix];
-        baseY = shapeCur[ix + 1];
-        baseZ = shapeCur[ix + 2];
-      }
-
-      // Traveling cloth wave phase & 3D folding displacements
-      const phase1 = waveTime1 - baseX * freq + baseY * (freq * 0.25);
-      const phase2 = waveTime2 - baseX * (freq * 1.5) - baseY * (freq * 0.35);
-
-      const waveZ = Math.sin(phase1) * (config.waveAmplitudeZ * 0.78) + Math.sin(phase2) * (config.waveAmplitudeZ * 0.22);
-      const waveY = Math.cos(phase1) * (config.waveAmplitudeY * 0.75) + Math.sin(phase2) * (config.waveAmplitudeY * 0.25);
-
-      // Write position (stable)
-      posArr[ix] = baseX;
-      posArr[ix + 1] = baseY + waveY;
-      posArr[ix + 2] = baseZ + waveZ;
-
-      // Hover color glow: smooth falloff within proximity radius
-      let targetHighlight = 0;
-      if (isHovered) {
-        const dx = baseX - mouseWorldX;
-        const dy = baseY - mouseWorldY;
-        const distSq = dx * dx + dy * dy;
-        if (distSq < proximityRadiusSq) {
-          const normDist = Math.sqrt(distSq) / proximityRadius;
-          // Smooth cubic hermite falloff: 1 at center -> 0 at edge
-          targetHighlight = 1 - normDist * normDist * (3 - 2 * normDist);
-        }
-      }
-
-      // Exponential damping for smooth highlight decay
-      const prevH = hArr[i];
-      const currentH = prevH + (targetHighlight - prevH) * dampFactor;
-      hArr[i] = currentH;
-
-      if (currentH > 0.001 || targetHighlight > 0.001) {
-        hasActiveHighlights = true;
-        // Smooth transition to electric cyan (#38bdf8) on cursor interaction
-        colorArr[ix] = baseColors[ix] + (highlightR - baseColors[ix]) * currentH;
-        colorArr[ix + 1] = baseColors[ix + 1] + (highlightG - baseColors[ix + 1]) * currentH;
-        colorArr[ix + 2] = baseColors[ix + 2] + (highlightB - baseColors[ix + 2]) * currentH;
-        scaleArr[i] = 1.0 + currentH * 0.35;
-        alphaArr[i] = 1.0;
-      } else if (prevH > 0.001) {
-        colorArr[ix] = baseColors[ix];
-        colorArr[ix + 1] = baseColors[ix + 1];
-        colorArr[ix + 2] = baseColors[ix + 2];
-        scaleArr[i] = 1.0;
-        alphaArr[i] = 1.0;
-      }
-    }
-
-    posAttr.needsUpdate = true;
-
-    // Buffer upload optimization: only send color/scale/alpha to GPU when hover state changed
-    if (hasActiveHighlights || hadHighlightsRef.current) {
-      colorAttr.needsUpdate = true;
-      scaleAttr.needsUpdate = true;
-      alphaAttr.needsUpdate = true;
-      hadHighlightsRef.current = hasActiveHighlights;
-    }
-
-    // Configurable group floating and mouse parallax tilt
+    // Group floating and mouse parallax tilt (only 3 numbers, lightweight)
     const floatY = Math.sin(elapsed * config.floatSpeed) * config.floatDistance;
     groupRef.current.position.y = floatY;
 
@@ -551,7 +566,7 @@ function ParticleField({
       delta
     );
 
-    // Keep natural 1:1 scale (no artificial downscaling)
+    // Keep natural 1:1 scale
     groupRef.current.scale.set(1.0, 1.0, 1.0);
   });
 
@@ -615,10 +630,24 @@ export default function AINeuralField({
   const hoverRef = useRef(false);
   const visibleRef = useRef(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
+  // Device-aware intensity scaling & mobile detection
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
+    if (typeof window === "undefined") return;
+    const isMobile = window.innerWidth < 768;
+    const nav = navigator as unknown as {
+      hardwareConcurrency?: number;
+      deviceMemory?: number;
+    };
+    const isLowEnd =
+      (typeof nav.hardwareConcurrency === "number" && nav.hardwareConcurrency <= 4) ||
+      (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4);
+
+    if (isMobile || isLowEnd) {
       setParticleCount(2400);
+    } else {
+      setParticleCount(5400);
     }
   }, []);
 
@@ -666,6 +695,7 @@ export default function AINeuralField({
           count={particleCount}
           hoverRef={hoverRef}
           visibleRef={visibleRef}
+          reducedMotion={reducedMotion}
           onIndexChange={onIndexChange}
           onTransitionStart={onTransitionStart}
           motionConfig={motionConfig}

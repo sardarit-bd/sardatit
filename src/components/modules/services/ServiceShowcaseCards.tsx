@@ -69,8 +69,8 @@ const SHOWCASE_CARDS: ShowcaseCardData[] = [
     image: "/image/project/CASA.webp",
     containerBg: "bg-gradient-to-br from-[#f0f6ff] via-[#e6f0fd] to-[#dbeafe]",
     containerShadow: "shadow-[0_20px_50px_rgba(37,99,235,0.06)]",
-    glowPrimary: "bg-blue-400/25",
-    glowSecondary: "bg-indigo-300/20",
+    glowPrimary: "radial-gradient(circle, rgba(96,165,250,0.28) 0%, rgba(96,165,250,0) 70%)",
+    glowSecondary: "radial-gradient(circle, rgba(165,180,252,0.24) 0%, rgba(165,180,252,0) 70%)",
   },
   {
     id: "web-mobile-development",
@@ -92,8 +92,8 @@ const SHOWCASE_CARDS: ShowcaseCardData[] = [
     image: "/image/services/mobile-dual-mockup.webp",
     containerBg: "bg-gradient-to-br from-[#f2fbf4] via-[#e6f7ea] to-[#d7f2dc]",
     containerShadow: "shadow-[0_20px_50px_rgba(16,185,129,0.06)]",
-    glowPrimary: "bg-emerald-400/25",
-    glowSecondary: "bg-teal-300/20",
+    glowPrimary: "radial-gradient(circle, rgba(52,211,153,0.28) 0%, rgba(52,211,153,0) 70%)",
+    glowSecondary: "radial-gradient(circle, rgba(94,234,212,0.24) 0%, rgba(94,234,212,0) 70%)",
   },
   {
     id: "ai-automation-solutions",
@@ -115,8 +115,8 @@ const SHOWCASE_CARDS: ShowcaseCardData[] = [
     image: "/image/services/isometric-ai-core.png",
     containerBg: "bg-gradient-to-br from-[#fffdf5] via-[#fef7db] to-[#fdeea8]",
     containerShadow: "shadow-[0_20px_50px_rgba(245,158,11,0.08)]",
-    glowPrimary: "bg-amber-400/25",
-    glowSecondary: "bg-orange-300/20",
+    glowPrimary: "radial-gradient(circle, rgba(251,191,36,0.28) 0%, rgba(251,191,36,0) 70%)",
+    glowSecondary: "radial-gradient(circle, rgba(253,186,116,0.24) 0%, rgba(253,186,116,0) 70%)",
   },
   {
     id: "digital-marketing",
@@ -138,8 +138,8 @@ const SHOWCASE_CARDS: ShowcaseCardData[] = [
     image: "/image/services/digital-marketing.png",
     containerBg: "bg-gradient-to-br from-[#fff5f2] via-[#fee7e0] to-[#fcd3c7]",
     containerShadow: "shadow-[0_20px_50px_rgba(244,63,94,0.06)]",
-    glowPrimary: "bg-rose-400/25",
-    glowSecondary: "bg-orange-300/20",
+    glowPrimary: "radial-gradient(circle, rgba(251,113,133,0.28) 0%, rgba(251,113,133,0) 70%)",
+    glowSecondary: "radial-gradient(circle, rgba(253,186,116,0.24) 0%, rgba(253,186,116,0) 70%)",
   },
 ];
 
@@ -164,6 +164,8 @@ export function ServiceShowcaseCard() {
               key={card.id}
               style={{
                 top: `calc(100px + ${index * 30}px)`,
+                transform: "translateZ(0)",
+                willChange: "transform",
               }}
               className={`sticky w-full flex flex-col lg:flex-row items-center overflow-hidden transition-all duration-300 rounded-[32px] border border-white/80 ${card.containerBg} ${card.containerShadow} p-8 sm:p-12 gap-8 lg:gap-12 relative`}
             >
@@ -180,8 +182,8 @@ export function ServiceShowcaseCard() {
               >
                 {/* Header + body */}
                 <div className="flex flex-col items-start w-full">
-                  {/* Top Category Pill */}
-                  <div className="inline-flex items-center gap-2.5 bg-gradient-to-b from-white to-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/90 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_4px_14px_-2px_rgba(37,99,235,0.08)] text-[11px] font-bold tracking-wider text-slate-800 uppercase mb-6">
+                  {/* Top Category Pill (solid translucent without live backdrop sampling) */}
+                  <div className="inline-flex items-center gap-2.5 bg-gradient-to-b from-white via-white/98 to-white/92 px-4 py-2 rounded-full border border-white/90 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_4px_14px_-2px_rgba(37,99,235,0.08)] text-[11px] font-bold tracking-wider text-slate-800 uppercase mb-6">
                     <card.pillIcon className="w-3.5 h-3.5 text-slate-800" />
                     <span>{card.pillTag}</span>
                   </div>
@@ -201,12 +203,12 @@ export function ServiceShowcaseCard() {
                     {card.description}
                   </p>
 
-                  {/* Key Deliverable Feature Badges */}
+                  {/* Key Deliverable Feature Badges (solid translucent without live backdrop sampling) */}
                   <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mt-6">
                     {card.deliverables.map((item) => (
                       <span
                         key={item.name}
-                        className="bg-gradient-to-b from-white via-white/95 to-white/80 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/95 shadow-[inset_0_1.5px_1.5px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(203,213,225,0.3),0_8px_20px_-4px_rgba(37,99,235,0.1)] text-xs sm:text-[13px] font-semibold text-slate-800 inline-flex items-center gap-2.5 select-none transition-all duration-300 hover:scale-[1.02] cursor-default"
+                        className="bg-gradient-to-b from-white via-white/98 to-white/92 px-4 py-2.5 rounded-full border border-white/95 shadow-[inset_0_1.5px_1.5px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(203,213,225,0.3),0_8px_20px_-4px_rgba(37,99,235,0.1)] text-xs sm:text-[13px] font-semibold text-slate-800 inline-flex items-center gap-2.5 select-none transition-all duration-300 hover:scale-[1.02] cursor-default"
                       >
                         <item.icon className={`w-3.5 h-3.5 ${item.iconColor}`} />
                         <span>{item.name}</span>
@@ -229,16 +231,18 @@ export function ServiceShowcaseCard() {
 
               {/* Right Column: Mockup & Decorative Visual Layer */}
               <div className="relative flex w-full flex-1 lg:w-1/2 lg:basis-[48%] min-h-[320px] sm:min-h-[380px] lg:min-h-[440px] items-center justify-center p-4 sm:p-8 overflow-hidden rounded-2xl">
-                {/* Glowing ambient radial blurred lights */}
+                {/* Ambient radial gradient glow lights (zero filter blur cost) */}
                 <div
-                  className={`absolute -top-10 -right-10 w-72 h-72 rounded-full ${card.glowPrimary} blur-3xl pointer-events-none opacity-80`}
+                  className="absolute -top-10 -right-10 w-72 h-72 rounded-full pointer-events-none opacity-80"
+                  style={{ background: card.glowPrimary }}
                 />
                 <div
-                  className={`absolute -bottom-10 -left-10 w-64 h-64 rounded-full ${card.glowSecondary} blur-3xl pointer-events-none opacity-70`}
+                  className="absolute -bottom-10 -left-10 w-64 h-64 rounded-full pointer-events-none opacity-70"
+                  style={{ background: card.glowSecondary }}
                 />
 
-                {/* Translucent floating frosted glass panels */}
-                <div className="absolute inset-2 sm:inset-4 rounded-2xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.03)] pointer-events-none" />
+                {/* Single lightweight frosted glass panel */}
+                <div className="absolute inset-2 sm:inset-4 rounded-2xl bg-white/50 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.03)] pointer-events-none" />
 
                 {/* Subtle decorative corner dots */}
                 <div className="absolute top-6 right-6 flex items-center gap-1.5 opacity-40 pointer-events-none z-10">

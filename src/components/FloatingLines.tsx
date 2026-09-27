@@ -248,6 +248,8 @@ export type FloatingLinesProps = {
   lightMode?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  antialias?: boolean;
+  renderScale?: number;
 };
 
 function hexToVec3(hex: string): Vector3 {
@@ -293,7 +295,9 @@ export default function FloatingLines({
   backgroundColor = '#000000',
   lightMode = false,
   className = '',
-  style
+  style,
+  antialias = false,
+  renderScale = 1
 }: FloatingLinesProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const targetMouseRef = useRef(new Vector2(-1000, -1000));
@@ -336,7 +340,7 @@ export default function FloatingLines({
     const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     camera.position.z = 1;
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new WebGLRenderer({ antialias, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -426,8 +430,12 @@ export default function FloatingLines({
       if (!el) return;
       const width = el.clientWidth || 1;
       const height = el.clientHeight || 1;
+      const scale = Math.max(Math.min(renderScale, 1), 0.25);
 
-      renderer.setSize(width, height, false);
+      const internalWidth = Math.max(Math.floor(width * scale), 1);
+      const internalHeight = Math.max(Math.floor(height * scale), 1);
+
+      renderer.setSize(internalWidth, internalHeight, false);
 
       const canvasWidth = renderer.domElement.width;
       const canvasHeight = renderer.domElement.height;
@@ -490,10 +498,11 @@ export default function FloatingLines({
       const x = pageX - cachedRect.left;
       const y = pageY - cachedRect.top;
       const dpr = renderer.getPixelRatio();
+      const scale = Math.max(Math.min(renderScale, 1), 0.25);
 
       const isInside = x >= 0 && x <= cachedRect.width && y >= 0 && y <= cachedRect.height;
       if (isInside) {
-        targetMouseRef.current.set(x * dpr, (cachedRect.height - y) * dpr);
+        targetMouseRef.current.set(x * dpr * scale, (cachedRect.height - y) * dpr * scale);
         targetInfluenceRef.current = 1.0;
       } else {
         targetInfluenceRef.current = 0.0;
@@ -580,7 +589,9 @@ export default function FloatingLines({
     parallax,
     parallaxStrength,
     backgroundColor,
-    lightMode
+    lightMode,
+    antialias,
+    renderScale
   ]);
 
   return (
