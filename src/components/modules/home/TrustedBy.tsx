@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { brands, brands1, brands2 } from "@/data/brands";
 import { BrandLogo } from "@/types/brand";
@@ -10,17 +11,19 @@ const Row = ({
   direction,
   speed = 55,
   className = "",
+  isInView = true,
 }: {
   items: BrandLogo[];
   direction: "left" | "right";
   speed?: number;
   className?: string;
+  isInView?: boolean;
 }) => (
   <div className="overflow-hidden w-full flex">
     <motion.div
       key={`${direction}-${speed}`}
-      className={`flex gap-12 md:gap-16 items-center w-max flex-nowrap ${className}`}
-      animate={{ x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"] }}
+      className={`flex gap-12 md:gap-16 items-center w-max flex-nowrap transform-gpu will-change-transform ${className}`}
+      animate={isInView ? { x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"] } : undefined}
       transition={{
         duration: speed,
         repeat: Infinity,
@@ -46,8 +49,11 @@ const Row = ({
 );
 
 export default function TrustedBy() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "150px" });
+
   return (
-    <section className="py-20 sm:py-24 md:py-32 overflow-hidden w-full relative bg-white border-y border-neutral-100">
+    <section ref={containerRef} className="py-20 sm:py-24 md:py-32 overflow-hidden w-full relative bg-white border-y border-neutral-100">
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
         <div className="text-center">
           <p className="text-sm sm:text-base md:text-lg font-semibold tracking-[0.18em] text-neutral-800 uppercase text-center mb-10 md:mb-14">
@@ -64,9 +70,9 @@ export default function TrustedBy() {
               "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
           }}
         >
-          <Row items={brands} direction="left" speed={55} />
-          <Row items={brands1} direction="right" speed={65} />
-          <Row items={brands2} direction="left" speed={50} />
+          <Row items={brands} direction="left" speed={55} isInView={isInView} />
+          <Row items={brands1} direction="right" speed={65} isInView={isInView} />
+          <Row items={brands2} direction="left" speed={50} isInView={isInView} />
         </div>
       </div>
     </section>

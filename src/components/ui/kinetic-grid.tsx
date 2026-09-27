@@ -55,13 +55,15 @@ export default function KineticGrid({
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    let animationFrameId: number;
+    let animationFrameId = 0;
+    let isVisible = true;
     let width = 0;
     let height = 0;
     let cols = 0;
     let rows = 0;
     let points: GridPoint[][] = [];
     const ripples: Ripple[] = [];
+    let cachedRect = { left: 0, top: 0, width: 0, height: 0 };
 
     const mouse = {
       x: -9999,
@@ -100,7 +102,14 @@ export default function KineticGrid({
 
     const handleResize = () => {
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+
+      cachedRect = {
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY,
+        width: rect.width,
+        height: rect.height,
+      };
 
       canvas.width = Math.floor(rect.width * dpr);
       canvas.height = Math.floor(rect.height * dpr);
@@ -114,9 +123,11 @@ export default function KineticGrid({
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      const rect = container.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      if (!isVisible) return;
+      const pageX = e.pageX ?? e.clientX + window.scrollX;
+      const pageY = e.pageY ?? e.clientY + window.scrollY;
+      mouse.x = pageX - cachedRect.left;
+      mouse.y = pageY - cachedRect.top;
       mouse.isHovered = true;
     };
 
@@ -127,9 +138,11 @@ export default function KineticGrid({
     };
 
     const handlePointerDown = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
+      if (!isVisible) return;
+      const pageX = e.pageX ?? e.clientX + window.scrollX;
+      const pageY = e.pageY ?? e.clientY + window.scrollY;
+      const clickX = pageX - cachedRect.left;
+      const clickY = pageY - cachedRect.top;
 
       ripples.push({
         x: clickX,
@@ -147,6 +160,35 @@ export default function KineticGrid({
     });
     resizeObserver.observe(container);
     handleResize();
+
+    const startLoop = () => {
+      if (animationFrameId || !isVisible) return;
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    const stopLoop = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
+
+    const io =
+      typeof IntersectionObserver !== "undefined"
+        ? new IntersectionObserver(
+            ([entry]) => {
+              isVisible = entry.isIntersecting;
+              if (isVisible) {
+                startLoop();
+              } else {
+                stopLoop();
+              }
+            },
+            { threshold: 0.05 }
+          )
+        : null;
+
+    if (io) io.observe(container);
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     container.addEventListener("mouseleave", handlePointerLeave, { passive: true });
@@ -271,14 +313,20 @@ export default function KineticGrid({
         }
       }
 
+      if (!isVisible) {
+        animationFrameId = 0;
+        return;
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      stopLoop();
       resizeObserver.disconnect();
+      if (io) io.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       container.removeEventListener("mouseleave", handlePointerLeave);
       window.removeEventListener("click", handlePointerDown);

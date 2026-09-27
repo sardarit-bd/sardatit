@@ -66,8 +66,8 @@ export default function Showreel() {
 
           {/* Rotating Circle Play Button Overlay (Visible when muted) */}
           {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none bg-black/20 backdrop-blur-[2px]">
-              <div className="relative flex items-center justify-center size-28 sm:size-32 md:size-36 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-2xl text-white transition-transform duration-300 group-hover:scale-110">
+            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none bg-black/25">
+              <div className="relative flex items-center justify-center size-28 sm:size-32 md:size-36 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 shadow-2xl text-white transition-transform duration-300 group-hover:scale-110 transform-gpu">
                 {/* Rotating SVG Curved Text */}
                 <svg
                   viewBox="0 0 100 100"

@@ -14,8 +14,10 @@ export default function LenisProvider({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
       smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.5,
+      lerp: 0.09,
     });
 
     lenis.on("scroll", ScrollTrigger.update);
@@ -23,7 +25,7 @@ export default function LenisProvider({
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     if (typeof window !== "undefined") {
       (window as unknown as { __lenis?: Lenis }).__lenis = lenis;

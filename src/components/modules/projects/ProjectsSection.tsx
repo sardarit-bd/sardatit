@@ -24,6 +24,7 @@ export default function ProjectsSection() {
   const bgNumberRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const activeIdxRef = useRef<number>(0);
   const totalChapters = projects.length;
 
   useGSAP(
@@ -70,7 +71,7 @@ export default function ProjectsSection() {
             start: "top 85px", // Offset by the sticky navbar height so it stops right below the navbar
             end: () => `+=${(totalChapters - 1) * 115}%`,
             scrub: true,
-            anticipatePin: 1,
+            anticipatePin: 0,
             invalidateOnRefresh: true,
             pinSpacing: true,
             onUpdate: (self) => {
@@ -80,24 +81,9 @@ export default function ProjectsSection() {
                 Math.round(rawCur),
                 totalChapters - 1
               );
-              setActiveIdx(cur);
-
-              // Strictly manage pointer-events and z-index across all chapter cards:
-              // Only the currently active chapter is clickable and on top!
-              for (let k = 0; k < totalChapters; k++) {
-                const card = chapterRefs.current[k];
-                if (card) {
-                  if (k === cur) {
-                    gsap.set(card, { pointerEvents: "auto", zIndex: 30 });
-                  } else {
-                    gsap.set(card, { pointerEvents: "none", zIndex: 5 });
-                  }
-                }
-                if (k !== Math.floor(rawCur) && k !== Math.ceil(rawCur)) {
-                  if (card) gsap.set(card, { opacity: 0 });
-                  const distantNum = bgNumberRefs.current[k];
-                  if (distantNum) gsap.set(distantNum, { opacity: 0 });
-                }
+              if (cur !== activeIdxRef.current) {
+                activeIdxRef.current = cur;
+                setActiveIdx(cur);
               }
             },
           },
@@ -115,7 +101,7 @@ export default function ProjectsSection() {
 
           // 1. Outgoing Chapter Card: Lower zIndex than incoming, slides out left
           if (curChapter) {
-            masterTl.set(curChapter, { zIndex: 5 + i }, stepTime);
+            masterTl.set(curChapter, { zIndex: 5 + i, pointerEvents: "none" }, stepTime);
             masterTl.to(
               curChapter,
               {
@@ -124,9 +110,7 @@ export default function ProjectsSection() {
                 zIndex: 5 + i,
                 duration: 1,
                 ease: "none",
-                onComplete: () => {
-                  gsap.set(curChapter, { pointerEvents: "none" });
-                },
+                force3D: true,
               },
               stepTime
             );
@@ -134,6 +118,7 @@ export default function ProjectsSection() {
 
           // 2. Incoming Chapter Card: Higher zIndex, enters from right
           if (nextChapter) {
+            masterTl.set(nextChapter, { pointerEvents: "auto", zIndex: 10 + i }, stepTime + 0.5);
             masterTl.fromTo(
               nextChapter,
               {
@@ -148,9 +133,7 @@ export default function ProjectsSection() {
                 duration: 1,
                 ease: "none",
                 immediateRender: false,
-                onStart: () => {
-                  gsap.set(nextChapter, { pointerEvents: "auto" });
-                },
+                force3D: true,
               },
               stepTime
             );
@@ -165,6 +148,7 @@ export default function ProjectsSection() {
                 scale: 1.06,
                 duration: 0.5,
                 ease: "none",
+                force3D: true,
               },
               stepTime
             );
@@ -180,6 +164,7 @@ export default function ProjectsSection() {
                 duration: 0.5,
                 ease: "none",
                 immediateRender: false,
+                force3D: true,
               },
               stepTime + 0.3
             );
@@ -274,7 +259,8 @@ export default function ProjectsSection() {
                 ref={(el) => {
                   bgNumberRefs.current[index] = el;
                 }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-neutral-900/[0.04] leading-none tracking-tighter select-none will-change-transform"
+                className="absolute left-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-neutral-900/[0.04] leading-none tracking-tighter select-none will-change-transform transform-gpu"
+                style={{ transform: "translate3d(0, -50%, 0)", willChange: "transform, opacity" }}
               >
                 {String(index + 1).padStart(2, "0")}
               </div>
@@ -291,10 +277,11 @@ export default function ProjectsSection() {
                   ref={(el) => {
                     chapterRefs.current[index] = el;
                   }}
-                  className={`absolute inset-y-0 left-6 md:left-12 right-6 md:right-12 h-full flex items-center justify-between gap-10 xl:gap-16 will-change-transform ${isActive
+                  className={`absolute inset-y-0 left-6 md:left-12 right-6 md:right-12 h-full flex items-center justify-between gap-10 xl:gap-16 will-change-transform transform-gpu ${isActive
                       ? "pointer-events-auto z-30"
                       : "pointer-events-none select-none z-10"
                     }`}
+                  style={{ transform: "translate3d(0, 0, 0)", willChange: "transform, opacity" }}
                   aria-hidden={!isActive}
                 >
                   {/* LEFT HALF: CHAPTER EDITORIAL DETAILS */}
@@ -386,7 +373,7 @@ export default function ProjectsSection() {
 
                         {/* Category Floating Pill Badge */}
                         <div className="absolute top-4 left-4 z-10 pointer-events-none">
-                          <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/95 text-neutral-900 backdrop-blur-md shadow-sm border border-neutral-200/80">
+                          <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/95 text-neutral-900 shadow-sm border border-neutral-200/90">
                             {project.category}
                           </span>
                         </div>
