@@ -5,6 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import HyperText from "@/components/ui/HyperText";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 import type { ParticleMotionConfig } from "./AINeuralField";
 
@@ -27,6 +28,7 @@ export default function AINeuralNetworkSection({
   isHero = true,
   motionConfig,
 }: AINeuralNetworkSectionProps) {
+  const prefersReducedMotion = useReducedMotion();
   return (
     <section
       className={`relative z-0 overflow-hidden isolate w-full ${isHero
@@ -43,7 +45,7 @@ export default function AINeuralNetworkSection({
             alt="Hero Background"
             fill
             priority
-            quality={100}
+            quality={78}
             className="object-cover object-center pointer-events-none select-none -z-20"
           />
           {/* Subtle overlay to preserve contrast without washing out the background image */}
@@ -120,7 +122,7 @@ export default function AINeuralNetworkSection({
             <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white tracking-tight leading-snug mt-0.5">
               <HyperText
                 text="Engineering Digital Frontiers"
-                autoLoopInterval={5500}
+                autoLoopInterval={prefersReducedMotion ? 0 : 5500}
                 className="inline-block text-white font-semibold tracking-tight"
               />
             </h3>
@@ -137,14 +139,18 @@ export default function AINeuralNetworkSection({
       {isHero && (
         <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 lg:right-12 z-20 flex flex-col items-end sm:items-center gap-1 select-none pointer-events-auto scale-80 sm:scale-100 origin-bottom-right">
           <motion.span
-            animate={{
-              textShadow: [
-                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
-                "-1.2px 0 rgba(0, 240, 255, 0.7), 1.2px 0 rgba(255, 90, 0, 0.7)",
-                "-1.8px 0.2px rgba(0, 240, 255, 0.9), 1.8px -0.2px rgba(255, 90, 0, 0.9)",
-                "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
-              ],
-            }}
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    textShadow: [
+                      "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+                      "-1.2px 0 rgba(0, 240, 255, 0.7), 1.2px 0 rgba(255, 90, 0, 0.7)",
+                      "-1.8px 0.2px rgba(0, 240, 255, 0.9), 1.8px -0.2px rgba(255, 90, 0, 0.9)",
+                      "-1.5px 0 rgba(0, 240, 255, 0.8), 1.5px 0 rgba(255, 90, 0, 0.8)",
+                    ],
+                  }
+            }
             transition={{
               duration: 2.8,
               repeat: Infinity,
@@ -166,7 +172,7 @@ export default function AINeuralNetworkSection({
             {/* Mouse capsule with animated scrolling dot */}
             <div className="w-4.5 h-7 sm:w-5 sm:h-8 rounded-full border border-white/30 flex items-start justify-center p-1 bg-slate-950/40 backdrop-blur-xs shadow-xs">
               <motion.div
-                animate={{ y: [0, 7, 0], opacity: [1, 0.3, 1] }}
+                animate={prefersReducedMotion ? undefined : { y: [0, 7, 0], opacity: [1, 0.3, 1] }}
                 transition={{
                   duration: 1.6,
                   repeat: Infinity,
@@ -177,7 +183,7 @@ export default function AINeuralNetworkSection({
             </div>
             {/* Subtle downward chevron */}
             <motion.svg
-              animate={{ y: [0, 3, 0] }}
+              animate={prefersReducedMotion ? undefined : { y: [0, 3, 0] }}
               transition={{
                 duration: 1.6,
                 repeat: Infinity,

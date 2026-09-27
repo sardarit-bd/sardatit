@@ -7,21 +7,54 @@ import { useGSAP } from "@gsap/react";
 import { Lottie, type LottieHandle } from "lottie-react";
 import { statsData } from "@/data/stats";
 
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+interface StatLottieIconProps {
+  lottiePath?: string;
+  playDelay?: number;
+}
+
 /**
- * Resilient Lottie icon component filling the upper body of each card
+ * Resilient Canvas-rendered Lottie icon component filling the upper body of each card
  */
-function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
+function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
+  const [shouldFetch, setShouldFetch] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lottieRef = useRef<LottieHandle | null>(null);
   const isVisibleRef = useRef(false);
+  const playTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
+  // 1. Gate fetch behind visibility: trigger fetch only when near viewport (generous 400px margin)
   useEffect(() => {
-    if (!lottiePath) return;
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setShouldFetch(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldFetch(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // 2. Fetch Lottie JSON only after shouldFetch is triggered
+  useEffect(() => {
+    if (!shouldFetch || !lottiePath) return;
     let isCurrent = true;
 
     fetch(lottiePath)
@@ -45,8 +78,9 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
     return () => {
       isCurrent = false;
     };
-  }, [lottiePath]);
+  }, [shouldFetch, lottiePath]);
 
+  // 3. Play/Pause observer with staggered deconfliction and reduced motion support
   useEffect(() => {
     const el = containerRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
@@ -55,9 +89,25 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
       ([entry]) => {
         const visible = entry.isIntersecting;
         isVisibleRef.current = visible;
+
+        if (playTimeoutRef.current) {
+          clearTimeout(playTimeoutRef.current);
+          playTimeoutRef.current = null;
+        }
+
         if (lottieRef.current) {
           if (visible) {
-            lottieRef.current.play();
+            if (prefersReducedMotion) {
+              lottieRef.current.stop();
+            } else if (playDelay > 0) {
+              playTimeoutRef.current = setTimeout(() => {
+                if (isVisibleRef.current && lottieRef.current) {
+                  lottieRef.current.play();
+                }
+              }, playDelay * 1000);
+            } else {
+              lottieRef.current.play();
+            }
           } else {
             lottieRef.current.pause();
           }
@@ -67,8 +117,20 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [animationData]);
+    return () => {
+      if (playTimeoutRef.current) {
+        clearTimeout(playTimeoutRef.current);
+      }
+      observer.disconnect();
+    };
+  }, [animationData, prefersReducedMotion, playDelay]);
+
+  // If reduced motion is preferred and animationData is loaded, freeze at first frame
+  useEffect(() => {
+    if (prefersReducedMotion && lottieRef.current) {
+      lottieRef.current.stop();
+    }
+  }, [animationData, prefersReducedMotion]);
 
   if (!animationData) {
     return (
@@ -92,12 +154,12 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
       <Lottie
         lottieRef={lottieRef}
         src={animationData}
-        loop={true}
-        autoplay={isVisibleRef.current}
-        renderer="svg"
+        loop={!prefersReducedMotion}
+        autoplay={false}
+        renderer="canvas"
         rendererSettings={{
           progressiveLoad: true,
-          hideOnTransparent: true,
+          clearCanvas: true,
         }}
         className="w-full h-full"
       />
@@ -271,7 +333,7 @@ export function ImpactStats() {
 
               {/* Upper Body: Large Centered Lottie Animation */}
               <div className="relative z-10 w-full flex items-center justify-center my-auto py-4">
-                <StatLottieIcon lottiePath={item.lottiePath} />
+                <StatLottieIcon lottiePath={item.lottiePath} playDelay={idx * 0.08} />
               </div>
 
               {/* Lower Body: Big Bold Metric & Label */}
