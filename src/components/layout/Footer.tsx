@@ -28,11 +28,13 @@ export default function Footer() {
       {/* 1. Ambient Top & Lateral Mesh Glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 right-1/4 h-[380px] w-[380px] rounded-full bg-gradient-to-br from-[#133BD4]/20 to-[#38bdf8]/10 blur-[130px]"
+        className="pointer-events-none absolute -top-40 right-1/4 h-[380px] w-[380px] rounded-full bg-gradient-to-br from-[#133BD4]/20 to-[#38bdf8]/10 blur-3xl"
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/4 -left-20 h-[300px] w-[300px] rounded-full bg-[#133BD4]/15 blur-[110px]"
+        className="pointer-events-none absolute top-1/4 -left-20 h-[300px] w-[300px] rounded-full bg-[#133BD4]/15 blur-3xl"
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
       />
 
       {/* Top Section: Navigation Columns & Company Details */}
@@ -155,7 +157,8 @@ export default function Footer() {
         {/* Primary Brand Radial Glow behind TechText */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[240px] w-full max-w-[950px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#133BD4]/35 via-[#133BD4]/15 to-transparent blur-[90px]"
+          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[240px] w-full max-w-[950px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#133BD4]/35 via-[#133BD4]/15 to-transparent blur-3xl"
+          style={{ transform: "translate3d(-50%, 0, 0)", willChange: "transform" }}
         />
 
         <TechText

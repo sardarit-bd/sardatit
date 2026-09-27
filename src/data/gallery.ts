@@ -62,7 +62,7 @@ export const galleryImages: GalleryImageItem[] = [
     category: "People",
   },
   {
-    src: "/image/galary/G3.webp",
+    src: "/image/galary/G2.JPG",
     alt: "Sardar IT Family",
     title: "Our Brilliant Team",
     category: "People",

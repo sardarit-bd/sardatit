@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useId } from "react";
+import React, { useId, useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface AngledSliderProps<T = any> {
@@ -29,6 +29,22 @@ export function AngledSlider<T = any>({
 }: AngledSliderProps<T>) {
   const uniqueId = useId().replace(/:/g, "-");
   const animName = `angled-marquee-${uniqueId}`;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: "150px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Ensure negative angle for signature right-facing isometric tilt
   const cardAngle = angle > 0 ? -angle : angle;
@@ -36,6 +52,7 @@ export function AngledSlider<T = any>({
 
   return (
     <div
+      ref={containerRef}
       className={cn(
         "angled-slider-root relative w-full overflow-visible bg-transparent py-16 select-none",
         className
@@ -62,6 +79,7 @@ export function AngledSlider<T = any>({
               align-items: center;
               width: max-content;
               animation: ${animName} ${speed}s linear infinite;
+              animation-play-state: ${isVisible ? "running" : "paused"};
               transform-style: preserve-3d;
               will-change: transform;
               backface-visibility: hidden;

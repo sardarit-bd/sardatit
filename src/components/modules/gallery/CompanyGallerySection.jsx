@@ -1,17 +1,21 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { galleryImages } from "@/data/gallery";
 import FloatingLines from "@/components/FloatingLines";
 
 export function CompanyGallerySection() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { margin: "200px" });
+
   // Duplicate array to ensure smooth infinite loop
   const duplicatedImages = [...galleryImages, ...galleryImages, ...galleryImages];
 
   return (
-    <section className="relative w-full bg-black py-20 lg:py-20 overflow-hidden text-white">
+    <section ref={sectionRef} className="relative w-full bg-black py-20 lg:py-20 overflow-hidden text-white">
       {/* Floating Lines Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-80">
         <FloatingLines
@@ -44,8 +48,8 @@ export function CompanyGallerySection() {
 
           {/* Moving Image Track */}
           <motion.div
-            className="flex gap-6 sm:gap-8 shrink-0 items-center"
-            animate={{ x: ["0%", "-33.333%"] }}
+            className="flex gap-6 sm:gap-8 shrink-0 items-center transform-gpu will-change-transform"
+            animate={isInView ? { x: ["0%", "-33.333%"] } : undefined}
             transition={{
               duration: 35,
               repeat: Infinity,
@@ -61,7 +65,7 @@ export function CompanyGallerySection() {
                   src={img.src}
                   alt={img.alt}
                   fill
-                  sizes="(max-width: 640px) 280px, (max-width: 768px) 360px, 420px"
+                  sizes="(max-width: 640px) 280px, (max-width: 768px) 360px, 370px"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>

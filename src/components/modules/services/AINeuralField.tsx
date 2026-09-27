@@ -180,6 +180,7 @@ export const DEFAULT_MOTION_CONFIG: Required<ParticleMotionConfig> = {
 interface ParticleFieldProps {
   count: number;
   hoverRef: React.RefObject<boolean>;
+  visibleRef: React.RefObject<boolean>;
   onIndexChange?: (index: number, holdDuration?: number) => void;
   onTransitionStart?: () => void;
   motionConfig?: ParticleMotionConfig;
@@ -188,6 +189,7 @@ interface ParticleFieldProps {
 function ParticleField({
   count,
   hoverRef,
+  visibleRef,
   onIndexChange,
   onTransitionStart,
   motionConfig,
@@ -361,6 +363,7 @@ function ParticleField({
   const hadHighlightsRef = useRef(false);
 
   useFrame((state, delta) => {
+    if (!visibleRef.current) return;
     if (!pointsRef.current || !groupRef.current || !entranceDoneRef.current) return;
 
     const elapsed = state.clock.getElapsedTime();
@@ -607,11 +610,38 @@ export default function AINeuralField({
   onTransitionStart,
   motionConfig,
 }: AINeuralFieldProps) {
-  const [particleCount] = useState(5400);
+  const [particleCount, setParticleCount] = useState(5400);
+  const [isVisible, setIsVisible] = useState(true);
   const hoverRef = useRef(false);
+  const visibleRef = useRef(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setParticleCount(2400);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        visibleRef.current = visible;
+        setIsVisible(visible);
+      },
+      { rootMargin: "100px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
+      ref={containerRef}
       className={`${className} cursor-crosshair select-none bg-transparent w-full h-full`}
       style={{ contain: "layout paint size", transform: "translateZ(0)" }}
       onPointerEnter={() => {
@@ -622,7 +652,8 @@ export default function AINeuralField({
       }}
     >
       <Canvas
-        dpr={[1, 2]}
+        frameloop={isVisible ? "always" : "demand"}
+        dpr={[1, 1.25]}
         gl={{
           antialias: true,
           alpha: true,
@@ -634,6 +665,7 @@ export default function AINeuralField({
         <ParticleField
           count={particleCount}
           hoverRef={hoverRef}
+          visibleRef={visibleRef}
           onIndexChange={onIndexChange}
           onTransitionStart={onTransitionStart}
           motionConfig={motionConfig}

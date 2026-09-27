@@ -337,7 +337,7 @@ export default function FloatingLines({
     camera.position.z = 1;
 
     const renderer = new WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
@@ -417,6 +417,10 @@ export default function FloatingLines({
 
     const clock = new Clock();
 
+    let isVisible = true;
+    let raf = 0;
+    let cachedRect = { left: 0, top: 0, width: 1, height: 1 };
+
     const setSize = () => {
       const el = containerRef.current;
       if (!el) return;
@@ -428,6 +432,14 @@ export default function FloatingLines({
       const canvasWidth = renderer.domElement.width;
       const canvasHeight = renderer.domElement.height;
       uniforms.iResolution.value.set(canvasWidth, canvasHeight, 1);
+
+      const r = el.getBoundingClientRect();
+      cachedRect = {
+        left: r.left + window.scrollX,
+        top: r.top + window.scrollY,
+        width: r.width,
+        height: r.height
+      };
     };
 
     setSize();
@@ -442,27 +454,56 @@ export default function FloatingLines({
 
     if (ro) ro.observe(container);
 
+    const startLoop = () => {
+      if (raf || !active || !isVisible) return;
+      raf = requestAnimationFrame(renderLoop);
+    };
+
+    const stopLoop = () => {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
+    const io =
+      typeof IntersectionObserver !== 'undefined'
+        ? new IntersectionObserver(
+            ([entry]) => {
+              isVisible = entry.isIntersecting;
+              if (isVisible) {
+                startLoop();
+              } else {
+                stopLoop();
+              }
+            },
+            { threshold: 0.05 }
+          )
+        : null;
+
+    if (io) io.observe(container);
+
     const handlePointerMove = (event: PointerEvent) => {
-      const canvas = renderer.domElement;
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      if (!isVisible) return;
+      const pageX = event.pageX ?? event.clientX + window.scrollX;
+      const pageY = event.pageY ?? event.clientY + window.scrollY;
+      const x = pageX - cachedRect.left;
+      const y = pageY - cachedRect.top;
       const dpr = renderer.getPixelRatio();
 
-      const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
+      const isInside = x >= 0 && x <= cachedRect.width && y >= 0 && y <= cachedRect.height;
       if (isInside) {
-        targetMouseRef.current.set(x * dpr, (rect.height - y) * dpr);
+        targetMouseRef.current.set(x * dpr, (cachedRect.height - y) * dpr);
         targetInfluenceRef.current = 1.0;
       } else {
         targetInfluenceRef.current = 0.0;
       }
 
       if (parallax) {
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const offsetX = (x - centerX) / rect.width;
-        const offsetY = -(y - centerY) / rect.height;
+        const centerX = cachedRect.width / 2;
+        const centerY = cachedRect.height / 2;
+        const offsetX = (x - centerX) / cachedRect.width;
+        const offsetY = -(y - centerY) / cachedRect.height;
         targetParallaxRef.current.set(offsetX * parallaxStrength, offsetY * parallaxStrength);
       }
     };
@@ -472,13 +513,15 @@ export default function FloatingLines({
     };
 
     if (interactive) {
-      window.addEventListener('pointermove', handlePointerMove);
-      window.addEventListener('pointerleave', handlePointerLeave);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
+      window.addEventListener('pointerleave', handlePointerLeave, { passive: true });
     }
 
-    let raf = 0;
     const renderLoop = () => {
-      if (!active) return;
+      if (!active || !isVisible) {
+        raf = 0;
+        return;
+      }
 
       uniforms.iTime.value = clock.getElapsedTime();
 
@@ -498,14 +541,15 @@ export default function FloatingLines({
       renderer.render(scene, camera);
       raf = requestAnimationFrame(renderLoop);
     };
-    renderLoop();
+
+    startLoop();
 
     return () => {
       active = false;
-
-      cancelAnimationFrame(raf);
+      stopLoop();
 
       if (ro) ro.disconnect();
+      if (io) io.disconnect();
 
       if (interactive) {
         window.removeEventListener('pointermove', handlePointerMove);

@@ -36,6 +36,7 @@ export default function LeadersChapterShowcase({
   const bgNumberRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const activeIdxRef = useRef<number>(0);
   const totalChapters = LEADERS_DATA.length;
 
   useGSAP(
@@ -103,7 +104,10 @@ export default function LeadersChapterShowcase({
                 Math.round(progress * (totalChapters - 1)),
                 totalChapters - 1
               );
-              setActiveIdx(cur);
+              if (cur !== activeIdxRef.current) {
+                activeIdxRef.current = cur;
+                setActiveIdx(cur);
+              }
             },
           },
         });

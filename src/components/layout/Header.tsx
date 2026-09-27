@@ -72,9 +72,15 @@ export default function Header() {
       }`;
   };
 
+  const isScrolledRef = useRef(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrolled = window.scrollY > 20;
+      if (scrolled !== isScrolledRef.current) {
+        isScrolledRef.current = scrolled;
+        setIsScrolled(scrolled);
+      }
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });

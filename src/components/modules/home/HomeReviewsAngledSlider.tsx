@@ -58,8 +58,14 @@ export function HomeReviewsAngledSlider({
   return (
     <section className={`w-full py-20 sm:py-28 bg-[#FAFAFA] text-neutral-900 border-t border-neutral-200/80 overflow-hidden relative ${className}`}>
       {/* Background Ambient Glow Accents */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div
+        className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none"
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
+      />
+      <div
+        className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"
+        style={{ transform: "translateZ(0)", willChange: "transform" }}
+      />
 
       {/* Responsive "INNOVATION" Background Watermark Text */}
       <div className="absolute inset-0 w-full overflow-hidden flex items-center justify-center pointer-events-none select-none z-0">

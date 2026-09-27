@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Lottie } from "lottie-react";
+import { Lottie, type LottieHandle } from "lottie-react";
 import { statsData } from "@/data/stats";
 
 if (typeof window !== "undefined") {
@@ -16,6 +16,9 @@ if (typeof window !== "undefined") {
  */
 function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
   const [animationData, setAnimationData] = useState<object | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lottieRef = useRef<LottieHandle | null>(null);
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
     if (!lottiePath) return;
@@ -44,9 +47,35 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
     };
   }, [lottiePath]);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        isVisibleRef.current = visible;
+        if (lottieRef.current) {
+          if (visible) {
+            lottieRef.current.play();
+          } else {
+            lottieRef.current.pause();
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [animationData]);
+
   if (!animationData) {
     return (
-      <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-blue-50/50 border border-blue-100/50 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+      <div
+        ref={containerRef}
+        className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-blue-50/50 border border-blue-100/50 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300"
+      >
         <span
           className="w-3.5 h-3.5 rounded-full bg-blue-600 inline-block shadow-[0_0_12px_rgba(37,99,235,0.5)] animate-pulse"
           aria-hidden="true"
@@ -56,11 +85,20 @@ function StatLottieIcon({ lottiePath }: { lottiePath?: string }) {
   }
 
   return (
-    <div className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+    <div
+      ref={containerRef}
+      className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300"
+    >
       <Lottie
+        lottieRef={lottieRef}
         src={animationData}
         loop={true}
-        autoplay={true}
+        autoplay={isVisibleRef.current}
+        renderer="svg"
+        rendererSettings={{
+          progressiveLoad: true,
+          hideOnTransparent: true,
+        }}
         className="w-full h-full"
       />
     </div>

@@ -46,8 +46,8 @@ export default function AINeuralNetworkSection({
             quality={100}
             className="object-cover object-center pointer-events-none select-none -z-20"
           />
-          {/* Subtle backdrop overlay to preserve contrast without washing out the background image */}
-          <div className="absolute inset-0 bg-slate-950/20 backdrop-blur-[0.5px] pointer-events-none -z-10" />
+          {/* Subtle overlay to preserve contrast without washing out the background image */}
+          <div className="absolute inset-0 bg-slate-950/25 pointer-events-none -z-10" />
 
           {/* Layer 1: Transparent Kinetic Grid Overlay */}
           <div className="absolute inset-0 z-0 pointer-events-auto">
