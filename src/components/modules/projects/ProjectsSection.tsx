@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { projects } from "@/data/projects";
 import ProjectCardVertical from "@/components/ui/ProjectCardVertical";
+import TechBadge from "@/components/ui/TechBadge";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -315,12 +316,7 @@ export default function ProjectsSection() {
                     {/* Tech Stack Chips */}
                     <div className="flex flex-wrap items-center gap-1.5 my-3">
                       {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded-md border border-neutral-200/80"
-                        >
-                          {tag}
-                        </span>
+                        <TechBadge key={tag} tech={tag} />
                       ))}
                     </div>
 
@@ -355,7 +351,7 @@ export default function ProjectsSection() {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Image
-                          src={project.image}
+                          src={project.mockup || project.image}
                           alt={`${project.title} - ${project.eyebrow}`}
                           fill
                           sizes="(max-width: 1280px) 50vw, 600px"
@@ -473,7 +469,7 @@ export default function ProjectsSection() {
               category={project.category}
               eyebrow={project.eyebrow}
               description={project.description}
-              imageSrc={project.image}
+              imageSrc={project.mockup || project.image}
               imageAlt={`${project.title} - ${project.eyebrow}`}
               tags={project.tags}
               ctaHref={project.link}
