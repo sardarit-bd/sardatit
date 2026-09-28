@@ -256,13 +256,20 @@ export default function WorksSlugPage() {
                             >
                                 {/* Main Hero Gallery Image */}
                                 {data.heroImage && (
-                                    <div className="overflow-hidden bg-neutral-100">
-                                        <img
-                                            src={data.heroImage}
-                                            alt={`${data.title} Hero Showcase`}
-                                            className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-500"
-                                        />
-                                    </div>
+                                    <figure className="space-y-2">
+                                        <div className="overflow-hidden bg-neutral-100">
+                                            <img
+                                                src={data.heroImage}
+                                                alt={data.heroImageAlt || `${data.title} Hero Showcase`}
+                                                className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-500"
+                                            />
+                                        </div>
+                                        {data.heroImageAlt && (
+                                            <figcaption className="text-xs text-neutral-400 font-mono tracking-wide">
+                                                {data.heroImageAlt}
+                                            </figcaption>
+                                        )}
+                                    </figure>
                                 )}
 
                                 {/* About Section */}
@@ -281,13 +288,20 @@ export default function WorksSlugPage() {
 
                                 {/* Cover Image Banner */}
                                 {data.coverImage && (
-                                    <div className="overflow-hidden bg-neutral-100">
-                                        <img
-                                            src={data.coverImage}
-                                            alt={`${data.title} Cover Banner`}
-                                            className="w-full h-auto object-cover"
-                                        />
-                                    </div>
+                                    <figure className="space-y-2">
+                                        <div className="overflow-hidden bg-neutral-100">
+                                            <img
+                                                src={data.coverImage}
+                                                alt={data.coverImageAlt || `${data.title} Cover Banner`}
+                                                className="w-full h-auto object-cover"
+                                            />
+                                        </div>
+                                        {data.coverImageAlt && (
+                                            <figcaption className="text-xs text-neutral-400 font-mono tracking-wide">
+                                                {data.coverImageAlt}
+                                            </figcaption>
+                                        )}
+                                    </figure>
                                 )}
 
                                 {/* Objectives Section */}
@@ -328,13 +342,20 @@ export default function WorksSlugPage() {
 
                                 {/* Macbook View Showcase */}
                                 {data.macbookView && (
-                                    <div className="overflow-hidden bg-neutral-100">
-                                        <img
-                                            src={data.macbookView}
-                                            alt="Macbook View Showcase"
-                                            className="w-full h-auto object-cover"
-                                        />
-                                    </div>
+                                    <figure className="space-y-2">
+                                        <div className="overflow-hidden bg-neutral-100">
+                                            <img
+                                                src={data.macbookView}
+                                                alt={data.macbookViewAlt || "Macbook View Showcase"}
+                                                className="w-full h-auto object-cover"
+                                            />
+                                        </div>
+                                        {data.macbookViewAlt && (
+                                            <figcaption className="text-xs text-neutral-400 font-mono tracking-wide">
+                                                {data.macbookViewAlt}
+                                            </figcaption>
+                                        )}
+                                    </figure>
                                 )}
 
                                 {/* Mobile Grid Gallery */}
@@ -497,6 +518,40 @@ export default function WorksSlugPage() {
                                         )}
                                     </div>
                                 )}
+
+                                {/* Multi-Screen Application Suite Gallery */}
+                                {(data.screenshots || fallbackProject?.screenshots) &&
+                                    (data.screenshots || fallbackProject?.screenshots).length > 0 && (
+                                        <div className="space-y-6 pt-8 border-t border-neutral-200/80">
+                                            <div className="bg-white space-y-2">
+                                                <span className="text-xs font-mono uppercase tracking-widest text-[#133BD4] font-semibold">
+                                                    / MULTI-SCREEN SHOWCASE
+                                                </span>
+                                                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900">
+                                                    Application Suite &amp; Interface Highlights
+                                                </h3>
+                                                <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
+                                                    High-resolution walkthrough across the platform’s core workflows, assessment modules, and administration interfaces.
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                {(data.screenshots || fallbackProject?.screenshots).map(
+                                                    (img, idx) => (
+                                                        <div
+                                                            key={idx}
+                                                            className="group overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs hover:shadow-md transition-all duration-300"
+                                                        >
+                                                            <img
+                                                                src={img}
+                                                                alt={`${data.title} Interface Screen ${idx + 1}`}
+                                                                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
                             </motion.div>
                         </div>
                     </div>
