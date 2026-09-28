@@ -1,5 +1,5 @@
 import Cta from "@/components/modules/cta/CtaSection";
-import Projects from "@/components/modules/projects/ProjectsSection";
+import WorkProjectsGrid from "@/components/modules/projects/WorkProjectsGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -27,9 +27,8 @@ export const metadata: Metadata = {
 
 export default function WorksPage() {
   return (
-    <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-16 md:pt-20">
-      <h1 className="sr-only">Selected Works &amp; Enterprise Case Studies — Sardar IT</h1>
-      <Projects />
+    <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-24 md:pt-28">
+      <WorkProjectsGrid />
       <Cta />
     </div>
   );

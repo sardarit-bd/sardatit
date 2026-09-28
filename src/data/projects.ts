@@ -2,6 +2,71 @@ import { Project } from "@/types/project";
 
 export const projects: Project[] = [
   {
+    id: "retirement-waypoint",
+    slug: "retirement-waypoint",
+    title: "Retirement Waypoint",
+    category: "FinTech & EdTech Platform",
+    badgeCategory: "Full-Stack SaaS",
+    eyebrow: "FinTech & EdTech Platform",
+    year: "2025",
+    featured: true,
+    summary:
+      "A comprehensive digital retirement transition ecosystem combining multi-domain psychological assessments, automated Stripe payment checkouts, secure PDF e-book distribution, and transactional invoice delivery.",
+    description:
+      "Engineered an end-to-end digital retirement planning and e-learning SaaS. The platform features an intelligent multi-stage psychometric readiness assessment engine, automated Stripe checkout workflows with webhooks, verified-purchaser review systems, and secure tokenized PDF delivery pipelines.",
+    
+    // Real tech stack verified from codebase:
+    techStack: [
+      "Next.js",
+      "Express.js",
+      "MongoDB",
+      "TypeScript",
+      "Better Auth",
+      "Stripe",
+      "Cloudinary",
+    ],
+    tags: [
+      "Next.js",
+      "Express.js",
+      "MongoDB",
+      "TypeScript",
+      "Better Auth",
+      "Stripe",
+      "Cloudinary",
+    ],
+
+    metrics: {
+      value: "100%",
+      label: "AUTOMATED ORDER FULFILLMENT",
+    },
+    statValue: "100%",
+    statLabel: "automated order fulfillment",
+
+    deliverables: [
+      "Psychometric Assessment & Scoring Engine",
+      "Stripe Checkout & Automated Invoicing",
+      "Tokenized PDF E-Book Streaming System",
+      "Verified Buyer Reviews & Admin CMS",
+    ],
+
+    liveUrl: "https://retirementwaypoint.com",
+    link: "/works/retirement-waypoint",
+
+    // Primary card thumbnail:
+    mockup: "/image/project/retirement-waypoint/hero-section.png",
+    image: "/image/project/retirement-waypoint/hero-section.png",
+
+    // Multi-screen showcase assets for case study / modal / slider view:
+    screenshots: [
+      "/image/project/retirement-waypoint/hero-section.png",
+      "/image/project/retirement-waypoint/assessment-page.png",
+      "/image/project/retirement-waypoint/books-page.png",
+      "/image/project/retirement-waypoint/admin-dashboard.png",
+    ],
+    ctaLabel: "View Case Study",
+    priority: true,
+  },
+  {
     id: "casa-viva",
     slug: "casa-viva",
     title: "CASA VIVA",
@@ -17,6 +82,7 @@ export const projects: Project[] = [
     statLabel: "services delivered",
     ctaLabel: "View Case Study",
     priority: true,
+    year: "2025",
   },
   {
     id: "medease",
@@ -27,13 +93,14 @@ export const projects: Project[] = [
     description:
       "A secure, HIPAA-compliant hospital management platform featuring intelligent patient scheduling, electronic health records (EHR), and automated clinician workflows to cut administrative overhead.",
     image: "/images/projects/medease.webp",
-    tags: ["Next.js", "Python", "FastAPI", "Docker", "PostgreSQL"],
+    tags: ["Next.js", "TypeScript", "Python", "FastAPI", "Docker", "PostgreSQL"],
     link: "/works/medease",
     liveUrl: "https://med-ease-frontend.vercel.app/",
     statValue: "70%",
     statLabel: "admin time saved",
     ctaLabel: "View Case Study",
     priority: true,
+    year: "2025",
   },
   {
     id: "white-cross-clinic",
@@ -44,12 +111,13 @@ export const projects: Project[] = [
     description:
       "A modern healthcare portal for specialized clinical practices, enabling direct patient booking, automated doctor dispatch, and digital consultation management with seamless accessibility.",
     image: "/images/projects/white-cross-clinic.webp",
-    tags: ["React", "Next.js", "Tailwind CSS", "Node.js", "AWS"],
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "AWS"],
     link: "/works/white-cross-clinic",
     liveUrl: "https://white-cross-clinic-frontend.vercel.app/",
-    statValue: "98%",
+    statValue: "99%",
     statLabel: "client satisfaction",
     ctaLabel: "View Case Study",
+    year: "2024",
   },
   {
     id: "gulf-county",
@@ -59,13 +127,14 @@ export const projects: Project[] = [
     eyebrow: "Music & Cultural Platform",
     description:
       "An immersive cross-platform music streaming and cultural audio application featuring offline track caching, curated community playlists, and rich interactive audio visualizers.",
-    image: "/images/projects/gulf-county.webp",
-    tags: ["React Native", "Expo", "Node.js", "MongoDB", "AWS S3"],
+    image: "/images/projects/gulf-county-mobile.jpg",
+    tags: ["React Native", "Expo", "TypeScript", "Node.js", "MongoDB", "AWS"],
     link: "/works/gulf-county",
     liveUrl: "https://gulfcoastmusic.live/",
     statValue: "100k+",
     statLabel: "streams served",
     ctaLabel: "View Case Study",
+    year: "2024",
   },
   {
     id: "home-service-provider",
@@ -76,12 +145,13 @@ export const projects: Project[] = [
     description:
       "A comprehensive service booking marketplace connecting homeowners with verified technicians, complete with real-time job dispatch, rating systems, and instant checkout.",
     image: "/images/projects/home-service-provider.webp",
-    tags: ["Next.js", "Node.js", "Express", "PostgreSQL", "Stripe"],
+    tags: ["Next.js", "TypeScript", "Node.js", "Express", "PostgreSQL"],
     link: "/works/home-service-provider",
     liveUrl: "https://home-service-project-livid.vercel.app/",
     statValue: "3.5x",
     statLabel: "booking conversion",
     ctaLabel: "View Case Study",
+    year: "2024",
   },
   {
     id: "asia-lms",
@@ -98,5 +168,24 @@ export const projects: Project[] = [
     statValue: "10k+",
     statLabel: "active learners",
     ctaLabel: "View Case Study",
+    year: "2024",
+  },
+  {
+    id: "recharge-iv",
+    slug: "recharge-iv",
+    title: "Recharge IV",
+    category: "UI/UX Design",
+    eyebrow: "Wellness & Drip Therapy",
+    description:
+      "A bespoke wellness platform engineered with interactive product visualizers, frictionless appointment scheduling, and a vibrant, design-system-driven user interface.",
+    image:
+      "https://cdn.prod.website-files.com/697722e913f661fc1b49692f/697722e913f661fc1b4975b4_Frame%201984077426%20(3).avif",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Design System"],
+    link: "/works/recharge-iv",
+    liveUrl: "https://recharge-iv.com",
+    statValue: "99%",
+    statLabel: "client satisfaction",
+    ctaLabel: "View Case Study",
+    year: "2025",
   },
 ];
