@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
+import TechBadge from "@/components/ui/TechBadge";
 
 export interface ProjectCardVerticalProps {
   title: string;
@@ -86,12 +87,7 @@ export default function ProjectCardVertical({
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-3">
               {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 text-xs font-medium rounded-md bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200/70 dark:border-neutral-700/70 shadow-2xs"
-                >
-                  {tag}
-                </span>
+                <TechBadge key={tag} tech={tag} />
               ))}
             </div>
           )}
