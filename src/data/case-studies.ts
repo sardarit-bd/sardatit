@@ -192,9 +192,52 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     responsivenessText:
       "Optimized for students learning on tablets, laptops, and mobile devices with adaptive video streaming.",
   },
+  "retirement-waypoint": {
+    slug: "retirement-waypoint",
+    title: "Retirement Waypoint",
+    company: "Retirement Waypoint",
+    category: "Full-Stack SaaS",
+    timelines: "3 Months",
+    liveUrl: "https://retirementwaypoint.com",
+    services: [
+      "Psychometric Assessment Engine",
+      "Stripe Checkout & Automated Invoicing",
+      "Tokenized PDF E-Book Streaming System",
+      "Verified Buyer Reviews & Admin CMS",
+    ],
+    heroImage: "/image/project/retirement-waypoint/hero-section.png",
+    heroImageAlt: "Retirement Waypoint - Landing Experience & Value Proposition",
+    about: [
+      "A comprehensive digital retirement transition ecosystem combining multi-domain psychological assessments, automated Stripe payment checkouts, secure PDF e-book distribution, and transactional invoice delivery.",
+      "Engineered an end-to-end digital retirement planning and e-learning SaaS featuring an intelligent multi-stage readiness scoring engine.",
+    ],
+    coverImage: "/image/project/retirement-waypoint/assessment-page.png",
+    coverImageAlt: "Psychometric Assessment & Multi-Domain Evaluation Engine",
+    objectives:
+      "Deliver a seamless, high-trust transition planning platform for pre-retirees and retirees with instant digital fulfillment.",
+    requirements:
+      "Psychometric multi-domain scoring, secure Stripe checkout sessions with webhooks, single-use tokenized PDF delivery, and automated PDF invoice generation.",
+    solutions:
+      "Architected a Next.js App Router and Express.js backend with MongoDB, Better Auth, Stripe webhooks, Cloudinary CDN, and PDFKit streaming.",
+    macbookView: "/image/project/retirement-waypoint/admin-dashboard.png",
+    macbookViewAlt: "Administrative Analytics & Subscriber Management Dashboard",
+    screenshots: [
+      "/image/project/retirement-waypoint/hero-section.png",
+      "/image/project/retirement-waypoint/assessment-page.png",
+      "/image/project/retirement-waypoint/books-page.png",
+      "/image/project/retirement-waypoint/admin-dashboard.png",
+    ],
+    productGrid: [
+      "/image/project/retirement-waypoint/books-page.png",
+      "/image/project/retirement-waypoint/admin-dashboard.png",
+    ],
+    responsivenessText:
+      "Responsive across desktops, tablets, and smartphones with sub-second assessment evaluation.",
+  },
 };
 
 export const OTHER_PROJECTS = [
+  { name: "Retirement Waypoint", slug: "retirement-waypoint", category: "Full-Stack SaaS" },
   { name: "CASA VIVA", slug: "casa-viva", category: "Real Estate Website" },
   { name: "MedEase", slug: "medease", category: "Hospital Management" },
   { name: "White Cross Clinic", slug: "white-cross-clinic", category: "Medical Website" },
