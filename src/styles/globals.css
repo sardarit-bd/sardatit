@@ -62,6 +62,29 @@ li {
     /* Lenis handles smooth scrolling, avoid CSS scroll-behavior conflicts */
   }
 
+  html.lenis,
+  html.lenis-smooth {
+    height: auto;
+  }
+
+  html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped,
+  html.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis [data-lenis-prevent],
+  .lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
   body {
     @apply bg-background text-foreground font-body antialiased;
   }
@@ -481,6 +504,27 @@ li {
 @media (prefers-reduced-motion: reduce) {
   .animate-orb-rotate {
     animation: none;
+  }
+}
+
+@keyframes icon-subtle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-icon-float {
+  animation: icon-subtle-float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-icon-float {
+    animation: none !important;
+    will-change: auto;
   }
 }
 

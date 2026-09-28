@@ -1,191 +1,17 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Lottie, type LottieHandle } from "lottie-react";
 import { statsData } from "@/data/stats";
 
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+// Step 4: Optional subtle motion (default OFF)
+const ICON_FLOAT_ENABLED = false;
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-}
-
-interface StatLottieIconProps {
-  lottiePath?: string;
-  playDelay?: number;
-  mountDelay?: number;
-}
-
-/**
- * Resilient Canvas-rendered Lottie icon component filling the upper body of each card
- */
-function StatLottieIcon({
-  lottiePath,
-  playDelay = 0,
-  mountDelay = 0,
-}: StatLottieIconProps) {
-  const [animationData, setAnimationData] = useState<object | null>(null);
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const lottieRef = useRef<LottieHandle | null>(null);
-  const isVisibleRef = useRef(false);
-  const playTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const mountTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const prefersReducedMotion = useReducedMotion();
-
-  // 1. Gate fetch behind visibility: trigger fetch only when near viewport (generous 400px margin)
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") {
-      setShouldFetch(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldFetch(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "400px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // 2. Fetch Lottie JSON only after shouldFetch is triggered, then stagger mounting
-  useEffect(() => {
-    if (!shouldFetch || !lottiePath) return;
-    let isCurrent = true;
-
-    fetch(lottiePath)
-      .then((res) => {
-        if (!res.ok) throw new Error("Lottie file not available");
-        const contentType = res.headers.get("content-type");
-        if (contentType && !contentType.includes("application/json")) {
-          throw new Error("Invalid response format");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (isCurrent && data && typeof data === "object") {
-          if (mountDelay > 0) {
-            mountTimeoutRef.current = setTimeout(() => {
-              if (isCurrent) {
-                setAnimationData(data);
-              }
-            }, mountDelay);
-          } else {
-            setAnimationData(data);
-          }
-        }
-      })
-      .catch(() => {
-        // Fallback gracefully without error
-      });
-
-    return () => {
-      isCurrent = false;
-      if (mountTimeoutRef.current) {
-        clearTimeout(mountTimeoutRef.current);
-        mountTimeoutRef.current = null;
-      }
-    };
-  }, [shouldFetch, lottiePath, mountDelay]);
-
-  // 3. Play/Pause observer with staggered deconfliction and reduced motion support
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const visible = entry.isIntersecting;
-        isVisibleRef.current = visible;
-
-        if (playTimeoutRef.current) {
-          clearTimeout(playTimeoutRef.current);
-          playTimeoutRef.current = null;
-        }
-
-        if (lottieRef.current) {
-          if (visible) {
-            if (prefersReducedMotion) {
-              lottieRef.current.stop();
-            } else if (playDelay > 0) {
-              playTimeoutRef.current = setTimeout(() => {
-                if (isVisibleRef.current && lottieRef.current) {
-                  lottieRef.current.play();
-                }
-              }, playDelay * 1000);
-            } else {
-              lottieRef.current.play();
-            }
-          } else {
-            lottieRef.current.pause();
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => {
-      if (playTimeoutRef.current) {
-        clearTimeout(playTimeoutRef.current);
-      }
-      observer.disconnect();
-    };
-  }, [animationData, prefersReducedMotion, playDelay]);
-
-  // If reduced motion is preferred and animationData is loaded, freeze at first frame
-  useEffect(() => {
-    if (prefersReducedMotion && lottieRef.current) {
-      lottieRef.current.stop();
-    }
-  }, [animationData, prefersReducedMotion]);
-
-  if (!animationData) {
-    return (
-      <div
-        ref={containerRef}
-        className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-blue-50/50 border border-blue-100/50 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300"
-      >
-        <span
-          className="w-3.5 h-3.5 rounded-full bg-blue-600 inline-block shadow-[0_0_12px_rgba(37,99,235,0.5)] animate-pulse"
-          aria-hidden="true"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div
-      ref={containerRef}
-      className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300"
-    >
-      <Lottie
-        lottieRef={lottieRef}
-        src={animationData}
-        loop={!prefersReducedMotion}
-        autoplay={false}
-        renderer="canvas"
-        // With the canvas renderer, progressiveLoad breaks track mattes (tt/td) in
-        // stat-2.json and stat-5.json, leaving the canvas blank until frame ~150.
-        rendererSettings={{
-          progressiveLoad: false,
-          clearCanvas: true,
-          dpr: Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 1.5),
-        }}
-        className="w-full h-full"
-      />
-    </div>
-  );
 }
 
 export function ImpactStats() {
@@ -288,6 +114,7 @@ export function ImpactStats() {
 
   return (
     <section
+      id="achievement-impact-stats"
       ref={sectionRef}
       className="bg-white py-20 lg:py-24 border-y border-neutral-200/80 relative"
     >
@@ -352,13 +179,26 @@ export function ImpactStats() {
                 </div>
               </div>
 
-              {/* Upper Body: Large Centered Lottie Animation */}
+              {/* Upper Body: Static High-Performance Icon */}
               <div className="relative z-10 w-full flex items-center justify-center my-auto py-4">
-                <StatLottieIcon
-                  lottiePath={item.lottiePath}
-                  playDelay={idx * 0.08}
-                  mountDelay={idx * 30}
-                />
+                <div
+                  className={`w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300 ${
+                    ICON_FLOAT_ENABLED ? "animate-icon-float" : ""
+                  }`}
+                >
+                  {item.iconSrc ? (
+                    <Image
+                      src={item.iconSrc}
+                      alt={item.label}
+                      width={128}
+                      height={128}
+                      loading="lazy"
+                      decoding="async"
+                      sizes="(max-width: 640px) 112px, 128px"
+                      className="w-full h-full object-contain select-none pointer-events-none"
+                    />
+                  ) : null}
+                </div>
               </div>
 
               {/* Lower Body: Big Bold Metric & Label */}

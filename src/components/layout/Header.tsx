@@ -73,30 +73,256 @@ export default function Header() {
   };
 
   const isScrolledRef = useRef(false);
+  const lastScrollYRef = useRef(0);
+  const accumulatedDeltaRef = useRef(0);
+  const isHiddenRef = useRef(false);
+  const isHoveredRef = useRef(false);
+  const isServicesOpenRef = useRef(false);
+  const isMobileMenuOpenRef = useRef(false);
+
+  // Synchronize state with refs for fast access in scroll callbacks without stale closures
+  useEffect(() => {
+    isServicesOpenRef.current = isServicesOpen;
+  }, [isServicesOpen]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY > 20;
-      if (scrolled !== isScrolledRef.current) {
-        isScrolledRef.current = scrolled;
-        setIsScrolled(scrolled);
+    isMobileMenuOpenRef.current = isMobileMenuOpen;
+  }, [isMobileMenuOpen]);
+
+  // Imperative show/hide update: exactly 0 React re-renders during scroll
+  const setHeaderHidden = (hidden: boolean) => {
+    if (isHiddenRef.current === hidden) return;
+    isHiddenRef.current = hidden;
+    const el = headerRef.current;
+    if (el) {
+      el.dataset.hidden = hidden ? "true" : "false";
+      el.style.transform = hidden ? "translateY(-100%)" : "translateY(0)";
+      el.style.pointerEvents = hidden ? "none" : "auto";
+    }
+  };
+
+  const processScroll = (rawY: number) => {
+    const currentY = Math.max(0, rawY);
+
+    // 1. Unified isScrolled check (only calls setIsScrolled when boolean actually changes)
+    const scrolled = currentY > 20;
+    if (scrolled !== isScrolledRef.current) {
+      isScrolledRef.current = scrolled;
+      setIsScrolled(scrolled);
+    }
+
+    // 2. Always show at the top of the page (scrollY <= 20px)
+    if (currentY <= 20) {
+      accumulatedDeltaRef.current = 0;
+      lastScrollYRef.current = currentY;
+      setHeaderHidden(false);
+      return;
+    }
+
+    // 3. Ignore bottom overscroll bounce
+    if (typeof document !== "undefined") {
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      if (docHeight > 0 && winHeight > 0 && currentY >= docHeight - winHeight - 10) {
+        lastScrollYRef.current = currentY;
+        return;
+      }
+    }
+
+    const delta = currentY - lastScrollYRef.current;
+    lastScrollYRef.current = currentY;
+
+    // Ignore negligible fractional delta
+    if (Math.abs(delta) < 0.2) return;
+
+    // Respect prefers-reduced-motion: keep header always visible and stationary
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setHeaderHidden(false);
+      return;
+    }
+
+    if (delta > 0) {
+      // Scrolling DOWN
+      if (accumulatedDeltaRef.current < 0) {
+        accumulatedDeltaRef.current = delta; // Direction reversed from up to down
+      } else {
+        accumulatedDeltaRef.current += delta;
+      }
+
+      if (accumulatedDeltaRef.current >= 10) {
+        // States that keep header visible
+        if (isMobileMenuOpenRef.current || isHoveredRef.current) {
+          return;
+        }
+
+        // If services mega menu is open and user scrolls down, close it and hide header
+        if (isServicesOpenRef.current) {
+          setIsServicesOpen(false);
+        }
+
+        setHeaderHidden(true);
+      }
+    } else {
+      // Scrolling UP
+      if (accumulatedDeltaRef.current > 0) {
+        accumulatedDeltaRef.current = delta; // Direction reversed from down to up
+      } else {
+        accumulatedDeltaRef.current += delta;
+      }
+
+      if (Math.abs(accumulatedDeltaRef.current) >= 10) {
+        setHeaderHidden(false);
+      }
+    }
+  };
+
+  // Unified scroll listener: attaches to Lenis if present, falls back to passive window scroll
+  useEffect(() => {
+    let unsubscribeLenis: (() => void) | null = null;
+    let isListeningToWindow = false;
+
+    const onWindowScroll = () => {
+      const lenis = (
+        window as unknown as {
+          __lenis?: {
+            on: (
+              event: string,
+              cb: (e: { scroll: number; direction: number }) => void,
+            ) => () => void;
+          };
+        }
+      ).__lenis;
+
+      if (lenis && !unsubscribeLenis) {
+        window.removeEventListener("scroll", onWindowScroll);
+        isListeningToWindow = false;
+        setupLenis(lenis);
+        return;
+      }
+      processScroll(window.scrollY || 0);
+    };
+
+    const setupLenis = (lenisInstance: {
+      on: (
+        event: string,
+        cb: (e: { scroll: number; direction: number }) => void,
+      ) => () => void;
+    }) => {
+      if (unsubscribeLenis) {
+        unsubscribeLenis();
+        unsubscribeLenis = null;
+      }
+      unsubscribeLenis = lenisInstance.on("scroll", ({ scroll }) => {
+        processScroll(scroll);
+      });
+    };
+
+    // Check if Lenis is already available
+    const initialLenis = (
+      window as unknown as {
+        __lenis?: {
+          on: (
+            event: string,
+            cb: (e: { scroll: number; direction: number }) => void,
+          ) => () => void;
+        };
+      }
+    ).__lenis;
+
+    if (initialLenis) {
+      setupLenis(initialLenis);
+    } else {
+      window.addEventListener("scroll", onWindowScroll, { passive: true });
+      isListeningToWindow = true;
+    }
+
+    // Safety timeout to catch Lenis creation if LenisProvider initializes right after mount
+    const checkTimer = setTimeout(() => {
+      const l = (
+        window as unknown as {
+          __lenis?: {
+            on: (
+              event: string,
+              cb: (e: { scroll: number; direction: number }) => void,
+            ) => () => void;
+          };
+        }
+      ).__lenis;
+      if (l && !unsubscribeLenis) {
+        if (isListeningToWindow) {
+          window.removeEventListener("scroll", onWindowScroll);
+          isListeningToWindow = false;
+        }
+        setupLenis(l);
+      }
+    }, 100);
+
+    // Initial check on mount
+    processScroll(typeof window !== "undefined" ? window.scrollY : 0);
+
+    const headerEl = headerRef.current;
+    const handleMouseEnter = () => {
+      isHoveredRef.current = true;
+    };
+    const handleMouseLeave = () => {
+      isHoveredRef.current = false;
+    };
+    const handleFocusIn = () => {
+      setHeaderHidden(false);
+      accumulatedDeltaRef.current = 0;
+    };
+
+    if (headerEl) {
+      headerEl.addEventListener("mouseenter", handleMouseEnter);
+      headerEl.addEventListener("mouseleave", handleMouseLeave);
+      headerEl.addEventListener("focusin", handleFocusIn);
+    }
+
+    return () => {
+      clearTimeout(checkTimer);
+      if (unsubscribeLenis) {
+        unsubscribeLenis();
+      }
+      if (isListeningToWindow) {
+        window.removeEventListener("scroll", onWindowScroll);
+      }
+      if (headerEl) {
+        headerEl.removeEventListener("mouseenter", handleMouseEnter);
+        headerEl.removeEventListener("mouseleave", handleMouseLeave);
+        headerEl.removeEventListener("focusin", handleFocusIn);
       }
     };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileMenuOpen(false);
     setIsServicesOpen(false);
+    setHeaderHidden(false);
+    accumulatedDeltaRef.current = 0;
+    lastScrollYRef.current = typeof window !== "undefined" ? window.scrollY : 0;
   }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    const lenis = (
+      window as unknown as {
+        __lenis?: { stop: () => void; start: () => void };
+      }
+    ).__lenis;
+
+    if (isMobileMenuOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+
     return () => {
       document.body.style.overflow = "";
+      lenis?.start();
     };
   }, [isMobileMenuOpen]);
 
@@ -136,7 +362,24 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${isHeroGlass
+        data-header-nav
+        data-hidden="false"
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
+        }}
+        onFocusCapture={() => {
+          setHeaderHidden(false);
+          accumulatedDeltaRef.current = 0;
+        }}
+        style={{
+          transition:
+            "transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease-in-out, border-color 300ms ease-in-out, color 300ms ease-in-out, box-shadow 300ms ease-in-out, backdrop-filter 300ms ease-in-out",
+          willChange: "transform",
+        }}
+        className={`fixed top-0 left-0 right-0 z-50 w-full ${isHeroGlass
             ? "bg-transparent hover:bg-white/[0.03] backdrop-blur-[6px] border-b border-white/[0.08] text-white"
             : "bg-white/90 backdrop-blur-md border-b border-neutral-200/60 text-neutral-900 shadow-sm"
           }`}
@@ -279,7 +522,10 @@ export default function Header() {
                   <HamburgerIcon isOpen={true} />
                 </button>
               </div>
-              <nav className="flex flex-col gap-6 mt-12 overflow-y-auto max-h-[60vh] pr-2">
+              <nav
+                data-lenis-prevent
+                className="flex flex-col gap-6 mt-12 overflow-y-auto max-h-[60vh] pr-2"
+              >
                 {navItems.map((item, index) =>
                   item.hasDropdown ? (
                     <motion.div

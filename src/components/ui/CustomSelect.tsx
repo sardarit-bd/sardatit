@@ -155,6 +155,7 @@ export default function CustomSelect({
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
             role="listbox"
+            data-lenis-prevent
             className="absolute left-0 top-full w-full z-50 mt-1 bg-white border border-neutral-200/90 shadow-2xl overflow-hidden py-1.5 focus:outline-none max-h-60 overflow-y-auto"
           >
             {normalizedOptions.map((opt) => {
