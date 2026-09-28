@@ -16,18 +16,24 @@ if (typeof window !== "undefined") {
 interface StatLottieIconProps {
   lottiePath?: string;
   playDelay?: number;
+  mountDelay?: number;
 }
 
 /**
  * Resilient Canvas-rendered Lottie icon component filling the upper body of each card
  */
-function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
+function StatLottieIcon({
+  lottiePath,
+  playDelay = 0,
+  mountDelay = 0,
+}: StatLottieIconProps) {
   const [animationData, setAnimationData] = useState<object | null>(null);
   const [shouldFetch, setShouldFetch] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lottieRef = useRef<LottieHandle | null>(null);
   const isVisibleRef = useRef(false);
   const playTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mountTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
   // 1. Gate fetch behind visibility: trigger fetch only when near viewport (generous 400px margin)
@@ -52,7 +58,7 @@ function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
     return () => observer.disconnect();
   }, []);
 
-  // 2. Fetch Lottie JSON only after shouldFetch is triggered
+  // 2. Fetch Lottie JSON only after shouldFetch is triggered, then stagger mounting
   useEffect(() => {
     if (!shouldFetch || !lottiePath) return;
     let isCurrent = true;
@@ -68,7 +74,15 @@ function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
       })
       .then((data) => {
         if (isCurrent && data && typeof data === "object") {
-          setAnimationData(data);
+          if (mountDelay > 0) {
+            mountTimeoutRef.current = setTimeout(() => {
+              if (isCurrent) {
+                setAnimationData(data);
+              }
+            }, mountDelay);
+          } else {
+            setAnimationData(data);
+          }
         }
       })
       .catch(() => {
@@ -77,8 +91,12 @@ function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
 
     return () => {
       isCurrent = false;
+      if (mountTimeoutRef.current) {
+        clearTimeout(mountTimeoutRef.current);
+        mountTimeoutRef.current = null;
+      }
     };
-  }, [shouldFetch, lottiePath]);
+  }, [shouldFetch, lottiePath, mountDelay]);
 
   // 3. Play/Pause observer with staggered deconfliction and reduced motion support
   useEffect(() => {
@@ -157,9 +175,12 @@ function StatLottieIcon({ lottiePath, playDelay = 0 }: StatLottieIconProps) {
         loop={!prefersReducedMotion}
         autoplay={false}
         renderer="canvas"
+        // With the canvas renderer, progressiveLoad breaks track mattes (tt/td) in
+        // stat-2.json and stat-5.json, leaving the canvas blank until frame ~150.
         rendererSettings={{
-          progressiveLoad: true,
+          progressiveLoad: false,
           clearCanvas: true,
+          dpr: Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 1.5),
         }}
         className="w-full h-full"
       />
@@ -333,7 +354,11 @@ export function ImpactStats() {
 
               {/* Upper Body: Large Centered Lottie Animation */}
               <div className="relative z-10 w-full flex items-center justify-center my-auto py-4">
-                <StatLottieIcon lottiePath={item.lottiePath} playDelay={idx * 0.08} />
+                <StatLottieIcon
+                  lottiePath={item.lottiePath}
+                  playDelay={idx * 0.08}
+                  mountDelay={idx * 30}
+                />
               </div>
 
               {/* Lower Body: Big Bold Metric & Label */}
