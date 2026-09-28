@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   slug: string;
   title: string;
-  category: "Web Development" | "Mobile App" | "AI Solutions";
+  category: "Web Development" | "Mobile App" | "AI Solutions" | "UI/UX Design" | "Full-Stack SaaS" | string;
   eyebrow: string;
   description: string;
   image: string;
@@ -13,6 +13,18 @@ export interface Project {
   statLabel: string;
   ctaLabel?: string;
   priority?: boolean;
+  year?: string;
+  badgeCategory?: string;
+  featured?: boolean;
+  summary?: string;
+  techStack?: string[];
+  metrics?: {
+    value: string;
+    label: string;
+  };
+  deliverables?: string[];
+  mockup?: string;
+  screenshots?: string[];
 }
 
 export interface CaseStudy {
@@ -43,4 +55,8 @@ export interface CaseStudy {
   responsiveGrid?: string[];
   responsiveViewBanner?: string;
   macbookVersion?: string;
+  heroImageAlt?: string;
+  coverImageAlt?: string;
+  macbookViewAlt?: string;
+  screenshots?: string[];
 }

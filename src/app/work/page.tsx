@@ -3,9 +3,9 @@ import WorkProjectsGrid from "@/components/modules/projects/WorkProjectsGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Selected Works & Case Studies",
+  title: "Selected Works & Case Studies | Sardar IT",
   description:
-    "Explore Sardar IT's production case studies across clinical healthcare portals, luxury real estate platforms, and enterprise learning management systems.",
+    "Explore Sardar IT's production case studies across clinical healthcare portals, luxury real estate platforms, autonomous AI workflows, and enterprise learning management systems.",
   alternates: {
     canonical: "https://sardaritbd.com/works",
   },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WorksPage() {
+export default function WorkPage() {
   return (
     <div className="w-full bg-white text-neutral-900 overflow-x-clip pt-24 md:pt-28">
       <WorkProjectsGrid />
