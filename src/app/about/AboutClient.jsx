@@ -59,7 +59,7 @@ export default function AboutPage() {
                         className="relative w-full h-[280px] sm:h-[420px] lg:h-[540px] overflow-hidden mt-12 sm:mt-16"
                     >
                         <Image
-                            src="/image/galary/G2.JPG"
+                            src="/images/gallery/G2.JPG"
                             alt="Sardar IT Team Collaboration"
                             fill
                             priority
@@ -83,7 +83,7 @@ export default function AboutPage() {
                         {/* Left Image */}
                         <div className="lg:col-span-5 relative h-[380px] sm:h-[480px] overflow-hidden">
                             <Image
-                                src="/image/galary/G4.JPG"
+                                src="/images/gallery/G4.JPG"
                                 alt="Sardar IT Office Vision"
                                 fill
                                 className="object-cover"

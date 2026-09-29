@@ -100,6 +100,51 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/image/galary/:path*",
+        destination: "/images/gallery/:path*",
+      },
+      {
+        source: "/image/gallery/:path*",
+        destination: "/images/gallery/:path*",
+      },
+      {
+        source: "/image/project/:path*",
+        destination: "/images/projects/:path*",
+      },
+      {
+        source: "/image/founders/:path*",
+        destination: "/images/team/founders/:path*",
+      },
+      {
+        source: "/image/leaders/:path*",
+        destination: "/images/team/leaders/:path*",
+      },
+      {
+        source: "/image/services/:path*",
+        destination: "/images/services/:path*",
+      },
+      {
+        source: "/image/service/:path*",
+        destination: "/images/services/:path*",
+      },
+      {
+        source: "/image/:path*",
+        destination: "/images/:path*",
+      },
+      {
+        source: "/font/:path*",
+        destination: "/fonts/:path*",
+      },
+      {
+        source: "/logo/:path*",
+        destination: "/images/brand/logos/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

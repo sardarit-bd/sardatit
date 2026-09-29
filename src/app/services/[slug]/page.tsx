@@ -19,10 +19,11 @@ import {
   getAdjacentServices,
 } from "@/lib/services";
 import BookaCallBtn from "@/components/ui/BookaCallBtn";
-import ServiceSplitView from "@/components/modules/services/ServiceSplitView";
-import Cta from "@/components/modules/cta/CtaSection";
-import InteractiveFeatureShowcase from "@/components/modules/services/InteractiveFeatureShowcase";
-import AINeuralNetworkSection from "@/components/modules/services/AINeuralNetworkSection";
+import {
+  ServiceSplitView,
+  InteractiveFeatureShowcase,
+} from "@/modules/services";
+import { CtaSection as Cta } from "@/modules/cta";
 import { TypingKeyboard } from "@/components/ui/typing-keyboard";
 
 interface PageProps {

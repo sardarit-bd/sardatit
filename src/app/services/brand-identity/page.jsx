@@ -1,13 +1,13 @@
 import React from "react";
 import { getServiceBySlug } from "@/lib/services";
-import BrandHero from "@/components/modules/services/brand-identity/BrandHero";
-import BrandMethodology from "@/components/modules/services/brand-identity/BrandMethodology";
-import BrandDeliverables from "@/components/modules/services/brand-identity/BrandDeliverables";
-import BrandCapabilities from "@/components/modules/services/brand-identity/BrandCapabilities";
-import BrandSpecializedPractices from "@/components/modules/services/brand-identity/BrandSpecializedPractices";
-import BrandSectorsShowcase from "@/components/modules/services/brand-identity/BrandSectorsShowcase";
-import BrandFaq from "@/components/modules/services/brand-identity/BrandFaq";
-import Cta from "@/components/modules/cta/CtaSection";
+import BrandHero from "@/modules/services/components/brand-identity/BrandHero";
+import BrandMethodology from "@/modules/services/components/brand-identity/BrandMethodology";
+import BrandDeliverables from "@/modules/services/components/brand-identity/BrandDeliverables";
+import BrandCapabilities from "@/modules/services/components/brand-identity/BrandCapabilities";
+import BrandSpecializedPractices from "@/modules/services/components/brand-identity/BrandSpecializedPractices";
+import BrandSectorsShowcase from "@/modules/services/components/brand-identity/BrandSectorsShowcase";
+import BrandFaq from "@/modules/services/components/brand-identity/BrandFaq";
+import { CtaSection as Cta } from "@/modules/cta";
 
 export const metadata = {
     title: "Brand Identity & Digital Product Design | Sardar IT",

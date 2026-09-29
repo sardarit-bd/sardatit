@@ -1,9 +1,3 @@
-import { Project } from "@/types/project";
-import { projects } from "@/data/projects";
-
-export type { Project };
-export { projects };
-
-export function getProjectBySlug(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug || p.id === slug);
-}
+export * from "@/modules/projects/services/projects.service";
+export type { Project } from "@/types/project";
+export { projects } from "@/data/projects";

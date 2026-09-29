@@ -1,6 +1,6 @@
 "use client";
 
-import Cta from "@/components/modules/cta/CtaSection";
+import { CtaSection as Cta } from "@/modules/cta";
 import Preloader from "@/components/ui/Preloader";
 import { getProjectBySlug } from "@/lib/projects";
 import { motion } from "framer-motion";
@@ -18,8 +18,7 @@ import {
     FiCheck,
     FiCopy
 } from "react-icons/fi";
-import { ImArrowDownRight2 } from "react-icons/im";
-import { CASE_STUDIES, OTHER_PROJECTS } from "@/data/case-studies";
+import { CASE_STUDIES } from "@/data/case-studies";
 
 export default function WorksSlugPage() {
     const params = useParams();
@@ -41,7 +40,6 @@ export default function WorksSlugPage() {
     const [loadingComplete, setLoadingComplete] = useState(false);
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setLoadingComplete(false);
     }, [slugKey]);
 
@@ -52,9 +50,6 @@ export default function WorksSlugPage() {
             setTimeout(() => setCopied(false), 2000);
         }
     };
-
-    // Other project links for navigator
-    const otherProjects = OTHER_PROJECTS.filter((p) => p.slug !== slugKey);
 
     return (
         <>

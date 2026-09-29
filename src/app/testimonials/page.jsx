@@ -1,6 +1,6 @@
-import CtaSection from "@/components/modules/cta/CtaSection";
-import HomeReviewsAngledSlider from "@/components/modules/home/HomeReviewsAngledSlider";
-import { ImpactStats } from "@/components/modules/stats/ImpactStats";
+import { CtaSection } from "@/modules/cta";
+import { HomeReviewsAngledSlider } from "@/modules/testimonials";
+import { ImpactStats } from "@/modules/stats";
 
 export const metadata = {
   title: "Client Testimonials & Enterprise Reviews",

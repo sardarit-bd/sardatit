@@ -1,8 +1,17 @@
+export type ProjectCategory =
+  | "All"
+  | "Web Development"
+  | "Mobile App"
+  | "AI Solutions"
+  | "UI/UX Design"
+  | "Full-Stack SaaS"
+  | string;
+
 export interface Project {
   id: string;
   slug: string;
   title: string;
-  category: "Web Development" | "Mobile App" | "AI Solutions" | "UI/UX Design" | "Full-Stack SaaS" | string;
+  category: ProjectCategory;
   eyebrow: string;
   description: string;
   image: string;

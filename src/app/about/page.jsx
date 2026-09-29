@@ -14,7 +14,7 @@ export const metadata = {
     url: "https://sardaritbd.com/about",
     images: [
       {
-        url: "/image/galary/G2.JPG",
+        url: "/images/gallery/G2.JPG",
         width: 1200,
         height: 630,
         alt: "Sardar IT Team Collaboration",
@@ -26,7 +26,7 @@ export const metadata = {
     title: "About Us — Global Software & Product Engineering | Sardar IT",
     description:
       "Fueling Minds, Inspiring Innovations. Full-cycle product engineering, global delivery, and modern battle-tested technology.",
-    images: ["/image/galary/G2.JPG"],
+    images: ["/images/gallery/G2.JPG"],
   },
 };
 

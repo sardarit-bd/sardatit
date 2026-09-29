@@ -53,15 +53,15 @@ export const projects: Project[] = [
     link: "/works/retirement-waypoint",
 
     // Primary card thumbnail:
-    mockup: "/image/project/retirement-waypoint/hero-section.png",
-    image: "/image/project/retirement-waypoint/hero-section.png",
+    mockup: "/images/projects/retirement-waypoint/hero-section.png",
+    image: "/images/projects/retirement-waypoint/hero-section.png",
 
     // Multi-screen showcase assets for case study / modal / slider view:
     screenshots: [
-      "/image/project/retirement-waypoint/hero-section.png",
-      "/image/project/retirement-waypoint/assessment-page.png",
-      "/image/project/retirement-waypoint/books-page.png",
-      "/image/project/retirement-waypoint/admin-dashboard.png",
+      "/images/projects/retirement-waypoint/hero-section.png",
+      "/images/projects/retirement-waypoint/assessment-page.png",
+      "/images/projects/retirement-waypoint/books-page.png",
+      "/images/projects/retirement-waypoint/admin-dashboard.png",
     ],
     ctaLabel: "View Case Study",
     priority: true,

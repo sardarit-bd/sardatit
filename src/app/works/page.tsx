@@ -1,5 +1,5 @@
-import Cta from "@/components/modules/cta/CtaSection";
-import WorkProjectsGrid from "@/components/modules/projects/WorkProjectsGrid";
+import { CtaSection as Cta } from "@/modules/cta";
+import { WorkProjectsGrid } from "@/modules/projects";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description:
       "Explore production case studies across healthcare, real estate, audio streaming, and ed-tech platforms.",
     url: "https://sardaritbd.com/works",
-    images: [{ url: "/image/project/CASA.webp", width: 1200, height: 630, alt: "Sardar IT Selected Works" }],
+    images: [{ url: "/images/projects/CASA.webp", width: 1200, height: 630, alt: "Sardar IT Selected Works" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Selected Works & Case Studies | Sardar IT",
     description:
       "Explore production case studies across healthcare, real estate, audio streaming, and ed-tech platforms.",
-    images: ["/image/project/CASA.webp"],
+    images: ["/images/projects/CASA.webp"],
   },
 };
 
