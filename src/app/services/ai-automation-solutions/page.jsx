@@ -1,10 +1,10 @@
 import React from "react";
 import { getServiceBySlug } from "@/lib/services";
-import AIHero from "@/components/modules/services/ai-automation/AIHero";
-import AITechStack from "@/components/modules/services/ai-automation/AITechStack";
-import AIMethodology from "@/components/modules/services/ai-automation/AIMethodology";
-import AIDeliverables from "@/components/modules/services/ai-automation/AIDeliverables";
-import Cta from "@/components/modules/cta/CtaSection";
+import AIHero from "@/modules/services/components/ai-automation/AIHero";
+import AITechStack from "@/modules/services/components/ai-automation/AITechStack";
+import AIMethodology from "@/modules/services/components/ai-automation/AIMethodology";
+import AIDeliverables from "@/modules/services/components/ai-automation/AIDeliverables";
+import { CtaSection as Cta } from "@/modules/cta";
 
 export const metadata = {
   title: "Intelligent Workflow Automation & AI Integration | Sardar IT",

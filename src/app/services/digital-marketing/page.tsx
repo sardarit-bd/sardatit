@@ -7,11 +7,13 @@ import {
   FiCheck,
 } from "react-icons/fi";
 import { getServiceBySlug, getAdjacentServices } from "@/lib/services";
-import ServiceSplitView from "@/components/modules/services/ServiceSplitView";
-import Cta from "@/components/modules/cta/CtaSection";
-import BauhausHero from "@/components/modules/services/BauhausHero";
-import MarketingMacbookShowcase from "@/components/modules/services/MarketingMacbookShowcase";
-import StrategicCapabilities from "@/components/modules/services/StrategicCapabilities";
+import {
+  ServiceSplitView,
+  BauhausHero,
+  MarketingMacbookShowcase,
+  StrategicCapabilities,
+} from "@/modules/services";
+import { CtaSection as Cta } from "@/modules/cta";
 
 export const metadata: Metadata = {
   title: "Digital Marketing & Growth | Sardar IT",

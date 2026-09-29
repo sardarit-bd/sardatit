@@ -1,9 +1,9 @@
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
-import ScrollToTop from "@/components/layout/ScrollToTop";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
+import ScrollToTop from "@/components/common/ScrollToTop";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import LenisProvider from "@/components/layout/LenisProvider";
+import LenisProvider from "@/components/common/LenisProvider";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {

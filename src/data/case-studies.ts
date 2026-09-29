@@ -55,14 +55,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "CASA VIVA is a high-converting luxury real estate platform built to showcase luxury property listings, capture qualified leads, and simplify the property discovery experience for buyers and investors.",
       "Our solution includes advanced property listings, smart search filters, interactive map exploration, and seamless inquiry management for buyers and agents.",
     ],
-    coverImage: "/image/project/casa-viva/properties-page.png",
+    coverImage: "/images/projects/casa-viva/properties-page.png",
     objectives:
       "To establish a premier real estate portal with advanced search, virtual showcases, and direct agent inquiry routing.",
     requirements:
       "Multi-criteria filtering by price, location, and property type, responsive layout on all screen sizes, and broker management tools.",
     solutions:
       "Delivered a blazing fast Next.js platform featuring interactive spatial views, instant inquiries, and an admin dashboard.",
-    macbookView: "/image/project/casa-viva/casa-viva.png",
+    macbookView: "/images/projects/casa-viva/casa-viva.png",
     mobileGrid: [],
     responsivenessText:
       "Fully responsive and optimized across all mobile devices, tablets, and desktops for real estate buyers and investors on the move.",
@@ -80,14 +80,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "MedEase is a secure hospital management platform designed to streamline clinical operations, patient engagement, and medical workflows.",
       "We created intuitive doctor-patient dashboards, automated scheduling, and centralized electronic health records (EHR).",
     ],
-    coverImage: "/image/project/medease/Philosophy.png",
+    coverImage: "/images/projects/medease/Philosophy.png",
     objectives:
       "Streamline patient intake, appointment scheduling, and electronic health record management for multi-specialty clinics.",
     requirements:
       "HIPAA compliance, role-based access for nurses and doctors, and real-time bed and clinic resource allocation.",
     solutions:
       "An intuitive dashboard interface that reduces administrative workload by 70% and enhances patient care experience.",
-    macbookView: "/image/project/medease/patitent-dashboard.png",
+    macbookView: "/images/projects/medease/patitent-dashboard.png",
     mobileGrid: [],
     responsivenessText:
       "Accessible securely anywhere for clinicians, patients, and administrators on hospital tablets and smartphones.",
@@ -105,14 +105,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "White Cross Clinic is a modern healthcare website for a multi-disciplinary medical clinic with a patient-centered design focused on accessibility and trust.",
       "Features automated doctor dispatch, instant consultation booking, and health tips repository.",
     ],
-    coverImage: "/image/project/white-cross/dashboard.png",
+    coverImage: "/images/projects/white-cross/dashboard.png",
     objectives:
       "Modernize the clinic's digital presence and allow patients to easily book appointments and view clinical specialties.",
     requirements:
       "Fast load times, WCAG accessibility compliance, and integration with existing patient registry systems.",
     solutions:
       "Engineered a high-performance Next.js clinic portal with streamlined booking and direct doctor communications.",
-    macbookView: "/image/project/white-cross/image.png",
+    macbookView: "/images/projects/white-cross/image.png",
     mobileGrid: [],
     responsivenessText:
       "Ensured rapid access from mobile devices so patients can schedule appointments or view clinic hours anytime.",
@@ -130,14 +130,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "Gulf County is an engaging audio and cultural streaming application designed to showcase regional heritage, stories, and music.",
       "Built with cross-platform technology offering crisp audio streaming, offline playback, and customized user playlists.",
     ],
-    coverImage: "/image/project/gulf-coast/calendar.png",
+    coverImage: "/images/projects/gulf-coast/calendar.png",
     objectives:
       "Deliver an immersive music and cultural streaming experience with rich community sharing features.",
     requirements:
       "Low-latency streaming, offline downloads, seamless media player controls, and curated audio stories.",
     solutions:
       "Developed an intuitive React Native app with local cache management and interactive audio visualization.",
-    macbookView: "/image/project/gulf-coast/marketplace.png",
+    macbookView: "/images/projects/gulf-coast/marketplace.png",
     mobileGrid: [],
     responsivenessText:
       "Crafted specifically for seamless listening on iOS and Android devices on the go.",
@@ -155,14 +155,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "A comprehensive service marketplace platform connecting homeowners with certified maintenance specialists for plumbing, electrical, and HVAC repairs.",
       "Features automated technician matching, transparent pricing estimates, and real-time appointment tracking.",
     ],
-    coverImage: "/image/project/home-service/service.png",
+    coverImage: "/images/projects/home-service/service.png",
     objectives:
       "Create a friction-free booking platform that converts homeowners looking for trusted on-demand home repair services.",
     requirements:
       "Instant booking engine, service catalog management, customer review verification, and mobile worker portal.",
     solutions:
       "Delivered an end-to-end web application driving 3.5x higher quote request conversion and automated technician dispatch.",
-    macbookView: "/image/project/home-service/top-provider.png",
+    macbookView: "/images/projects/home-service/top-provider.png",
     mobileGrid: [],
     responsivenessText:
       "Seamless experience for homeowners making urgent repair requests from their mobile phones.",
@@ -175,7 +175,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     timelines: "3 Months",
     liveUrl: "https://high-end-multipurpose-lms.vercel.app/",
     services: ["LMS Architecture", "UI/UX Design", "Video Platform Integration"],
-    heroImage: "/image/project/asia-lms-cover.png",
+    heroImage: "/images/projects/asia-lms-cover.png",
     about: [
       "An intuitive LMS platform that simplifies online education through structured video courses, progress tracking, and interactive quizzes across all devices.",
       "Built for high concurrency, accessibility, and role-based student and instructor management.",
@@ -187,7 +187,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "Structured video courses, quiz engines, certificate generation, and student engagement analytics.",
     solutions:
       "Developed an enterprise-grade web application supporting 10k+ learners with real-time course progress tracking.",
-    macbookView: "/image/project/asia-lms-courses.png",
+    macbookView: "/images/projects/asia-lms-courses.png",
     mobileGrid: [],
     responsivenessText:
       "Optimized for students learning on tablets, laptops, and mobile devices with adaptive video streaming.",
@@ -205,13 +205,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "Tokenized PDF E-Book Streaming System",
       "Verified Buyer Reviews & Admin CMS",
     ],
-    heroImage: "/image/project/retirement-waypoint/hero-section.png",
+    heroImage: "/images/projects/retirement-waypoint/hero-section.png",
     heroImageAlt: "Retirement Waypoint - Landing Experience & Value Proposition",
     about: [
       "A comprehensive digital retirement transition ecosystem combining multi-domain psychological assessments, automated Stripe payment checkouts, secure PDF e-book distribution, and transactional invoice delivery.",
       "Engineered an end-to-end digital retirement planning and e-learning SaaS featuring an intelligent multi-stage readiness scoring engine.",
     ],
-    coverImage: "/image/project/retirement-waypoint/assessment-page.png",
+    coverImage: "/images/projects/retirement-waypoint/assessment-page.png",
     coverImageAlt: "Psychometric Assessment & Multi-Domain Evaluation Engine",
     objectives:
       "Deliver a seamless, high-trust transition planning platform for pre-retirees and retirees with instant digital fulfillment.",
@@ -219,17 +219,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       "Psychometric multi-domain scoring, secure Stripe checkout sessions with webhooks, single-use tokenized PDF delivery, and automated PDF invoice generation.",
     solutions:
       "Architected a Next.js App Router and Express.js backend with MongoDB, Better Auth, Stripe webhooks, Cloudinary CDN, and PDFKit streaming.",
-    macbookView: "/image/project/retirement-waypoint/admin-dashboard.png",
+    macbookView: "/images/projects/retirement-waypoint/admin-dashboard.png",
     macbookViewAlt: "Administrative Analytics & Subscriber Management Dashboard",
     screenshots: [
-      "/image/project/retirement-waypoint/hero-section.png",
-      "/image/project/retirement-waypoint/assessment-page.png",
-      "/image/project/retirement-waypoint/books-page.png",
-      "/image/project/retirement-waypoint/admin-dashboard.png",
+      "/images/projects/retirement-waypoint/hero-section.png",
+      "/images/projects/retirement-waypoint/assessment-page.png",
+      "/images/projects/retirement-waypoint/books-page.png",
+      "/images/projects/retirement-waypoint/admin-dashboard.png",
     ],
     productGrid: [
-      "/image/project/retirement-waypoint/books-page.png",
-      "/image/project/retirement-waypoint/admin-dashboard.png",
+      "/images/projects/retirement-waypoint/books-page.png",
+      "/images/projects/retirement-waypoint/admin-dashboard.png",
     ],
     responsivenessText:
       "Responsive across desktops, tablets, and smartphones with sub-second assessment evaluation.",

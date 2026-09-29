@@ -3,11 +3,15 @@ export interface ServiceFeature {
   description?: string;
 }
 
+export type HighlightItem = ServiceFeature;
+
 export interface ServiceProcessStep {
   step: string;
   title: string;
   description: string;
 }
+
+export type ProcessStep = ServiceProcessStep;
 
 export interface ServiceStat {
   label: string;

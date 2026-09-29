@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="100%" height="100%" fill="none">
+  <defs>
+    <filter id="micro-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#f97316" flood-opacity="0.16" />
+    </filter>
+    <linearGradient id="slider-wave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(60, 40)" filter="url(#micro-shadow)">
+    <!-- Main Interactive 3D Spatial Canvas Frame -->
+    <g transform="translate(80, 20)">
+      <rect x="0" y="0" width="640" height="490" rx="32" fill="#0c0e14" stroke="#27272a" stroke-width="2" />
+      
+      <!-- Window Bar -->
+      <rect x="0" y="0" width="640" height="48" rx="32" fill="#18181b" />
+      <circle cx="36" cy="24" r="6" fill="#ef4444" />
+      <circle cx="56" cy="24" r="6" fill="#f59e0b" />
+      <circle cx="76" cy="24" r="6" fill="#10b981" />
+      <text x="320" y="29" fill="#a1a1aa" font-size="12" font-family="system-ui, monospace" font-weight="600" text-anchor="middle">PHYSICS-DRIVEN SPRING CANVAS</text>
+
+      <!-- Center Dynamic Haptic Spring Slider Widget -->
+      <g transform="translate(45, 90)">
+        <rect x="0" y="0" width="550" height="155" rx="24" fill="#18181b" stroke="#27272a" stroke-width="1.5" />
+        <text x="30" y="38" fill="#a1a1aa" font-size="12" font-family="system-ui, sans-serif" font-weight="700">SPRING SIMULATION: STIFFNESS 350, DAMPING 30</text>
+        <text x="30" y="70" fill="#ffffff" font-size="24" font-family="system-ui, sans-serif" font-weight="800">60fps Fluid Gesture Physics</text>
+
+        <!-- Waveform Physics Path -->
+        <path d="M30 115 C 100 80, 160 145, 230 110 S 340 75, 420 120 T 520 105" stroke="url(#slider-wave)" stroke-width="4" stroke-linecap="round" fill="none" />
+        
+        <!-- Touch Ripple Rings -->
+        <circle cx="230" cy="110" r="28" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4 4" fill="none" opacity="0.6" />
+        <circle cx="230" cy="110" r="14" fill="#f43f5e" />
+        <circle cx="230" cy="110" r="6" fill="#ffffff" />
+      </g>
+
+      <!-- Floating Interactive Widgets Row -->
+      <g transform="translate(45, 275)">
+        <!-- Widget 1: Haptic Toggle -->
+        <g transform="translate(0, 0)">
+          <rect x="0" y="0" width="165" height="150" rx="20" fill="#18181b" stroke="#27272a" stroke-width="1.5" />
+          <text x="24" y="36" fill="#a1a1aa" font-size="11" font-family="system-ui, sans-serif" font-weight="600">HAPTIC ENGINE</text>
+          <text x="24" y="66" fill="#ffffff" font-size="16" font-family="system-ui, sans-serif" font-weight="700">Tactile Click</text>
+          
+          <rect x="24" y="85" width="115" height="38" rx="19" fill="#27272a" />
+          <circle cx="115" cy="104" r="15" fill="#f59e0b" />
+          <text x="50" y="109" fill="#ffffff" font-size="11" font-family="system-ui, sans-serif" font-weight="700">ON</text>
+        </g>
+
+        <!-- Widget 2: Spatial Canvas Shader -->
+        <g transform="translate(190, 0)">
+          <rect x="0" y="0" width="165" height="150" rx="20" fill="#18181b" stroke="#27272a" stroke-width="1.5" />
+          <text x="24" y="36" fill="#a1a1aa" font-size="11" font-family="system-ui, sans-serif" font-weight="600">WEBGL SHADER</text>
+          <text x="24" y="66" fill="#ffffff" font-size="16" font-family="system-ui, sans-serif" font-weight="700">Particle Mesh</text>
+
+          <path d="M24 105 Q 65 75, 105 105 T 145 105" stroke="#f43f5e" stroke-width="3" fill="none" />
+          <circle cx="65" cy="85" r="4" fill="#fbbf24" />
+          <circle cx="105" cy="105" r="5" fill="#f43f5e" />
+          <circle cx="135" cy="90" r="3" fill="#a855f7" />
+        </g>
+
+        <!-- Widget 3: Frame Counter -->
+        <g transform="translate(380, 0)">
+          <rect x="0" y="0" width="170" height="150" rx="20" fill="#18181b" stroke="#27272a" stroke-width="1.5" />
+          <text x="24" y="36" fill="#a1a1aa" font-size="11" font-family="system-ui, sans-serif" font-weight="600">REFRESH RATE</text>
+          <text x="24" y="78" fill="#10b981" font-size="34" font-family="system-ui, sans-serif" font-weight="800">120</text>
+          <text x="92" y="68" fill="#10b981" font-size="14" font-family="system-ui, sans-serif" font-weight="700">FPS</text>
+          <text x="24" y="110" fill="#a1a1aa" font-size="11" font-family="system-ui, sans-serif">Zero Jitter Drop</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

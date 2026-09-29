@@ -1,11 +1,10 @@
 import React from "react";
 import { getServiceBySlug } from "@/lib/services";
-import WebMobileHero from "@/components/modules/services/web-mobile/WebMobileHero";
-import WebMobileTechStack from "@/components/modules/services/web-mobile/WebMobileTechStack";
-import WebMobileMethodology from "@/components/modules/services/web-mobile/WebMobileMethodology";
-import WebMobileDeliverables from "@/components/modules/services/web-mobile/WebMobileDeliverables";
-import WebMobileAdjacentNav from "@/components/modules/services/web-mobile/WebMobileAdjacentNav";
-import Cta from "@/components/modules/cta/CtaSection";
+import WebMobileHero from "@/modules/services/components/web-mobile/WebMobileHero";
+import WebMobileTechStack from "@/modules/services/components/web-mobile/WebMobileTechStack";
+import WebMobileMethodology from "@/modules/services/components/web-mobile/WebMobileMethodology";
+import WebMobileDeliverables from "@/modules/services/components/web-mobile/WebMobileDeliverables";
+import { CtaSection as Cta } from "@/modules/cta";
 
 export const metadata = {
   title: "Enterprise Web & Mobile App Engineering | Sardar IT",
@@ -22,7 +21,7 @@ export const metadata = {
     siteName: "Sardar IT",
     images: [
       {
-        url: "/image/services/web-performance.webp",
+        url: "/images/services/web-performance.webp",
         width: 1200,
         height: 630,
         alt: "Enterprise Web & Mobile Engineering - Sardar IT",
@@ -34,7 +33,7 @@ export const metadata = {
     title: "Enterprise Web & Mobile App Engineering | Sardar IT",
     description:
       "Modern full-stack web and mobile engineering with 99.99% uptime SLA and Core Web Vitals 98/100 benchmark.",
-    images: ["/image/services/web-performance.webp"],
+    images: ["/images/services/web-performance.webp"],
   },
 };
 
