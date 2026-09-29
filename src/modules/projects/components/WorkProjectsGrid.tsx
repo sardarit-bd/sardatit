@@ -29,8 +29,15 @@ const ITEMS_PER_PAGE = 6;
 export default function WorkProjectsGrid() {
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("All");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
   const gridTopRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const getProjectImage = (p: Project) => {
+    if (failedImages[p.id]) return "/images/projects/casa-viva.webp";
+    const raw = p.mockup || p.image || "/images/projects/casa-viva.webp";
+    return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+  };
 
   useEffect(() => {
     return () => {
@@ -265,11 +272,12 @@ export default function WorkProjectsGrid() {
                       className="relative block w-full h-full"
                     >
                       <Image
-                        src={project.mockup || project.image}
+                        src={getProjectImage(project)}
                         alt={`${project.title} - ${project.eyebrow || project.category}`}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
                         priority={index < 2}
+                        onError={() => setFailedImages((prev) => ({ ...prev, [project.id]: true }))}
                         className="object-contain transition-transform duration-500 ease-out group-hover:scale-105 drop-shadow-sm"
                       />
 

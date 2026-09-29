@@ -256,10 +256,14 @@ export const InfiniteSpiral = ({
             >
               <img
                 className="infinite-spiral__image"
-                src={item.src}
+                src={item.src?.startsWith('http') || item.src?.startsWith('/') ? item.src : `/${item.src || 'images/projects/casa-viva.webp'}`}
                 alt={item.alt}
                 loading={index < 6 ? 'eager' : 'lazy'}
                 draggable={false}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "/images/projects/casa-viva.webp";
+                }}
                 style={{
                   width: cardWidth,
                   height: cardHeight,

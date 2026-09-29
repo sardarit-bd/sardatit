@@ -21,7 +21,7 @@ export const metadata = {
     siteName: "Sardar IT",
     images: [
       {
-        url: "/image/services/isometric-ai-core.png",
+        url: "/images/services/isometric-ai-core.png",
         width: 1200,
         height: 630,
         alt: "AI Automation Solutions - Sardar IT",
@@ -33,7 +33,7 @@ export const metadata = {
     title: "Intelligent Workflow Automation & AI Integration | Sardar IT",
     description:
       "Enterprise workflow automation with self-hosted n8n, Make, custom webhooks, and omnichannel AI agents.",
-    images: ["/image/services/isometric-ai-core.png"],
+    images: ["/images/services/isometric-ai-core.png"],
   },
 };
 
