@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +36,12 @@ export default function ProjectCardVertical({
   statLabel,
   priority = false,
 }: ProjectCardVerticalProps) {
+  const [hasError, setHasError] = useState(false);
+  const normalizedSrc = imageSrc?.startsWith("http") || imageSrc?.startsWith("/")
+    ? imageSrc
+    : `/${imageSrc || "images/projects/casa-viva.webp"}`;
+  const displaySrc = hasError ? "/images/projects/casa-viva.webp" : normalizedSrc;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -46,11 +53,12 @@ export default function ProjectCardVertical({
       {/* Visual Mockup Container */}
       <div className="relative w-full aspect-[16/10] overflow-hidden bg-neutral-200/60 dark:bg-neutral-800/60">
         <Image
-          src={imageSrc}
+          src={displaySrc}
           alt={imageAlt || title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           priority={priority}
+          onError={() => setHasError(true)}
           className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
         />
 

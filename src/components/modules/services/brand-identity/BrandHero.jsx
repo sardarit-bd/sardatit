@@ -11,42 +11,42 @@ import BookaCallBtn from "@/components/ui/BookaCallBtn";
 // Verified Local Project Assets for Hero Infinite Spiral Showcase
 const HERO_SPIRAL_ITEMS = [
     {
-        src: "/image/project/CASA.webp",
+        src: "/images/projects/casa-viva.webp",
         alt: "Casa Viva Luxury Real Estate Platform",
         href: "/works/casa-viva",
     },
     {
-        src: "/image/project/MedEase.webp",
+        src: "/images/projects/medease.webp",
         alt: "MedEase Healthcare & Clinical Suite",
         href: "/works/medease",
     },
     {
-        src: "/image/project/White_Cross_Clinic.webp",
+        src: "/images/projects/white-cross-clinic.webp",
         alt: "White Cross Clinic Patient Portal",
         href: "/works/white-cross-clinic",
     },
     {
-        src: "/image/project/asia-lms.webp",
+        src: "/images/projects/asia-lms.webp",
         alt: "Asia LMS Enterprise Learning Ecosystem",
         href: "/works/asia-lms",
     },
     {
-        src: "/image/project/gulf.webp",
+        src: "/images/projects/gulf.webp",
         alt: "Gulf Coast Music Digital Platform",
-        href: "/works/gulf-coast-music",
+        href: "/works/gulf-county",
     },
     {
-        src: "/image/project/HomeServiceProvider.webp",
+        src: "/images/projects/home-service-provider.webp",
         alt: "Home Service On-Demand Mobile App",
-        href: "/works/home-service",
+        href: "/works/home-service-provider",
     },
     {
-        src: "/image/project/CASA.webp",
+        src: "/images/projects/casa-viva.webp",
         alt: "Casa Viva Design Tokens & UI Architecture",
         href: "/works/casa-viva",
     },
     {
-        src: "/image/project/MedEase.webp",
+        src: "/images/projects/medease.webp",
         alt: "MedEase Telehealth Interaction Prototype",
         href: "/works/medease",
     },

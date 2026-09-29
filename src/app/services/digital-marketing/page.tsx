@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Sardar IT",
     images: [
       {
-        url: "/image/project/White_Cross_Clinic.webp",
+        url: "/images/services/digital-marketing.png",
         width: 1200,
         height: 630,
         alt: "Digital Marketing - Sardar IT",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Digital Marketing & Growth | Sardar IT",
     description:
       "Accelerate business growth with targeted digital marketing, SEO, and conversion optimization.",
-    images: ["/image/project/White_Cross_Clinic.webp"],
+    images: ["/images/services/digital-marketing.png"],
   },
 };
 
