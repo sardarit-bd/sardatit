@@ -39,6 +39,16 @@ export default function WorksSlugPage() {
     const [copied, setCopied] = useState(false);
     const [loadingComplete, setLoadingComplete] = useState(false);
 
+    const safeImage = (src) => {
+        if (!src) return "/images/projects/casa-viva.webp";
+        return src.startsWith("http") || src.startsWith("/") ? src : `/${src}`;
+    };
+
+    const handleImgError = (e) => {
+        e.currentTarget.onerror = null;
+        e.currentTarget.src = "/images/projects/casa-viva.webp";
+    };
+
     useEffect(() => {
         setLoadingComplete(false);
     }, [slugKey]);
@@ -254,8 +264,9 @@ export default function WorksSlugPage() {
                                     <figure className="space-y-2">
                                         <div className="overflow-hidden bg-neutral-100">
                                             <img
-                                                src={data.heroImage}
+                                                src={safeImage(data.heroImage)}
                                                 alt={data.heroImageAlt || `${data.title} Hero Showcase`}
+                                                onError={handleImgError}
                                                 className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-500"
                                             />
                                         </div>
@@ -286,8 +297,9 @@ export default function WorksSlugPage() {
                                     <figure className="space-y-2">
                                         <div className="overflow-hidden bg-neutral-100">
                                             <img
-                                                src={data.coverImage}
+                                                src={safeImage(data.coverImage)}
                                                 alt={data.coverImageAlt || `${data.title} Cover Banner`}
+                                                onError={handleImgError}
                                                 className="w-full h-auto object-cover"
                                             />
                                         </div>
@@ -340,8 +352,9 @@ export default function WorksSlugPage() {
                                     <figure className="space-y-2">
                                         <div className="overflow-hidden bg-neutral-100">
                                             <img
-                                                src={data.macbookView}
+                                                src={safeImage(data.macbookView)}
                                                 alt={data.macbookViewAlt || "Macbook View Showcase"}
+                                                onError={handleImgError}
                                                 className="w-full h-auto object-cover"
                                             />
                                         </div>
@@ -362,8 +375,9 @@ export default function WorksSlugPage() {
                                                 className="overflow-hidden bg-neutral-100"
                                             >
                                                 <img
-                                                    src={img}
+                                                    src={safeImage(img)}
                                                     alt={`Mobile Showcase ${idx + 1}`}
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-500"
                                                 />
                                             </div>
@@ -391,8 +405,9 @@ export default function WorksSlugPage() {
                                                         className="overflow-hidden bg-neutral-100"
                                                     >
                                                         <img
-                                                            src={img}
+                                                            src={safeImage(img)}
                                                             alt={`Style Guide Element ${idx + 1}`}
+                                                            onError={handleImgError}
                                                             className="w-full h-auto object-cover"
                                                         />
                                                     </div>
@@ -403,8 +418,9 @@ export default function WorksSlugPage() {
                                         {data.styleBanner && (
                                             <div className="overflow-hidden bg-neutral-100">
                                                 <img
-                                                    src={data.styleBanner}
+                                                    src={safeImage(data.styleBanner)}
                                                     alt="Style Guide Banner"
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover"
                                                 />
                                             </div>
@@ -418,8 +434,9 @@ export default function WorksSlugPage() {
                                                         className="overflow-hidden bg-neutral-100"
                                                     >
                                                         <img
-                                                            src={img}
+                                                            src={safeImage(img)}
                                                             alt={`Product Feature ${idx + 1}`}
+                                                            onError={handleImgError}
                                                             className="w-full h-auto object-cover"
                                                         />
                                                     </div>
@@ -444,8 +461,9 @@ export default function WorksSlugPage() {
                                         {data.illustrationBanner && (
                                             <div className="overflow-hidden bg-neutral-100">
                                                 <img
-                                                    src={data.illustrationBanner}
+                                                    src={safeImage(data.illustrationBanner)}
                                                     alt="Icons and Illustrations Showcase"
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover"
                                                 />
                                             </div>
@@ -459,8 +477,9 @@ export default function WorksSlugPage() {
                                                         className="overflow-hidden bg-neutral-100"
                                                     >
                                                         <img
-                                                            src={img}
+                                                            src={safeImage(img)}
                                                             alt={`Responsive Showcase ${idx + 1}`}
+                                                            onError={handleImgError}
                                                             className="w-full h-auto object-cover"
                                                         />
                                                     </div>
@@ -485,8 +504,9 @@ export default function WorksSlugPage() {
                                         {data.responsiveViewBanner && (
                                             <div className="overflow-hidden bg-neutral-100">
                                                 <img
-                                                    src={data.responsiveViewBanner}
+                                                    src={safeImage(data.responsiveViewBanner)}
                                                     alt="Responsive View Showcase"
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover"
                                                 />
                                             </div>
@@ -495,8 +515,9 @@ export default function WorksSlugPage() {
                                         {data.macbookVersion && (
                                             <div className="overflow-hidden bg-neutral-100">
                                                 <img
-                                                    src={data.macbookVersion}
+                                                    src={safeImage(data.macbookVersion)}
                                                     alt="Macbook Version Showcase"
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover"
                                                 />
                                             </div>
@@ -505,8 +526,9 @@ export default function WorksSlugPage() {
                                         {data.footerShowcase && (
                                             <div className="overflow-hidden bg-neutral-100">
                                                 <img
-                                                    src={data.footerShowcase}
+                                                    src={safeImage(data.footerShowcase)}
                                                     alt="Final Showcase"
+                                                    onError={handleImgError}
                                                     className="w-full h-auto object-cover"
                                                 />
                                             </div>
@@ -537,8 +559,9 @@ export default function WorksSlugPage() {
                                                             className="group overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs hover:shadow-md transition-all duration-300"
                                                         >
                                                             <img
-                                                                src={img}
+                                                                src={safeImage(img)}
                                                                 alt={`${data.title} Interface Screen ${idx + 1}`}
+                                                                onError={handleImgError}
                                                                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                                                             />
                                                         </div>

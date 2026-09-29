@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -144,6 +145,14 @@ const SHOWCASE_CARDS: ShowcaseCardData[] = [
 ];
 
 export function ServiceShowcaseCard() {
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+
+  const getCardImage = (card: ShowcaseCardData) => {
+    if (failedImages[card.id]) return "/images/projects/casa-viva.webp";
+    const raw = card.image || "/images/projects/casa-viva.webp";
+    return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+  };
+
   return (
     <section className="flex flex-col gap-14 w-full items-center justify-center px-6 md:px-10 py-16">
       <div className="container mx-auto px-6 md:px-12">
@@ -258,12 +267,13 @@ export function ServiceShowcaseCard() {
                   className="relative z-10 w-full h-[260px] sm:h-[320px] lg:h-[360px] rounded-xl overflow-hidden shadow-[0_20px_45px_rgba(15,23,42,0.12)] border border-white/80"
                 >
                   <Image
-                    src={card.image}
+                    src={getCardImage(card)}
                     alt={`${card.headlinePrefix}${card.headlineGradient} showcase`}
                     fill
                     sizes="(max-width: 1024px) 100vw, 48vw"
                     className="object-cover"
                     priority={index < 2}
+                    onError={() => setFailedImages((prev) => ({ ...prev, [card.id]: true }))}
                   />
                 </motion.div>
               </div>

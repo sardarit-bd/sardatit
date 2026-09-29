@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
@@ -15,7 +15,7 @@ if (typeof window !== "undefined") {
 // Specialized Design Practices (Enterprise Production Standards)
 const ON_DEMAND_SERVICES = [
     {
-        image: "/images/projects/CASA.webp",
+        image: "/images/projects/casa-viva.webp",
         title: "Design Systems & Tokenization",
         desc: "Multi-platform design token architecture (JSON, Tailwind, React, Flutter), reusable component libraries, and strict design-to-code governance.",
         features: ["Multi-Platform Tokens", "WCAG 2.1 AA Compliance", "Dark & Light Modes", "Storybook Integration"],
@@ -24,7 +24,7 @@ const ON_DEMAND_SERVICES = [
         badgeTitle: "Design Systems",
     },
     {
-        image: "/images/projects/MedEase.webp",
+        image: "/images/projects/medease.webp",
         title: "Enterprise SaaS Product Design",
         desc: "High-density data dashboards, modular workflows, and friction-free onboarding designed for high-concurrency enterprise cloud platforms.",
         features: ["Data Visualizations", "Modular Components", "Role-Based Access UI", "Micro-Interactions"],
@@ -33,7 +33,7 @@ const ON_DEMAND_SERVICES = [
         badgeTitle: "SaaS Product Design",
     },
     {
-        image: "/images/projects/HomeServiceProvider.webp",
+        image: "/images/projects/home-service-provider.webp",
         title: "Mobile App Design (iOS & Android)",
         desc: "Native touch-first mobile interfaces optimized for smooth gesture navigation, responsive haptics, and high task-completion velocity.",
         features: ["Native iOS & Android", "Gesture Navigation", "Mobile Component Kits", "App Store Visuals"],
@@ -42,7 +42,7 @@ const ON_DEMAND_SERVICES = [
         badgeTitle: "Mobile UX/UI",
     },
     {
-        image: "/images/projects/White_Cross_Clinic.webp",
+        image: "/images/projects/white-cross-clinic.webp",
         title: "Healthcare & Clinical UX Systems",
         desc: "Patient portals, doctor scheduling interfaces, and clinical management systems with zero cognitive friction and high security.",
         features: ["Clinical Workflows", "Accessibility First", "Patient Dashboards", "Cross-Device Sync"],
@@ -72,6 +72,13 @@ const ON_DEMAND_SERVICES = [
 
 export default function BrandSpecializedPractices() {
     const practicesRef = useRef(null);
+    const [failedImages, setFailedImages] = useState({});
+
+    const getServiceImage = (srv, idx) => {
+        if (failedImages[idx]) return "/images/projects/casa-viva.webp";
+        const raw = srv.image || "/images/projects/casa-viva.webp";
+        return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+    };
 
     useGSAP(
         () => {
@@ -221,10 +228,11 @@ export default function BrandSpecializedPractices() {
                                 <div className="relative h-52 sm:h-60 rounded-xl overflow-hidden bg-neutral-100 border border-neutral-200/70 mb-8">
                                     <div className="practice-card-img relative w-full h-full">
                                         <Image
-                                            src={srv.image}
+                                            src={getServiceImage(srv, idx)}
                                             alt={srv.title}
                                             fill
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            onError={() => setFailedImages((prev) => ({ ...prev, [idx]: true }))}
                                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
                                     </div>

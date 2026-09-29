@@ -24,7 +24,7 @@ export const metadata = {
         siteName: "Sardar IT",
         images: [
             {
-                url: "/image/project/Recharge_IV.webp",
+                url: "/images/projects/casa-viva.webp",
                 width: 1200,
                 height: 630,
                 alt: "Brand Identity & Design - Sardar IT",
@@ -36,7 +36,7 @@ export const metadata = {
         title: "Brand Identity & Digital Product Design | Sardar IT",
         description:
             "Architecting intuitive digital experiences, tokenized design systems, and cohesive brand identities that scale globally.",
-        images: ["/image/project/Recharge_IV.webp"],
+        images: ["/images/projects/casa-viva.webp"],
     },
 };
 

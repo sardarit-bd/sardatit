@@ -20,8 +20,15 @@ export default function ProjectsSection() {
   const bgNumberRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
   const activeIdxRef = useRef<number>(0);
   const totalChapters = projects.length;
+
+  const getProjectMockup = (p: (typeof projects)[0]) => {
+    if (failedImages[p.id]) return "/images/projects/casa-viva.webp";
+    const raw = p.mockup || p.image || "/images/projects/casa-viva.webp";
+    return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+  };
 
   useGSAP(
     () => {
@@ -346,11 +353,12 @@ export default function ProjectsSection() {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Image
-                          src={project.mockup || project.image}
+                          src={getProjectMockup(project)}
                           alt={`${project.title} - ${project.eyebrow}`}
                           fill
                           sizes="(max-width: 1280px) 50vw, 600px"
                           priority={index === 0}
+                          onError={() => setFailedImages((prev) => ({ ...prev, [project.id]: true }))}
                           className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
                         />
 

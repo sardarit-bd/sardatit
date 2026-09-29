@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
     heroDescription: fallbackProject?.title
       ? `Explore the ${fallbackProject.title} case study by Sardar IT.`
       : "Explore our case study and digital engineering achievements.",
-    heroImage: "/images/og-default.png",
+    heroImage: fallbackProject?.image || "/images/projects/casa-viva.webp",
   };
 
   const title = `${data.title} | Case Study | Sardar IT`;
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
     `Discover how Sardar IT engineered high-performance digital solutions for ${data.company}.`
   ).slice(0, 155);
   const canonicalUrl = `https://sardaritbd.com/works/${slugKey}`;
-  const ogImage = data.heroImage || "https://sardaritbd.com/logo.png";
+  const ogImage = data.heroImage || fallbackProject?.image || "/images/projects/casa-viva.webp";
 
   return {
     title,
