@@ -5,5 +5,5 @@ export interface StatMetric {
   value?: number;
   suffix?: string;
   decimals?: number;
-  lottiePath?: string;
+  iconSrc?: string;
 }
