@@ -32,6 +32,12 @@ export default function ProjectsSection() {
     return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
   };
 
+  const getProjectMockup = (p: (typeof projects)[0]) => {
+    if (failedImages[p.id]) return "/images/projects/casa-viva.webp";
+    const raw = p.mockup || p.image || "/images/projects/casa-viva.webp";
+    return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+  };
+
   useGSAP(
     () => {
       // Pinning and timeline enabled only for desktop (>= 1024px)
