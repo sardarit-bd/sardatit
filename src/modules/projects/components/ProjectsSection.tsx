@@ -10,6 +10,8 @@ import { projects } from "@/data/projects";
 import ProjectCardVertical from "./ProjectCardVertical";
 import TechBadge from "@/components/ui/TechBadge";
 
+const featuredProjects = projects.slice(0, 3);
+
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
@@ -22,9 +24,9 @@ export default function ProjectsSection() {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
   const activeIdxRef = useRef<number>(0);
-  const totalChapters = projects.length;
+  const totalChapters = featuredProjects.length;
 
-  const getProjectMockup = (p: (typeof projects)[0]) => {
+  const getProjectMockup = (p: (typeof featuredProjects)[0]) => {
     if (failedImages[p.id]) return "/images/projects/casa-viva.webp";
     const raw = p.mockup || p.image || "/images/projects/casa-viva.webp";
     return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
@@ -39,7 +41,7 @@ export default function ProjectsSection() {
         if (!containerRef.current || !pinRef.current) return;
 
         // Initialize state for each chapter card
-        projects.forEach((_, index) => {
+        featuredProjects.forEach((_, index) => {
           const cardEl = chapterRefs.current[index];
           const numEl = bgNumberRefs.current[index];
 
@@ -72,7 +74,7 @@ export default function ProjectsSection() {
             trigger: containerRef.current,
             pin: pinRef.current,
             start: "top 85px", // Offset by the sticky navbar height so it stops right below the navbar
-            end: () => `+=${(totalChapters - 1) * 115}%`,
+            end: () => `+=${(totalChapters - 1) * 95}%`,
             scrub: true,
             anticipatePin: 0,
             invalidateOnRefresh: true,
@@ -256,7 +258,7 @@ export default function ProjectsSection() {
         <div className="relative flex-1 w-full flex items-center my-3 lg:my-4 min-h-0 overflow-hidden">
           {/* HUGE FAINT BACKGROUND NUMBER */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
-            {projects.map((_, index) => (
+            {featuredProjects.map((_, index) => (
               <div
                 key={`bg-num-${index}`}
                 ref={(el) => {
@@ -272,7 +274,7 @@ export default function ProjectsSection() {
 
           {/* CHAPTER CARDS CONTAINER (Single card per project holding text + image) */}
           <div className="relative z-10 w-full h-full container mx-auto px-6 md:px-12 flex items-center justify-center">
-            {projects.map((project, index) => {
+            {featuredProjects.map((project, index) => {
               const isActive = activeIdx === index;
               return (
                 <div
@@ -388,7 +390,7 @@ export default function ProjectsSection() {
         {/* 3. HORIZONTAL STEPPER NAVIGATION & RELOCATED CTA */}
         <div className="w-full pt-3 pb-1 border-t border-neutral-200/70 z-30 flex flex-col items-center mt-4 mb-2">
           <div className="container mx-auto px-6 md:px-12 flex items-center justify-between gap-1 xl:gap-2">
-            {projects.map((project, idx) => {
+            {featuredProjects.map((project, idx) => {
               const isActive = activeIdx === idx;
               return (
                 <React.Fragment key={`step-${project.id}`}>
@@ -421,7 +423,7 @@ export default function ProjectsSection() {
                   </button>
 
                   {/* Connecting thin horizontal line */}
-                  {idx < projects.length - 1 && (
+                  {idx < featuredProjects.length - 1 && (
                     <div className="flex-1 h-px bg-neutral-200 mx-1 hidden xl:block" />
                   )}
                 </React.Fragment>
@@ -432,7 +434,7 @@ export default function ProjectsSection() {
           {/* Relocated 'All Case Studies' CTA button */}
           <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
             <Link
-              href="/works"
+              href="/work"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
             >
               <span>All Case Studies</span>
@@ -465,7 +467,7 @@ export default function ProjectsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 lg:my-6">
-          {projects.map((project) => (
+          {featuredProjects.map((project) => (
             <ProjectCardVertical
               key={project.id}
               title={project.title}
@@ -487,7 +489,7 @@ export default function ProjectsSection() {
         {/* Relocated Bottom CTA on mobile */}
         <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
           <Link
-            href="/works"
+            href="/work"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
           >
             <span>All Case Studies</span>
