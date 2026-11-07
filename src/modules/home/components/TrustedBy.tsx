@@ -53,8 +53,8 @@ export default function TrustedBy() {
   const isInView = useInView(containerRef, { margin: "150px" });
 
   return (
-    <section ref={containerRef} className="py-20 sm:py-24 md:py-32 overflow-hidden w-full relative bg-white border-y border-neutral-100">
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
+    <section ref={containerRef} className="py-20 sm:py-24 md:py-32 overflow-hidden w-full relative bg-white ">
+      <div className="container mx-auto px-6 sm:px-10 lg:px-16">
         <div className="text-center">
           <p className="text-sm sm:text-base md:text-lg font-semibold tracking-[0.18em] text-neutral-800 uppercase text-center mb-10 md:mb-14">
             TRUSTED BY 250+ GLOBAL BRANDS
@@ -62,7 +62,7 @@ export default function TrustedBy() {
         </div>
 
         <div
-          className="relative flex flex-col gap-y-8 md:gap-y-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
+          className="relative flex flex-col gap-y-8 md:gap-y-12 overflow-hidden mask-[linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]l [-webkit-mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
           style={{
             maskImage:
               "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",

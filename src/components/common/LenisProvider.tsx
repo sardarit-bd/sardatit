@@ -19,36 +19,27 @@ export default function LenisProvider({
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // If the user prefers reduced motion, bypass Lenis entirely (native browser scrolling)
     if (prefersReducedMotion) {
       return;
     }
 
     const lenis = new Lenis({
       smoothWheel: true,
-      syncTouch: false, // Retain native touch scrolling on mobile/touch screens
+      syncTouch: false,
       duration: SCROLL_DURATION,
       easing: SCROLL_EASING,
       wheelMultiplier: WHEEL_MULTIPLIER,
     });
-
-    // Synchronize Lenis scroll events with GSAP ScrollTrigger
     const unsubscribeScroll = lenis.on("scroll", ScrollTrigger.update);
-
-    // Named ticker callback stored in a const to ensure clean removal on unmount/remount/HMR
     const updateTicker = (time: number) => {
       lenis.raf(time * 1000);
     };
-
     gsap.ticker.add(updateTicker);
-    // Disable lag smoothing to eliminate sudden scroll jumps after frame spikes
     gsap.ticker.lagSmoothing(0);
 
     if (typeof window !== "undefined") {
       (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
     }
-
-    // Intercept in-page anchor links (href="#id") to scroll smoothly with dynamic header offset
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement)?.closest("a");
       if (!target) return;
@@ -91,12 +82,10 @@ export default function LenisProvider({
     };
 
     document.addEventListener("click", handleAnchorClick);
-
     return () => {
       document.removeEventListener("click", handleAnchorClick);
       gsap.ticker.remove(updateTicker);
       unsubscribeScroll();
-
       if (typeof window !== "undefined") {
         delete (window as unknown as { __lenis?: Lenis }).__lenis;
       }

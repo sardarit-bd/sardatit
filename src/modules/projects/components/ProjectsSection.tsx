@@ -4,497 +4,129 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { useGSAP } from "@gsap/react";
 import { projects } from "@/data/projects";
-import ProjectCardVertical from "./ProjectCardVertical";
-import TechBadge from "@/components/ui/TechBadge";
+import type { Project } from "@/types/project";
+const FALLBACK_IMAGE = "/images/projects/casa-viva.webp";
+const featuredIds = ["medease", "casa-viva", "retirement-waypoint"];
+const featuredProjects: Project[] = featuredIds
+  .map((id) => projects.find((p) => p.id === id))
+  .filter((p): p is Project => Boolean(p));
 
-const featuredProjects = projects.slice(0, 3);
+interface FeaturedCardProps {
+  project: Project;
+  wide?: boolean;
+  priority?: boolean;
+}
 
-export default function ProjectsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
-  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
-
-  // One ref array: one unified chapter card element per project
-  const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const bgNumberRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const [activeIdx, setActiveIdx] = useState<number>(0);
-  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
-  const activeIdxRef = useRef<number>(0);
-  const totalChapters = featuredProjects.length;
-
-  const getProjectMockup = (p: (typeof featuredProjects)[0]) => {
-    if (failedImages[p.id]) return "/images/projects/casa-viva.webp";
-    const raw = p.mockup || p.image || "/images/projects/casa-viva.webp";
-    return raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
-  };
-
-  useGSAP(
-    () => {
-      // Pinning and timeline enabled only for desktop (>= 1024px)
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 1024px)", () => {
-        if (!containerRef.current || !pinRef.current) return;
-
-        // Initialize state for each chapter card
-        featuredProjects.forEach((_, index) => {
-          const cardEl = chapterRefs.current[index];
-          const numEl = bgNumberRefs.current[index];
-
-          if (index === 0) {
-            if (cardEl) {
-              gsap.set(cardEl, {
-                opacity: 1,
-                xPercent: 0,
-                pointerEvents: "auto",
-                zIndex: 30,
-              });
-            }
-            if (numEl) gsap.set(numEl, { opacity: 0.05, scale: 1 });
-          } else {
-            if (cardEl) {
-              gsap.set(cardEl, {
-                opacity: 0,
-                xPercent: 115,
-                pointerEvents: "none",
-                zIndex: 5,
-              });
-            }
-            if (numEl) gsap.set(numEl, { opacity: 0, scale: 0.92 });
-          }
-        });
-
-        // Master pinned scroll timeline strictly bound to scroll position (zero lag)
-        const masterTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            pin: pinRef.current,
-            start: "top 85px", // Offset by the sticky navbar height so it stops right below the navbar
-            end: () => `+=${(totalChapters - 1) * 95}%`,
-            scrub: true,
-            anticipatePin: 0,
-            invalidateOnRefresh: true,
-            pinSpacing: true,
-            onUpdate: (self) => {
-              const progress = self.progress;
-              const rawCur = progress * (totalChapters - 1);
-              const cur = Math.min(
-                Math.round(rawCur),
-                totalChapters - 1
-              );
-              if (cur !== activeIdxRef.current) {
-                activeIdxRef.current = cur;
-                setActiveIdx(cur);
-              }
-            },
-          },
-        });
-
-        scrollTriggerRef.current = masterTl.scrollTrigger as ScrollTrigger;
-
-        // Unified chapter-to-chapter transitions: strictly linear scroll tracking
-        for (let i = 0; i < totalChapters - 1; i++) {
-          const stepTime = i;
-          const curChapter = chapterRefs.current[i];
-          const nextChapter = chapterRefs.current[i + 1];
-          const curNum = bgNumberRefs.current[i];
-          const nextNum = bgNumberRefs.current[i + 1];
-
-          // 1. Outgoing Chapter Card: Lower zIndex than incoming, slides out left
-          if (curChapter) {
-            masterTl.set(curChapter, { zIndex: 5 + i, pointerEvents: "none" }, stepTime);
-            masterTl.to(
-              curChapter,
-              {
-                opacity: 0,
-                xPercent: -115,
-                zIndex: 5 + i,
-                duration: 1,
-                ease: "none",
-                force3D: true,
-              },
-              stepTime
-            );
-          }
-
-          // 2. Incoming Chapter Card: Higher zIndex, enters from right
-          if (nextChapter) {
-            masterTl.set(nextChapter, { pointerEvents: "auto", zIndex: 10 + i }, stepTime + 0.5);
-            masterTl.fromTo(
-              nextChapter,
-              {
-                opacity: 0,
-                xPercent: 115,
-                zIndex: 10 + i,
-              },
-              {
-                opacity: 1,
-                xPercent: 0,
-                zIndex: 10 + i,
-                duration: 1,
-                ease: "none",
-                immediateRender: false,
-                force3D: true,
-              },
-              stepTime
-            );
-          }
-
-          // 3. Background Numbers: Crossfade in linear sync
-          if (curNum) {
-            masterTl.to(
-              curNum,
-              {
-                opacity: 0,
-                scale: 1.06,
-                duration: 0.5,
-                ease: "none",
-                force3D: true,
-              },
-              stepTime
-            );
-          }
-
-          if (nextNum) {
-            masterTl.fromTo(
-              nextNum,
-              { opacity: 0, scale: 0.92 },
-              {
-                opacity: 0.05,
-                scale: 1,
-                duration: 0.5,
-                ease: "none",
-                immediateRender: false,
-                force3D: true,
-              },
-              stepTime + 0.3
-            );
-          }
-        }
-      });
-
-      return () => {
-        mm.revert();
-      };
-    },
-    { scope: containerRef, dependencies: [totalChapters] }
-  );
-
-  // Jump to specific chapter when clicking bottom stepper navigation
-  const handleStepClick = (targetIndex: number) => {
-    setActiveIdx(targetIndex);
-    for (let k = 0; k < totalChapters; k++) {
-      const card = chapterRefs.current[k];
-      if (card) {
-        if (k === targetIndex) {
-          gsap.set(card, { pointerEvents: "auto", zIndex: 30 });
-        } else {
-          gsap.set(card, { pointerEvents: "none", zIndex: 5 });
-        }
-      }
-    }
-    const st = scrollTriggerRef.current;
-    if (st) {
-      const scrollPos =
-        st.start + (targetIndex / (totalChapters - 1)) * (st.end - st.start);
-      const lenis = (
-        window as unknown as {
-          __lenis?: { scrollTo: (target: number) => void };
-        }
-      ).__lenis;
-      if (lenis) {
-        lenis.scrollTo(scrollPos);
-      } else {
-        window.scrollTo({ top: scrollPos, behavior: "smooth" });
-      }
-    }
+function FeaturedCard({
+  project,
+  wide = false,
+  priority = false,
+}: FeaturedCardProps) {
+  const [hasError, setHasError] = useState(false);
+  const bubbleRef = useRef<HTMLSpanElement>(null);
+  const raw = project.mockup || project.image || FALLBACK_IMAGE;
+  const normalized =
+    raw.startsWith("http") || raw.startsWith("/") ? raw : `/${raw}`;
+  const src = hasError ? FALLBACK_IMAGE : normalized;
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const bubble = bubbleRef.current;
+    if (!bubble) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    bubble.style.transform = `translate3d(${e.clientX - rect.left}px, ${e.clientY - rect.top}px, 0) translate(-50%, -50%)`;
   };
 
   return (
-    <section
-      ref={containerRef}
-      id="selected-work"
-      className="relative w-full min-h-fit bg-white text-neutral-900 border-t border-neutral-100 scroll-mt-28 py-8 lg:py-0 overflow-visible"
-      aria-label="Selected Work and Case Studies Chapter Showcase"
+    <Link
+      href={project.link}
+      className={`group block ${wide ? "md:col-span-2" : ""}`}
     >
-      {/* =========================================================================
-          DESKTOP PINNED EXPERIENCE (lg and above: 1024px+)
-         ========================================================================= */}
       <div
-        ref={pinRef}
-        className="hidden lg:flex relative w-full h-[calc(100dvh-80px)] flex-col justify-between py-4 lg:py-5 overflow-visible select-none bg-white"
+        onMouseMove={handleMove}
+        className={`relative w-full overflow-hidden rounded-md bg-neutral-900 ${
+          wide ? "aspect-16/11 md:aspect-524/233" : "aspect-256/209"
+        }`}
       >
-        {/* 1. PERSISTENT TOP HEADER AREA */}
-        <div className="w-full z-30 mb-2 lg:mb-4 overflow-visible">
-          <div className="container mx-auto px-6 md:px-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-200/60 pb-3 md:pb-5">
-              <div>
-                <div className="text-xs sm:text-sm font-mono tracking-widest text-blue-600 uppercase font-semibold flex items-center gap-2">
-                  <span
-                    className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span>/ SELECTED WORK &amp; CASE STUDIES</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 mt-2">
-                  Featured Works &amp; Real-World Case Studies
-                </h2>
-                <p className="text-sm text-neutral-500 mt-2 max-w-xl font-normal leading-relaxed">
-                  Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
-                </p>
-              </div>
-              <span className="font-mono text-xs text-neutral-400 self-start md:self-auto uppercase tracking-widest font-medium shrink-0 whitespace-nowrap">
-                {`CHAPTER ${String(activeIdx + 1).padStart(2, "0")} // ${String(totalChapters).padStart(2, "0")}`}
-              </span>
-            </div>
-          </div>
-        </div>
+        <Image
+          src={src}
+          alt={`${project.title} - ${project.eyebrow}`}
+          fill
+          sizes={
+            wide
+              ? "(max-width: 1350px) 100vw, 1350px"
+              : "(max-width: 768px) 100vw, 50vw"
+          }
+          priority={priority}
+          onError={() => setHasError(true)}
+          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
 
-        {/* 2. MAIN CHAPTER STAGE (Single Unified Card per Project + Faint Background Index Number) */}
-        <div className="relative flex-1 w-full flex items-center my-3 lg:my-4 min-h-0 overflow-hidden">
-          {/* HUGE FAINT BACKGROUND NUMBER */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
-            {featuredProjects.map((_, index) => (
-              <div
-                key={`bg-num-${index}`}
-                ref={(el) => {
-                  bgNumberRefs.current[index] = el;
-                }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 text-[22vw] font-black text-neutral-900/[0.04] leading-none tracking-tighter select-none will-change-transform transform-gpu"
-                style={{ transform: "translate3d(0, -50%, 0)", willChange: "transform, opacity" }}
-              >
-                {String(index + 1).padStart(2, "0")}
-              </div>
-            ))}
-          </div>
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-medium text-black">
+          {project.category}
+        </span>
 
-          {/* CHAPTER CARDS CONTAINER (Single card per project holding text + image) */}
-          <div className="relative z-10 w-full h-full container mx-auto px-6 md:px-12 flex items-center justify-center">
-            {featuredProjects.map((project, index) => {
-              const isActive = activeIdx === index;
-              return (
-                <div
-                  key={`chapter-${project.id}`}
-                  ref={(el) => {
-                    chapterRefs.current[index] = el;
-                  }}
-                  className={`absolute inset-y-0 left-6 md:left-12 right-6 md:right-12 h-full flex items-center justify-between gap-10 xl:gap-16 will-change-transform transform-gpu ${isActive
-                      ? "pointer-events-auto z-30"
-                      : "pointer-events-none select-none z-10"
-                    }`}
-                  style={{ transform: "translate3d(0, 0, 0)", willChange: "transform, opacity" }}
-                  aria-hidden={!isActive}
-                >
-                  {/* LEFT HALF: CHAPTER EDITORIAL DETAILS */}
-                  <div className="w-[48%] max-w-xl flex flex-col justify-center gap-3 relative z-30 pointer-events-auto">
-                    {/* Category / Eyebrow Label */}
-                    <div className="flex items-center gap-2 text-xs font-mono font-semibold tracking-wider uppercase text-blue-600">
-                      <span>{project.category}</span>
-                      <span className="text-neutral-300">•</span>
-                      <span>{project.eyebrow}</span>
-                    </div>
-
-                    {/* Project Title */}
-                    <h3 className="text-2xl lg:text-3xl font-extrabold text-neutral-900 tracking-tight leading-tight">
-                      <Link
-                        href={project.link}
-                        className="hover:text-blue-600 transition-colors relative z-30 pointer-events-auto cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {project.title}
-                      </Link>
-                    </h3>
-
-                    {/* Thin Divider Line */}
-                    <div className="w-full h-px bg-neutral-200/90" />
-
-                    {/* Description Paragraph */}
-                    <p className="text-sm text-neutral-600 line-clamp-3 mb-4 font-normal leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Tech Stack Chips */}
-                    <div className="flex flex-wrap items-center gap-1.5 my-3">
-                      {project.tags.map((tag) => (
-                        <TechBadge key={tag} tech={tag} />
-                      ))}
-                    </div>
-
-                    {/* Key Metric & Case Study CTA */}
-                    <div className="flex items-center justify-between pt-3 border-t border-neutral-200/80 my-3 relative z-30 pointer-events-auto">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-2xl lg:text-3xl font-extrabold text-neutral-900 tracking-tight">
-                          {project.statValue}
-                        </span>
-                        <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          {project.statLabel}
-                        </span>
-                      </div>
-
-                      <Link
-                        href={project.link}
-                        className="group relative z-30 pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#133BD4] hover:bg-[#0f2eb0] shadow-md shadow-[#133BD4]/25 text-white text-xs xl:text-sm font-semibold transition-all duration-300 hover:scale-[1.02] cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <span>{project.ctaLabel || "View Case Study"}</span>
-                        <FiArrowUpRight className="text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* RIGHT HALF: SCREENSHOT / IMAGE PRESENTATION */}
-                  <div className="w-[50%] max-w-xl h-full flex items-center justify-center relative z-20">
-                    <div className="relative w-full aspect-16/10 max-h-[250px] lg:max-h-[280px] rounded-2xl overflow-hidden shadow-xl border border-neutral-200/80 bg-neutral-50">
-                      <Link
-                        href={project.link}
-                        className="group relative block w-full h-full cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Image
-                          src={getProjectMockup(project)}
-                          alt={`${project.title} - ${project.eyebrow}`}
-                          fill
-                          sizes="(max-width: 1280px) 50vw, 600px"
-                          priority={index === 0}
-                          onError={() => setFailedImages((prev) => ({ ...prev, [project.id]: true }))}
-                          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
-                        />
-
-                        {/* Gradient Overlay on Hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6 pointer-events-none">
-                          <span className="text-white text-sm font-medium flex items-center gap-1.5">
-                            Explore case study{" "}
-                            <FiArrowUpRight className="text-base" />
-                          </span>
-                        </div>
-
-                        {/* Category Floating Pill Badge */}
-                        <div className="absolute top-4 left-4 z-10 pointer-events-none">
-                          <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/95 text-neutral-900 shadow-sm border border-neutral-200/90">
-                            {project.category}
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 3. HORIZONTAL STEPPER NAVIGATION & RELOCATED CTA */}
-        <div className="w-full pt-3 pb-1 border-t border-neutral-200/70 z-30 flex flex-col items-center mt-4 mb-2">
-          <div className="container mx-auto px-6 md:px-12 flex items-center justify-between gap-1 xl:gap-2">
-            {featuredProjects.map((project, idx) => {
-              const isActive = activeIdx === idx;
-              return (
-                <React.Fragment key={`step-${project.id}`}>
-                  {/* Step Button */}
-                  <button
-                    type="button"
-                    onClick={() => handleStepClick(idx)}
-                    className={`group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive
-                      ? "bg-[#133BD4]/10 text-[#133BD4] border border-[#133BD4]/25 shadow-xs"
-                      : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100/80"
-                      }`}
-                    aria-label={`Jump to chapter ${idx + 1}: ${project.title}`}
-                  >
-                    <span
-                      className={`size-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${isActive
-                        ? "bg-[#133BD4] text-white"
-                        : "bg-neutral-200 text-neutral-600 group-hover:bg-neutral-300"
-                        }`}
-                    >
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={`text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-colors ${isActive
-                        ? "text-[#133BD4] font-bold"
-                        : "text-neutral-600 group-hover:text-neutral-900"
-                        }`}
-                    >
-                      {project.title}
-                    </span>
-                  </button>
-
-                  {/* Connecting thin horizontal line */}
-                  {idx < featuredProjects.length - 1 && (
-                    <div className="flex-1 h-px bg-neutral-200 mx-1 hidden xl:block" />
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-
-          {/* Relocated 'All Case Studies' CTA button */}
-          <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
-            >
-              <span>All Case Studies</span>
-              <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          </div>
-        </div>
+        <span
+          ref={bubbleRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-20 hidden size-20 flex-col items-center justify-center gap-0.5 rounded-full border border-white/30 bg-white/25 text-xs font-medium text-white opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100 md:flex"
+        >
+          <FiArrowUpRight className="text-lg" />
+          Details
+        </span>
       </div>
 
-      {/* =========================================================================
-          MOBILE & TABLET FALLBACK (< lg: 1024px)
-          Normal unpinned scrolling with clean stacked vertical card grid
-         ========================================================================= */}
-      <div className="block lg:hidden container mx-auto px-6 md:px-12">
-        <div className="flex flex-col mb-4 lg:mb-6 overflow-visible border-b border-neutral-200/60 pb-4">
-          <div className="text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold flex items-center gap-2">
-            <span
-              className="size-2 rounded-full bg-blue-600 inline-block shrink-0"
-              aria-hidden="true"
-            />
-            <span className="sr-only">•</span>
-            <span>/ SELECTED WORK &amp; CASE STUDIES</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight mt-2 mb-1">
-            Featured Works &amp; Real-World Case Studies
-          </h2>
-          <p className="text-sm text-neutral-600 max-w-xl font-normal leading-relaxed">
-            Engineering impactful digital experiences, mission-critical systems, and verified ROI for global brands.
-          </p>
-        </div>
+      <h3 className="mt-4 text-base font-medium leading-snug tracking-normal text-white sm:text-lg">
+        {project.title} - {project.eyebrow}
+      </h3>
+      <p className="mt-1.5 line-clamp-2 text-xs font-normal leading-relaxed text-neutral-400 sm:text-sm">
+        {project.description}
+      </p>
+    </Link>
+  );
+}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 lg:my-6">
-          {featuredProjects.map((project) => (
-            <ProjectCardVertical
+export default function ProjectsSection() {
+  return (
+    <section
+      id="selected-work"
+      className="relative w-full scroll-mt-28 bg-black py-14 text-white lg:py-24"
+      aria-label="Selected Work and Case Studies Chapter Showcase"
+    >
+      <div className="container mx-auto">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.08em] text-white">
+              <span
+                className="inline-block size-1.5 shrink-0 rounded-full bg-white"
+                aria-hidden="true"
+              />
+              <span>Featured Works &amp; Case Studies</span>
+            </div>
+            <h2 className="mt-5 text-3xl font-medium leading-[1.3] tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Featured Work &amp; Real-World
+              <br className="hidden sm:block" /> Case Studies
+            </h2>
+          </div>
+
+          <Link
+            href="/services"
+            className="group/btn inline-flex w-fit items-center gap-3 rounded-full bg-white py-1.5 pl-5 pr-1.5 text-sm font-medium text-black transition-all duration-300 hover:bg-neutral-200"
+          >
+            <span>Explore Services</span>
+            <span className="flex size-8 items-center justify-center rounded-full bg-[#133BD4] text-white">
+              <FiArrowUpRight className="text-base transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
+            </span>
+          </Link>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-10 md:mt-12 md:grid-cols-2 md:gap-x-6 lg:mt-14">
+          {featuredProjects.map((project, index) => (
+            <FeaturedCard
               key={project.id}
-              title={project.title}
-              category={project.category}
-              eyebrow={project.eyebrow}
-              description={project.description}
-              imageSrc={project.mockup || project.image}
-              imageAlt={`${project.title} - ${project.eyebrow}`}
-              tags={project.tags}
-              ctaHref={project.link}
-              ctaLabel={project.ctaLabel || "View Case Study"}
-              statValue={project.statValue}
-              statLabel={project.statLabel}
-              priority={project.priority}
+              project={project}
+              wide={index === 2}
+              priority={index === 0}
             />
           ))}
-        </div>
-
-        {/* Relocated Bottom CTA on mobile */}
-        <div className="mt-5 pb-10 sm:pb-12 flex justify-center items-center relative z-20">
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#133BD4] text-white hover:bg-[#0f2eb0] text-sm font-semibold tracking-wide shadow-md shadow-[#133BD4]/25 transition-all duration-300"
-          >
-            <span>All Case Studies</span>
-            <FiArrowUpRight className="text-base transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
         </div>
       </div>
     </section>

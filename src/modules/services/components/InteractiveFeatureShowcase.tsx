@@ -111,8 +111,6 @@ export const SHOWCASE_FEATURES: FeatureItem[] = [
 ];
 
 const DEFAULT_IDLE_IMAGE = "/images/services/showcase-default.svg";
-
-// Directional Carousel Transition Variants
 const slideVariants: Variants = {
   enter: (direction: number) => ({
     x: direction > 0 ? "100%" : "-100%",
@@ -143,16 +141,15 @@ interface InteractiveFeatureShowcaseProps {
 export default function InteractiveFeatureShowcase({
   className = "",
 }: InteractiveFeatureShowcaseProps) {
-  // Dual-State Variables
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<number>(1);
-  const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({});
+  const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const activeFeature =
     activeIndex !== null ? SHOWCASE_FEATURES[activeIndex] : null;
-
-  // Up & Down navigation handlers with circular looping
   const handlePrev = useCallback(() => {
     setDirection(-1);
     setActiveIndex((prev) => {
@@ -190,7 +187,6 @@ export default function InteractiveFeatureShowcase({
     setImageErrorMap((prev) => ({ ...prev, [imageKey]: true }));
   };
 
-  // Keyboard navigation when expanded
   useEffect(() => {
     if (!isExpanded) return;
 
@@ -213,13 +209,10 @@ export default function InteractiveFeatureShowcase({
 
   return (
     <div
-      className={`relative z-10 w-full min-h-0 lg:min-h-[680px] py-8 lg:py-12 p-4 sm:p-6 lg:p-12 bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden flex items-center ${className}`}
+      className={`relative z-10 w-full min-h-0 lg:min-h-170 py-8 lg:py-12 p-4 sm:p-6 lg:p-12 bg-white text-neutral-900 rounded-3xl border border-neutral-200/80 shadow-sm overflow-hidden flex items-center ${className}`}
       role="region"
       aria-label="Interactive Product Showcase"
     >
-      {/* =========================================================================
-          TOP-RIGHT CLOSE (✕) BUTTON (STATE 2 ONLY)
-          ========================================================================= */}
       <AnimatePresence>
         {isExpanded && (
           <motion.button
@@ -236,16 +229,8 @@ export default function InteractiveFeatureShowcase({
           </motion.button>
         )}
       </AnimatePresence>
-
-      {/* =========================================================================
-          MAIN 2-COLUMN SPLIT GRID / MOBILE SINGLE COLUMN STACK
-          ========================================================================= */}
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full relative z-10">
-        {/* =========================================================================
-            LEFT COLUMN: PILLS & ACCORDION (W-FULL MAX-W-FULL ON MOBILE)
-            ========================================================================= */}
         <div className="lg:col-span-5 w-full max-w-full lg:max-w-lg z-20 flex items-start gap-2.5 sm:gap-4">
-          {/* Floating Navigation Arrows (State 2 only: Up ▲ and Down ▼) */}
           <AnimatePresence>
             {isExpanded && (
               <motion.div
@@ -274,8 +259,6 @@ export default function InteractiveFeatureShowcase({
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Pills Accordion Stack */}
           <div className="w-full max-w-full flex flex-col gap-2.5">
             {SHOWCASE_FEATURES.map((item, index) => {
               const isActive = isExpanded && activeIndex === index;
@@ -292,12 +275,10 @@ export default function InteractiveFeatureShowcase({
                   className="w-full flex justify-start"
                 >
                   {isActive ? (
-                    /* Expanded Active Card (Light Mode) */
                     <motion.div
                       layout
                       className="rounded-xl sm:rounded-2xl bg-white border border-neutral-300/90 p-4 sm:p-6 shadow-xl shadow-neutral-200/50 w-full text-left cursor-default"
                     >
-                      {/* Header: Title + Tag Badge */}
                       <div className="flex flex-wrap items-center justify-between gap-2.5">
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-600 animate-pulse shrink-0" />
@@ -311,8 +292,6 @@ export default function InteractiveFeatureShowcase({
                           {item.badge}
                         </span>
                       </div>
-
-                      {/* Description */}
                       <motion.p
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -323,7 +302,6 @@ export default function InteractiveFeatureShowcase({
                       </motion.p>
                     </motion.div>
                   ) : (
-                    /* Compact Inactive Pill (Light Mode) */
                     <motion.button
                       layout
                       type="button"
@@ -342,11 +320,7 @@ export default function InteractiveFeatureShowcase({
           </div>
         </div>
 
-        {/* =========================================================================
-            RIGHT COLUMN: RESPONSIVE TRANSPARENT MOCKUP STAGE
-            ========================================================================= */}
-        <div className="lg:col-span-7 relative w-full h-[320px] sm:h-[420px] lg:h-[620px] flex items-center justify-center overflow-hidden">
-          {/* Subtle Dynamic Light Radial Glow */}
+        <div className="lg:col-span-7 relative w-full h-80 sm:h-105 lg:h-155 flex items-center justify-center overflow-hidden">
           <div
             style={{
               background: activeFeature
@@ -355,12 +329,9 @@ export default function InteractiveFeatureShowcase({
             }}
             className="absolute inset-0 pointer-events-none transition-all duration-700"
           />
-
-          {/* Carousel Motion Stage with Pure Transparent Background */}
           <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
             <AnimatePresence mode="popLayout" custom={direction}>
               {!isExpanded || activeFeature === null ? (
-                /* STATE 1: Default centered transparent mockup */
                 <motion.div
                   key="default-idle-transparent"
                   initial={{ opacity: 0, scale: 0.98 }}
@@ -386,7 +357,6 @@ export default function InteractiveFeatureShowcase({
                   </div>
                 </motion.div>
               ) : (
-                /* STATE 2: Directional carousel slide with transparent mockup */
                 <motion.div
                   key={activeFeature.id}
                   custom={direction}
@@ -408,7 +378,6 @@ export default function InteractiveFeatureShowcase({
                         onError={() => handleImageError(activeFeature.id)}
                       />
                     ) : (
-                      /* Clean Glass Card Fallback if image path is unavailable */
                       <TransparentGlassFallback item={activeFeature} />
                     )}
                   </div>
@@ -422,14 +391,11 @@ export default function InteractiveFeatureShowcase({
   );
 }
 
-/**
- * Clean SVG vector fallback inside a transparent glass card container
- */
 function TransparentGlassFallback({ item }: { item: FeatureItem }) {
   const Icon = item.icon;
 
   return (
-    <div className="w-full h-full max-w-lg max-h-[460px] flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-neutral-50/80 rounded-3xl border border-neutral-200/90 shadow-lg shadow-neutral-100 backdrop-blur-md">
+    <div className="w-full h-full max-w-lg max-h-115 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-neutral-50/80 rounded-3xl border border-neutral-200/90 shadow-lg shadow-neutral-100 backdrop-blur-md">
       <div
         className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-md relative"
         style={{ background: item.glowColor }}
@@ -449,7 +415,6 @@ function TransparentGlassFallback({ item }: { item: FeatureItem }) {
         {item.description}
       </p>
 
-      {/* Decorative Spec Badges */}
       <div className="mt-8 grid grid-cols-3 gap-3 w-full max-w-sm">
         <div className="p-3 rounded-xl bg-white border border-neutral-200 shadow-2xs text-left">
           <span className="text-[10px] text-neutral-500 uppercase block font-semibold">

@@ -17,7 +17,7 @@ export default function MarketingMacbookShowcase() {
         title={
           <span className="text-neutral-950 font-black text-xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight text-center px-4 block">
             Real-Time Analytics & <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 via-indigo-600 to-sky-500">
               High-ROAS Attribution Engine.
             </span>
           </span>
@@ -25,7 +25,9 @@ export default function MarketingMacbookShowcase() {
         badge={
           <div className="h-12 w-12 -rotate-12 transform rounded-full bg-black text-white border border-neutral-800 flex items-center justify-center shadow-xl">
             <span className="text-[10px] font-black tracking-tighter text-center leading-none">
-              SARDAR<br />IT
+              SARDAR
+              <br />
+              IT
             </span>
           </div>
         }
