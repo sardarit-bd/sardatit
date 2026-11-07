@@ -32,14 +32,12 @@ export default function AINeuralNetworkSection({
   return (
     <section
       className={`relative z-0 overflow-hidden isolate w-full ${isHero
-        ? "h-[85svh] min-h-[520px] sm:h-[90svh] sm:min-h-[600px] lg:h-[100svh] lg:min-h-[100svh] text-white"
+        ? "h-[85svh] min-h-130 sm:h-[90svh] sm:min-h-150 lg:h-svh lg:min-h-svh text-white"
         : "py-12 sm:py-16 lg:py-20 border-t border-neutral-100 bg-white text-neutral-900"
         } ${className}`}
     >
-      {/* Background Image Implementation for Hero */}
       {isHero && (
         <>
-          {/* Layer 0: Background Base */}
           <Image
             src="/hero/hero-img.png"
             alt="Hero Background"
@@ -48,17 +46,12 @@ export default function AINeuralNetworkSection({
             quality={78}
             className="object-cover object-center pointer-events-none select-none -z-20"
           />
-          {/* Subtle overlay to preserve contrast without washing out the background image */}
           <div className="absolute inset-0 bg-slate-950/25 pointer-events-none -z-10" />
-
-          {/* Layer 1: Transparent Kinetic Grid Overlay */}
           <div className="absolute inset-0 z-0 pointer-events-auto">
             <KineticGrid className="w-full h-full bg-transparent" />
           </div>
         </>
       )}
-
-      {/* Fullscreen Unbounded Particle Canvas (Optically balanced for mobile and desktop) */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
@@ -81,8 +74,6 @@ export default function AINeuralNetworkSection({
           </div>
         </div>
       </div>
-
-      {/* Bottom Center Minimalist Selection Frame with HyperText */}
       {isHero && (
         <aside
           aria-label="Overview"

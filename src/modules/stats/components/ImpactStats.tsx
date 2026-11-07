@@ -1,15 +1,21 @@
 "use client";
 
 import React, { useRef, useMemo } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { statsData } from "@/data/stats";
+const BG_IMAGE = "/image/bg.jpg";
+const BG_POS_X = "50%";
+const BG_POS_Y = "0%";
+const BG_SIZE = "cover";
 
-// Step 4: Optional subtle motion (default OFF)
-const ICON_FLOAT_ENABLED = false;
-
+const CARD_BG_IMAGE = "/image/cardbg.png";
+const CARD_BG_POS_X = "90%";
+const CARD_BG_POS_Y = "50%";
+const CARD_BG_SIZE = "cover";
+const CARD_BG_OPACITY = 0.3;
+const BG_OPACITY = 0.5;
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -20,12 +26,9 @@ export function ImpactStats() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const numbersRef = useRef<(HTMLSpanElement | null)[]>([]);
-
-  // Parse numeric values and suffixes cleanly from statsData
   const parsedStats = useMemo(() => {
     return statsData.map((stat) => {
-      const rawNumber =
-        stat.number || `${stat.value ?? 0}${stat.suffix ?? ""}`;
+      const rawNumber = stat.number || `${stat.value ?? 0}${stat.suffix ?? ""}`;
       const match = rawNumber.match(/^(\d+(?:\.\d+)?)(.*)$/);
       const val = match ? parseFloat(match[1]) : (stat.value ?? 0);
       const suffix = match ? match[2] : (stat.suffix ?? "");
@@ -56,8 +59,6 @@ export function ImpactStats() {
         });
         return;
       }
-
-      // Staggered card entrance animation
       const validCards = cardsRef.current.filter(Boolean);
       if (validCards.length > 0 && cardsContainerRef.current) {
         gsap.fromTo(
@@ -77,7 +78,7 @@ export function ImpactStats() {
               start: "top 85%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         );
 
         // Numeric count-up animation
@@ -109,38 +110,49 @@ export function ImpactStats() {
         });
       }
     },
-    { scope: sectionRef, dependencies: [parsedStats] }
+    { scope: sectionRef, dependencies: [parsedStats] },
   );
 
   return (
     <section
       id="achievement-impact-stats"
       ref={sectionRef}
-      className="bg-white py-20 lg:py-24 border-y border-neutral-200/80 relative"
+      className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-[72px]"
     >
-      <div className="container mx-auto px-6 md:px-12 flex flex-col gap-12 lg:gap-14 relative z-10">
-        {/* Section Header */}
-        <div ref={headerRef} className="w-full max-w-3xl flex flex-col gap-3">
-          <div className="text-xs font-semibold tracking-widest uppercase text-blue-600 flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full bg-blue-600 inline-block"
-              aria-hidden="true"
-            />
-            <span>/ ACHIEVEMENT & IMPACT</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-[1.15]">
-            Success in Action, engineered at global scale.
+      {/* Background image (CSS background for exact position/size control) */}
+      <div
+        className="pointer-events-none absolute inset-0 select-none"
+        style={{
+          backgroundImage: `url(${BG_IMAGE})`,
+          backgroundPosition: `${BG_POS_X} ${BG_POS_Y}`,
+          backgroundSize: BG_SIZE,
+          backgroundRepeat: "no-repeat",
+          opacity: BG_OPACITY,
+        }}
+        aria-hidden="true"
+      />
+      {/* Gradient overlay */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(194, 208, 255, 0.8) 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="container relative z-10 mx-auto">
+        <div ref={headerRef} className="w-full text-center">
+          <h2 className="text-5xl font-medium leading-[1.1] tracking-tight text-[#222] sm:text-6xl lg:text-7xl xl:text-[84px]">
+            Our Impact &amp;
+            <br />
+            Achievements
           </h2>
-          <p className="text-neutral-600 max-w-2xl text-base font-normal leading-relaxed">
-            Building the future through technology — backed by verified global
-            metrics, high-reliability architecture, and measurable client ROI.
-          </p>
         </div>
 
-        {/* 5-Column Connected Grid with Rising Water-Level Index Numbers */}
         <div
           ref={cardsContainerRef}
-          className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 border border-neutral-200/80 divide-y md:divide-y-0 md:divide-x divide-neutral-200/80 bg-white"
+          className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 md:grid-cols-3 lg:mt-[52px] lg:grid-cols-5 lg:gap-[13px]"
         >
           {parsedStats.map((item, idx) => (
             <div
@@ -148,62 +160,27 @@ export function ImpactStats() {
               ref={(el) => {
                 cardsRef.current[idx] = el;
               }}
-              className="relative p-8 lg:p-10 flex flex-col justify-between items-center text-center sm:items-start sm:text-left min-h-[380px] sm:min-h-[420px] group"
+              className="relative flex min-h-[240px] flex-col overflow-hidden rounded-[3px] bg-white lg:aspect-[203/287] lg:min-h-0"
             >
-              {/* Card surface background to conceal lower part of index number */}
-              <div className="absolute inset-0 bg-white group-hover:bg-neutral-50/50 transition-colors duration-200 z-[1]" />
+              {/* Card background image layer (30% opacity) */}
+              <div
+                className="pointer-events-none absolute inset-0 z-0 select-none"
+                style={{
+                  backgroundImage: `url(${CARD_BG_IMAGE})`,
+                  backgroundPosition: `${CARD_BG_POS_X} ${CARD_BG_POS_Y}`,
+                  backgroundSize: CARD_BG_SIZE,
+                  backgroundRepeat: "no-repeat",
+                  opacity: CARD_BG_OPACITY,
+                }}
+                aria-hidden="true"
+              />
 
-              {/* Rising Water-Level Index Number: Dual-layer Stroke & Liquid Fill */}
-              <div className="absolute -top-12 left-6 z-0 translate-y-8 opacity-0 pointer-events-none transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                <div className="relative inline-block select-none">
-                  {/* Base Layer: Crisp Outline Stroke */}
-                  <span
-                    style={{
-                      WebkitTextStroke: "2px #cbd5e1",
-                      color: "transparent",
-                    }}
-                    className="text-6xl sm:text-7xl font-black font-mono tracking-tight select-none inline-block group-hover:[-webkit-text-stroke:2px_#2563eb] transition-all duration-300"
-                    aria-hidden="true"
-                  >
-                    {item.index}
-                  </span>
+              <div className="relative z-10 flex flex-1 flex-col justify-between px-5 pb-6 pt-5 lg:px-[22px] lg:pt-[22px]">
+                <span className="text-base font-normal leading-none text-[#133BD4]">
+                  {item.index}
+                </span>
 
-                  {/* Overlay Layer: Bottom-to-Top Liquid Water Fill */}
-                  <span
-                    className="absolute inset-0 text-6xl sm:text-7xl font-black font-mono tracking-tight select-none pointer-events-none text-blue-600 [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0%_0_0_0)] transition-[clip-path] duration-700 ease-in-out inline-block"
-                    aria-hidden="true"
-                  >
-                    {item.index}
-                  </span>
-                  <span className="sr-only">{item.index}</span>
-                </div>
-              </div>
-
-              {/* Upper Body: Static High-Performance Icon */}
-              <div className="relative z-10 w-full flex items-center justify-center my-auto py-4">
-                <div
-                  className={`w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300 ${
-                    ICON_FLOAT_ENABLED ? "animate-icon-float" : ""
-                  }`}
-                >
-                  {item.iconSrc ? (
-                    <Image
-                      src={item.iconSrc}
-                      alt={item.label}
-                      width={128}
-                      height={128}
-                      loading="lazy"
-                      decoding="async"
-                      sizes="(max-width: 640px) 112px, 128px"
-                      className="w-full h-full object-contain select-none pointer-events-none"
-                    />
-                  ) : null}
-                </div>
-              </div>
-
-              {/* Lower Body: Big Bold Metric & Label */}
-              <div className="relative z-10 w-full flex flex-col mt-4">
-                <div className="text-5xl sm:text-6xl font-extrabold tracking-tight text-neutral-900 flex items-baseline justify-center sm:justify-start gap-0.5">
+                <div className="flex items-baseline text-4xl font-semibold leading-none tracking-tight text-[#222] sm:text-[40px]">
                   <span
                     ref={(el) => {
                       numbersRef.current[idx] = el;
@@ -211,11 +188,12 @@ export function ImpactStats() {
                   >
                     {item.val}
                   </span>
-                  <span className="text-blue-600 font-bold ml-0.5">
-                    {item.suffix}
-                  </span>
+                  <span>{item.suffix}</span>
                 </div>
-                <p className="text-base sm:text-lg font-semibold text-neutral-700 mt-2 leading-snug">
+              </div>
+
+              <div className="relative z-10 flex min-h-[64px] items-center border-t border-neutral-200 px-5 lg:min-h-[73px] lg:px-[22px]">
+                <p className="text-[13px] font-normal leading-snug text-[#222]">
                   {item.label}
                 </p>
               </div>

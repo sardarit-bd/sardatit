@@ -5,9 +5,9 @@ import { LeadersChapterShowcase } from "@/modules/leadership";
 import { ImpactStats } from "@/modules/stats";
 import { ProjectsSection as Projects } from "@/modules/projects";
 import { Showreel, TrustedBy } from "@/modules/home";
-import { ServiceShowcaseCard, AINeuralNetworkSection } from "@/modules/services";
+import Hero from "@/modules/home/components/Hero";
+import { ServiceShowcaseCard } from "@/modules/services";
 import type { Metadata } from "next";
-
 export const metadata: Metadata = {
   title: "Sardar IT — Enterprise Software Development & Digital Solutions",
   description:
@@ -34,22 +34,17 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="w-full text-text bg-white">
-      {/* Semantic H1 for Search Engine Architecture */}
       <h1 className="sr-only">
-        Sardar IT — Enterprise Software Development, AI Solutions &amp; Digital Products
+        Sardar IT — Enterprise Software Development, AI Solutions &amp; Digital
+        Products
       </h1>
-      {/* Existing Hero Section preserved but commented out:
       <Hero />
-      */}
-      {/* Primary Hero Section: AI Neural Particle Banner */}
-      <AINeuralNetworkSection />
       <Showreel />
       <TrustedBy />
-      <ImpactStats />
       <Projects />
+      <ImpactStats />
       <ServiceShowcaseCard />
       <HomeReviewsAngledSlider />
-      {/* Pinned Scroll-Chapter Showcase: Our Leaders (All 11 Leaders) */}
       <LeadersChapterShowcase />
       <CompanyGallerySection />
       <CtaSection />
