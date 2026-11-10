@@ -15,21 +15,21 @@ function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
     <span className="relative block w-6 h-5" aria-hidden="true">
       <span
         className={[
-          "absolute left-0 top-0 h-[3px] bg-current rounded-full",
+          "absolute left-0 top-0 h-0.75 bg-current rounded-full",
           "transition-all duration-300 ease-in-out",
           isOpen ? "w-6 translate-y-1.75 rotate-45" : "w-5",
         ].join(" ")}
       />
       <span
         className={[
-          "absolute left-0 top-1/2 -translate-y-1/2 h-[3px] w-7 bg-current rounded-full",
+          "absolute left-0 top-1/2 -translate-y-1/2 h-0.75 w-7 bg-current rounded-full",
           "transition-opacity duration-200 ease-in-out",
           isOpen ? "opacity-0" : "opacity-100",
         ].join(" ")}
       />
       <span
         className={[
-          "absolute left-0 bottom-0 h-[3px] bg-current rounded-full",
+          "absolute left-0 bottom-0 h-0.75 bg-current rounded-full",
           "transition-all duration-300 ease-in-out",
           isOpen ? "w-6 -translate-y-1.75 -rotate-45" : "w-5",
         ].join(" ")}
@@ -40,15 +40,12 @@ function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
 
 export default function Header() {
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Dynamic scroll-aware liquid glass state on homepage hero
-  const isHeroGlass = isHomePage && !isScrolled && !isServicesOpen;
+  const isHeroGlass = false;
 
   const getNavLinkClass = (href?: string, hasDropdown?: boolean) => {
     const isActive = href
@@ -79,8 +76,6 @@ export default function Header() {
   const isHoveredRef = useRef(false);
   const isServicesOpenRef = useRef(false);
   const isMobileMenuOpenRef = useRef(false);
-
-  // Synchronize state with refs for fast access in scroll callbacks without stale closures
   useEffect(() => {
     isServicesOpenRef.current = isServicesOpen;
   }, [isServicesOpen]);
@@ -89,7 +84,6 @@ export default function Header() {
     isMobileMenuOpenRef.current = isMobileMenuOpen;
   }, [isMobileMenuOpen]);
 
-  // Imperative show/hide update: exactly 0 React re-renders during scroll
   const setHeaderHidden = (hidden: boolean) => {
     if (isHiddenRef.current === hidden) return;
     isHiddenRef.current = hidden;
@@ -103,23 +97,16 @@ export default function Header() {
 
   const processScroll = (rawY: number) => {
     const currentY = Math.max(0, rawY);
-
-    // 1. Unified isScrolled check (only calls setIsScrolled when boolean actually changes)
     const scrolled = currentY > 20;
     if (scrolled !== isScrolledRef.current) {
       isScrolledRef.current = scrolled;
-      setIsScrolled(scrolled);
     }
-
-    // 2. Always show at the top of the page (scrollY <= 20px)
     if (currentY <= 20) {
       accumulatedDeltaRef.current = 0;
       lastScrollYRef.current = currentY;
       setHeaderHidden(false);
       return;
     }
-
-    // 3. Ignore bottom overscroll bounce
     if (typeof document !== "undefined") {
       const docHeight = document.documentElement.scrollHeight;
       const winHeight = window.innerHeight;
@@ -131,11 +118,7 @@ export default function Header() {
 
     const delta = currentY - lastScrollYRef.current;
     lastScrollYRef.current = currentY;
-
-    // Ignore negligible fractional delta
     if (Math.abs(delta) < 0.2) return;
-
-    // Respect prefers-reduced-motion: keep header always visible and stationary
     if (
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -145,20 +128,16 @@ export default function Header() {
     }
 
     if (delta > 0) {
-      // Scrolling DOWN
       if (accumulatedDeltaRef.current < 0) {
-        accumulatedDeltaRef.current = delta; // Direction reversed from up to down
+        accumulatedDeltaRef.current = delta; 
       } else {
         accumulatedDeltaRef.current += delta;
       }
 
       if (accumulatedDeltaRef.current >= 10) {
-        // States that keep header visible
         if (isMobileMenuOpenRef.current || isHoveredRef.current) {
           return;
         }
-
-        // If services mega menu is open and user scrolls down, close it and hide header
         if (isServicesOpenRef.current) {
           setIsServicesOpen(false);
         }
@@ -166,9 +145,8 @@ export default function Header() {
         setHeaderHidden(true);
       }
     } else {
-      // Scrolling UP
       if (accumulatedDeltaRef.current > 0) {
-        accumulatedDeltaRef.current = delta; // Direction reversed from down to up
+        accumulatedDeltaRef.current = delta; 
       } else {
         accumulatedDeltaRef.current += delta;
       }
@@ -178,8 +156,6 @@ export default function Header() {
       }
     }
   };
-
-  // Unified scroll listener: attaches to Lenis if present, falls back to passive window scroll
   useEffect(() => {
     let unsubscribeLenis: (() => void) | null = null;
     let isListeningToWindow = false;
@@ -220,7 +196,6 @@ export default function Header() {
       });
     };
 
-    // Check if Lenis is already available
     const initialLenis = (
       window as unknown as {
         __lenis?: {
@@ -238,8 +213,6 @@ export default function Header() {
       window.addEventListener("scroll", onWindowScroll, { passive: true });
       isListeningToWindow = true;
     }
-
-    // Safety timeout to catch Lenis creation if LenisProvider initializes right after mount
     const checkTimer = setTimeout(() => {
       const l = (
         window as unknown as {
@@ -259,8 +232,6 @@ export default function Header() {
         setupLenis(l);
       }
     }, 100);
-
-    // Initial check on mount
     processScroll(typeof window !== "undefined" ? window.scrollY : 0);
 
     const headerEl = headerRef.current;
@@ -295,7 +266,7 @@ export default function Header() {
         headerEl.removeEventListener("focusin", handleFocusIn);
       }
     };
-  }, []);
+  });
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -379,19 +350,17 @@ export default function Header() {
           willChange: "transform",
         }}
         className={`fixed top-0 left-0 right-0 z-50 w-full ${isHeroGlass
-          ? "bg-transparent hover:bg-white/[0.03] backdrop-blur-[6px] border-b border-white/[0.08] text-white"
+          ? "bg-transparent hover:bg-white/3 backdrop-blur-[6px] border-b border-white/8 text-white"
           : "bg-white/90 backdrop-blur-md border-b border-neutral-200/60 text-neutral-900 shadow-sm"
           }`}
       >
-        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 transition-all duration-300 ease-in-out">
+        <div className="w-full max-w-350 mx-auto px-6 sm:px-8 lg:px-12 transition-all duration-300 ease-in-out">
           <nav className="flex items-center justify-between h-16 md:h-20 transition-all duration-300 ease-in-out">
             <div className="relative flex items-center">
-              {/* Dynamic Logo: Pure White on Liquid Glass Hero, Brand-Blue on Scrolled/Light */}
               <Link
                 href="/"
                 className="relative flex items-center h-10 w-44 md:h-11 md:w-48 group cursor-pointer"
               >
-                {/* Crisp pure white logo for Top Hero state */}
                 <Image
                   src="/images/brand/logo-white.png"
                   alt="Sardar IT - Enterprise Software and Digital Solutions"
@@ -403,8 +372,6 @@ export default function Header() {
                     }`}
                   priority
                 />
-
-                {/* Original brand-blue logo for Scrolled state & Inner pages */}
                 <Image
                   src="/images/brand/logo.png"
                   alt="Sardar IT - Enterprise Software and Digital Solutions"
@@ -474,8 +441,6 @@ export default function Header() {
             </button>
           </nav>
         </div>
-
-        {/* 3-Column Structured Mega Menu */}
         <MegaMenu
           isOpen={isServicesOpen}
           onClose={() => setIsServicesOpen(false)}

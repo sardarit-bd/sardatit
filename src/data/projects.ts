@@ -14,8 +14,6 @@ export const projects: Project[] = [
       "A comprehensive digital retirement transition ecosystem combining multi-domain psychological assessments, automated Stripe payment checkouts, secure PDF e-book distribution, and transactional invoice delivery.",
     description:
       "Engineered an end-to-end digital retirement planning and e-learning SaaS. The platform features an intelligent multi-stage psychometric readiness assessment engine, automated Stripe checkout workflows with webhooks, verified-purchaser review systems, and secure tokenized PDF delivery pipelines.",
-    
-    // Real tech stack verified from codebase:
     techStack: [
       "Next.js",
       "Express.js",
@@ -41,22 +39,16 @@ export const projects: Project[] = [
     },
     statValue: "100%",
     statLabel: "automated order fulfillment",
-
     deliverables: [
       "Psychometric Assessment & Scoring Engine",
       "Stripe Checkout & Automated Invoicing",
       "Tokenized PDF E-Book Streaming System",
       "Verified Buyer Reviews & Admin CMS",
     ],
-
     liveUrl: "https://retirementwaypoint.com",
     link: "/works/retirement-waypoint",
-
-    // Primary card thumbnail:
-    mockup: "/images/projects/retirement-waypoint/hero-section.png",
-    image: "/images/projects/retirement-waypoint/hero-section.png",
-
-    // Multi-screen showcase assets for case study / modal / slider view:
+    mockup: "/image/project/p3.png",
+    image: "/image/project/p1.png",
     screenshots: [
       "/images/projects/retirement-waypoint/hero-section.png",
       "/images/projects/retirement-waypoint/assessment-page.png",
@@ -74,7 +66,7 @@ export const projects: Project[] = [
     eyebrow: "Real Estate Platform",
     description:
       "A high-converting luxury real estate platform built with advanced property listings, smart search filters, interactive map exploration, and seamless inquiry management for buyers and agents.",
-    image: "/images/projects/casa-viva.webp",
+    image: "/image/project/p2.png",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL"],
     link: "/works/casa-viva",
     liveUrl: "https://casa-viva-frontend.vercel.app/",
@@ -92,7 +84,7 @@ export const projects: Project[] = [
     eyebrow: "Hospital Management System",
     description:
       "A secure, HIPAA-compliant hospital management platform featuring intelligent patient scheduling, electronic health records (EHR), and automated clinician workflows to cut administrative overhead.",
-    image: "/images/projects/medease.webp",
+    image: "/image/project/p1.png",
     tags: ["Next.js", "TypeScript", "Python", "FastAPI", "Docker", "PostgreSQL"],
     link: "/works/medease",
     liveUrl: "https://med-ease-frontend.vercel.app/",

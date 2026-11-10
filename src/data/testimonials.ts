@@ -12,6 +12,7 @@ export const REVIEWS_DATA: ReviewItem[] = [
     service: "Enterprise Web App",
     quote:
       "Sardar IT delivered our enterprise SaaS portal ahead of schedule. Exceptional performance tuning, robust architecture, and flawless code governance.",
+    image: "/images/testimonials/imag1.jpg",
   },
   {
     id: 2,
@@ -36,6 +37,7 @@ export const REVIEWS_DATA: ReviewItem[] = [
     service: "Workflow Automation",
     quote:
       "Automating 75% of our manual dispatch pipeline via self-hosted n8n workflows saved our engineering department hundreds of operating hours monthly.",
+    image: "/images/testimonials/imag1.jpg",
   },
   {
     id: 4,
@@ -60,6 +62,7 @@ export const REVIEWS_DATA: ReviewItem[] = [
     service: "Fintech Platform",
     quote:
       "Minor revisions took a couple iterations to align on nuances, but the final smart contract integrations and cloud resilience were rock-solid.",
+    image: "/images/testimonials/imag1.jpg",
   },
   {
     id: 6,

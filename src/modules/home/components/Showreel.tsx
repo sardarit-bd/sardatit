@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { FiPlay } from "react-icons/fi";
+import { FiArrowUpRight } from "react-icons/fi";
 
 export default function Showreel() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,13 +14,13 @@ export default function Showreel() {
     offset: ["start end", "end start"],
   });
 
-  // Expand width from 78% to 100%
-  const width = useTransform(scrollYProgress, [0.1, 0.45], ["60%", "100%"]); //78%
-  // Expand height from 65vh to 100vh
-  const height = useTransform(scrollYProgress, [0.1, 0.45], ["80vh", "100vh"]); // 65vh
-  // Border radius from 28px to 0px
-  const borderRadius = useTransform(scrollYProgress, [0.1, 0.45], ["0px", "0px"]); //0px
-  // Scale from 0.9 to 1.0
+  const width = useTransform(scrollYProgress, [0.1, 0.45], ["60%", "100%"]);
+  const height = useTransform(scrollYProgress, [0.1, 0.45], ["80vh", "100vh"]);
+  const borderRadius = useTransform(
+    scrollYProgress,
+    [0.1, 0.45],
+    ["0px", "0px"],
+  );
   const scale = useTransform(scrollYProgress, [0.1, 0.45], [0.9, 1]);
 
   const toggleAudio = () => {
@@ -36,9 +36,9 @@ export default function Showreel() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[170vh] bg-gray-100 z-[60]"
+      className="relative w-full h-[170vh] bg-gray-100 z-60"
     >
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-[60]">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-60">
         <motion.div
           style={{
             width,
@@ -49,7 +49,6 @@ export default function Showreel() {
           onClick={toggleAudio}
           className="relative overflow-hidden bg-slate-950 transition-all duration-75 ease-out cursor-pointer group"
         >
-          {/* Live Background Video (Always Playing) */}
           <video
             ref={videoRef}
             autoPlay
@@ -63,32 +62,39 @@ export default function Showreel() {
               type="video/mp4"
             />
           </video>
-
-          {/* Rotating Circle Play Button Overlay (Visible when muted) */}
           {!isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none bg-black/25">
-              <div className="relative flex items-center justify-center size-28 sm:size-32 md:size-36 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 shadow-2xl text-white transition-transform duration-300 group-hover:scale-110 transform-gpu">
-                {/* Rotating SVG Curved Text */}
+              <div className="relative flex items-center justify-center size-32 sm:size-36 md:size-40 rounded-full bg-white shadow-2xl text-[#133BD4] transition-transform duration-300 group-hover:scale-110 transform-gpu">
                 <svg
                   viewBox="0 0 100 100"
-                  className="absolute inset-0 w-full h-full animate-spin [animation-duration:10s]"
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full animate-spin [animation-duration:12s]"
                 >
                   <path
                     id="circlePath"
-                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                    d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
                     fill="none"
                   />
-                  <text className="text-[8.5px] font-bold uppercase tracking-[2px] fill-white">
-                    <textPath href="#circlePath" startOffset="0%">
-                      • PLAY SHOWREEL • UNMUTE AUDIO
+                  <text
+                    fontSize="7.5"
+                    fontWeight="600"
+                    fill="#133BD4"
+                    style={{ textTransform: "uppercase" }}
+                  >
+                    <textPath
+                      href="#circlePath"
+                      startOffset="0%"
+                      textLength="236"
+                      lengthAdjust="spacing"
+                    >
+                      ★ Sardar IT ★ Let&apos;s work with your dream, together
                     </textPath>
                   </text>
                 </svg>
-
-                {/* Center Play Icon */}
-                <div className="size-11 sm:size-12 md:size-14 rounded-full bg-white text-slate-950 flex items-center justify-center shadow-lg">
-                  <FiPlay className="text-xl md:text-2xl ml-1" />
-                </div>
+                <FiArrowUpRight
+                  strokeWidth={1.5}
+                  className="size-12 sm:size-14 md:size-16 text-[#133BD4]"
+                />
               </div>
             </div>
           )}

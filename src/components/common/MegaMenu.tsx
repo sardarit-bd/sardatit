@@ -3,11 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-
-// ============================================================================
-// Raw, Flat SVG Icons for the 4 Core Services
-// ============================================================================
-
 export function LayersDesignIcon({ className = "w-7 h-7" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -120,8 +115,7 @@ export default function MegaMenu({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
-          {/* Global Container Alignment: Left edge aligns with logo, right edge with 'Book a call' */}
-          <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="w-full max-w-350 mx-auto px-6 sm:px-8 lg:px-12">
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -129,7 +123,6 @@ export default function MegaMenu({
               transition={{ duration: 0.18, ease: "easeOut" }}
               className="pointer-events-auto w-full bg-white border-x border-b border-neutral-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden"
             >
-              {/* Category Header Row */}
               <div className="pt-6 px-6 lg:px-8 pb-4 border-b border-neutral-100 flex items-center justify-between">
                 <span className="font-mono text-xs uppercase tracking-[0.25em] text-neutral-400 font-semibold">
                   SERVICES
@@ -138,8 +131,6 @@ export default function MegaMenu({
                   4 CORE PILLARS · END-TO-END EXECUTION
                 </span>
               </div>
-
-              {/* 4-Column Grid with Vertical Line Dividers */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-neutral-200/80 py-8">
                 {CORE_SERVICES.map((service) => {
                   const Icon = service.icon;
@@ -151,7 +142,6 @@ export default function MegaMenu({
                       className="group flex flex-col justify-between px-6 lg:px-8 py-4 lg:py-2 transition-colors cursor-pointer"
                     >
                       <div>
-                        {/* Top Icon & Number */}
                         <div className="flex items-center justify-between mb-5">
                           <div className="text-slate-500 group-hover:text-blue-600 transition-colors">
                             <Icon className="w-7 h-7" />
@@ -160,8 +150,6 @@ export default function MegaMenu({
                             {service.number}
                           </span>
                         </div>
-
-                        {/* Title with Arrow */}
                         <h3 className="text-base lg:text-lg font-bold text-neutral-900 group-hover:text-blue-600 transition-colors inline-flex items-center gap-2 tracking-tight">
                           <span>{service.title}</span>
                           <svg
@@ -178,14 +166,10 @@ export default function MegaMenu({
                             <polyline points="12 5 19 12 12 19" />
                           </svg>
                         </h3>
-
-                        {/* Subtitle */}
                         <p className="text-xs lg:text-sm text-neutral-500 mt-2 leading-relaxed font-normal group-hover:text-neutral-600 transition-colors">
                           {service.subtitle}
                         </p>
                       </div>
-
-                      {/* Explore Link Tag */}
                       <div className="mt-8 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-blue-600 transition-colors">
                         <span>Explore Pillar</span>
                         <span className="transition-transform group-hover:translate-x-1 duration-200">→</span>
