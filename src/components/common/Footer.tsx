@@ -64,7 +64,7 @@ const BOTTOM_LINKS: FooterLink[] = [
 
 export default function Footer() {
   const { socialLinks } = footerData;
-
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="relative w-full overflow-hidden bg-linear-to-b from-[#031A5E] via-[#020A2B] to-black text-white">
       <div className="mx-auto w-full max-w-360 px-6 sm:px-8 lg:px-12.75">
@@ -150,7 +150,7 @@ export default function Footer() {
               >
                 C
               </span>
-              <p>Copyright 2023 SardarIT | All Rights Reserved</p>
+              <p>Copyright {currentYear} SardarIT | All Rights Reserved</p>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-[49px] gap-y-2 text-[15px] font-medium">
