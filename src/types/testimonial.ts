@@ -8,6 +8,8 @@ export interface ReviewItem {
   rating: number;
   service: string;
   quote: string;
+  image?: string;
+  avatar?: string;
 }
 
 export type Testimonial = ReviewItem;

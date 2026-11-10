@@ -1,66 +1,71 @@
+import Image from "next/image";
 import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaTwitter,
-  FaWhatsapp,
-} from "react-icons/fa";
-import { FiArrowDown } from "react-icons/fi";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FiMail, FiMapPin } from "react-icons/fi";
+import { MdOutlineCopyright } from "react-icons/md";
 import { footerData } from "@/data/navigation";
 import type { SocialLink } from "@/types/navigation";
-import TechText from "@/components/ui/TechText";
 
-const SOCIAL_ICON_MAP: Record<SocialLink["name"], React.ComponentType<{ className?: string }>> = {
+const SOCIAL_ICON_MAP: Record<
+  SocialLink["name"],
+  React.ComponentType<{ className?: string }>
+> = {
   facebook: FaFacebookF,
   instagram: FaInstagram,
   linkedin: FaLinkedinIn,
-  twitter: FaTwitter,
+  twitter: FaXTwitter,
 };
 
+const LEGAL_LINKS = [
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Contact Us", href: "/contact" },
+];
+
 export default function Footer() {
-  const { brand, cta, socialLinks, navColumns, secondaryColumns, contact } =
+  const { brand, socialLinks, navColumns, secondaryColumns, contact } =
     footerData;
+  const columns = [...navColumns, ...secondaryColumns];
 
   return (
-    <footer className="w-full min-h-[calc(100vh-5rem)] lg:h-[calc(100vh-5rem)] bg-[#050B24] border-t border-[#133BD4]/20 text-white flex flex-col justify-between overflow-hidden pt-8 pb-4 relative z-10">
-      {/* Dual Atmospheric Brand Lighting */}
-      {/* 1. Ambient Top & Lateral Mesh Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 right-1/4 h-[380px] w-[380px] rounded-full bg-gradient-to-br from-[#133BD4]/20 to-[#38bdf8]/10 blur-3xl"
-        style={{ transform: "translateZ(0)", willChange: "transform" }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/4 -left-20 h-[300px] w-[300px] rounded-full bg-[#133BD4]/15 blur-3xl"
-        style={{ transform: "translateZ(0)", willChange: "transform" }}
-      />
+    <footer className="relative z-10 w-full overflow-hidden bg-linear-to-b from-[#00214F] via-[#001235] to-[#00050F] pt-12 text-white sm:pt-14">
+      <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
+        {/* Top: brand + link columns */}
+        <div className="flex flex-col gap-10 lg:flex-row lg:justify-between lg:gap-12">
+          {/* Brand block */}
+          <div className="flex flex-col items-start gap-6 lg:w-[34%] lg:max-w-sm">
+            <Link href="/" aria-label={brand.name}>
+              <Image
+                src="/images/logo-white.png"
+                alt={brand.name}
+                width={180}
+                height={48}
+                className="h-10 w-auto"
+              />
+            </Link>
 
-      {/* Top Section: Navigation Columns & Company Details */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 shrink-0 pt-2 relative z-10">
-        <div className="flex flex-col items-start justify-between gap-y-10 lg:flex-row lg:gap-x-12">
-          {/* Brand Info & Socials */}
-          <div className="flex basis-full flex-col items-start gap-y-6 lg:basis-1/4 lg:max-w-xs">
-            <span className="font-sans text-2xl font-bold tracking-tight text-white">
-              {brand.name}
-            </span>
-
-            <p className="max-w-70 text-sm leading-relaxed text-neutral-400">
+            <p className="max-w-[260px] text-sm leading-relaxed text-white">
               {brand.description}
             </p>
 
-            <Link
-              href={cta.href}
-              className="group inline-flex items-center gap-x-3.5 bg-[#133BD4] hover:bg-[#0f2eb0] text-white rounded-full font-semibold px-6 py-3 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-[#133BD4]/30"
-            >
-              <span>{cta.label}</span>
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#133BD4] transition-colors">
-                <FiArrowDown className="h-3.5 w-3.5 animate-bounce translate-y-0.5" strokeWidth={2.5} />
-              </span>
-            </Link>
+            <div className="flex flex-col gap-4 text-sm text-white">
+              <Link
+                href={`mailto:${contact.email}`}
+                className="flex items-center gap-3 transition-colors hover:text-[#6C8DFF]"
+              >
+                <FiMail className="size-4 shrink-0" />
+                <span>{contact.email}</span>
+              </Link>
+              <div className="flex items-start gap-3">
+                <FiMapPin className="mt-0.5 size-4 shrink-0" />
+                <span className="max-w-[220px] leading-relaxed">
+                  {contact.address}
+                </span>
+              </div>
+            </div>
 
-            <div className="flex flex-row items-center gap-x-6">
+            <div className="flex items-center gap-3">
               {socialLinks.map((social) => {
                 const Icon = SOCIAL_ICON_MAP[social.name];
                 return (
@@ -70,112 +75,51 @@ export default function Footer() {
                     aria-label={social.name}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center border border-white/10 text-white transition-colors hover:bg-white hover:text-black hover:border-white rotate-45 mt-2"
+                    className="flex size-8 items-center justify-center rounded-full bg-white text-[#1747E0] transition-colors hover:bg-[#1747E0] hover:text-white"
                   >
-                    <Icon className="h-3.5 w-3.5 -rotate-45" />
+                    <Icon className="size-3.5" />
                   </Link>
                 );
               })}
             </div>
           </div>
 
-          {/* Links & Contact Columns */}
-          <div className="flex w-full flex-1 flex-col gap-y-10">
-            <div className="flex flex-row flex-wrap justify-between gap-x-12 gap-y-8">
-              {navColumns.map((column) => (
-                <FooterColumnBlock key={column.title} column={column} />
-              ))}
-            </div>
+          {/* Link columns */}
+          <div className="flex flex-1 flex-wrap justify-between gap-x-12 gap-y-10 lg:max-w-[760px]">
+            {columns.map((column) => (
+              <FooterColumnBlock key={column.title} column={column} />
+            ))}
+          </div>
+        </div>
 
-            <div className="flex flex-row flex-wrap justify-between gap-x-12 gap-y-8">
-              {secondaryColumns.map((column) => (
-                <FooterColumnBlock key={column.title} column={column} />
-              ))}
-
-              <div className="flex basis-full flex-col items-start gap-y-5 sm:basis-[45%] lg:basis-1/4">
-                <div className="flex flex-col items-start gap-y-1">
-                  <span className="text-sm text-neutral-400">
-                    {contact.emailLabel}
-                  </span>
-                  <Link
-                    href={`mailto:${contact.email}`}
-                    className="text-sm font-semibold text-white transition-colors hover:text-blue-400"
-                  >
-                    {contact.email}
-                  </Link>
-                  <Link
-                    href={`mailto:${contact.supportEmail}`}
-                    className="text-sm font-semibold text-white transition-colors hover:text-blue-400"
-                  >
-                    {contact.supportEmail}
-                  </Link>
-                </div>
-
-                <div className="flex flex-col items-start gap-y-1">
-                  <span className="text-sm text-neutral-400">
-                    {contact.phoneLabel}
-                  </span>
-                  <Link
-                    href={contact.phoneHref}
-                    className="flex items-center gap-x-2 text-sm font-semibold text-white transition-colors hover:text-blue-400"
-                  >
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
-                      <FaWhatsapp className="h-3 w-3" />
-                    </span>
-                    {contact.phone}
-                  </Link>
-                </div>
-
-                <div className="flex flex-col items-start gap-y-1">
-                  <span className="text-sm text-neutral-400">
-                    {contact.addressLabel}
-                  </span>
-                  <span className="text-sm text-white">
-                    {contact.address}
-                  </span>
-                </div>
-              </div>
-            </div>
+        {/* Divider + copyright bar */}
+        <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-5 text-sm text-white sm:flex-row sm:items-center">
+          <p className="flex items-center gap-2">
+            <MdOutlineCopyright className="size-5 shrink-0" />
+            <span>{footerData.copyright}</span>
+          </p>
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-2">
+            {LEGAL_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="transition-colors hover:text-[#6C8DFF]"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Middle Section: Copyright & Bottom Sub-Bar */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between text-xs text-neutral-400 border-t border-white/[0.08] pt-3 shrink-0 relative z-10">
-        <p className="text-xs text-neutral-400">
-          {footerData.copyright}
-        </p>
-        <div className="flex items-center gap-x-6 text-xs text-neutral-400">
-          <Link href="/contact" className="hover:text-white transition-colors">
-            Contact
-          </Link>
-        </div>
-      </div>
-
-      {/* Bottom Section: Balanced Canvas TechText Component */}
-      <div className="w-full flex-1 min-h-[160px] max-h-[260px] flex items-center justify-center overflow-hidden select-none relative">
-        {/* Primary Brand Radial Glow behind TechText */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[240px] w-full max-w-[950px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#133BD4]/35 via-[#133BD4]/15 to-transparent blur-3xl"
-          style={{ transform: "translate3d(-50%, 0, 0)", willChange: "transform" }}
-        />
-
-        <TechText
-          text="Sardar IT"
-          fontSize={220}
-          fontWeight={900}
-          color="#133BD4"
-          accentColor="#38bdf8"
-          strokeWidth={1.5}
-          dashLength={4}
-          dashGap={2}
-          sweep={true}
-          draggable={true}
-          selection={true}
-          labels={true}
-          className="w-full h-full relative z-10"
-        />
+      {/* Big gradient wordmark */}
+      <div
+        aria-hidden="true"
+        className="mt-6 select-none overflow-hidden text-center sm:mt-8"
+      >
+        <span className="block bg-linear-to-b from-[#1D3FBF] via-[#1D3FBF]/50 to-transparent bg-clip-text text-[clamp(4.5rem,18vw,17rem)] font-bold leading-[0.95] tracking-tight text-transparent">
+          Sardar IT
+        </span>
       </div>
     </footer>
   );
@@ -187,19 +131,21 @@ function FooterColumnBlock({
   column: { title: string; links: { label: string; href: string }[] };
 }) {
   return (
-    <div className="flex basis-full flex-col items-start sm:basis-[45%] lg:basis-1/4">
-      <h3 className="mb-4 text-base font-semibold text-white">
+    <div className="flex min-w-[140px] flex-col items-start">
+      <h3 className="mb-6 text-base font-semibold text-white">
         {column.title}
       </h3>
-      <ul className="flex flex-col items-start">
+      <ul className="flex flex-col items-start gap-3">
         {column.links.map((link) => {
           const isExternal = link.href.startsWith("http");
           return (
-            <li key={link.label} className="mb-3 last:mb-0">
+            <li key={link.label}>
               <Link
                 href={link.href}
-                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="block text-sm text-neutral-400 transition-colors hover:text-white"
+                {...(isExternal
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="block text-sm text-white transition-colors hover:text-[#6C8DFF]"
               >
                 {link.label}
               </Link>
