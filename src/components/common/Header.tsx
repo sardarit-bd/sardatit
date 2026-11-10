@@ -100,7 +100,6 @@ export default function Header() {
     const scrolled = currentY > 20;
     if (scrolled !== isScrolledRef.current) {
       isScrolledRef.current = scrolled;
-      setIsScrolled(scrolled);
     }
     if (currentY <= 20) {
       accumulatedDeltaRef.current = 0;

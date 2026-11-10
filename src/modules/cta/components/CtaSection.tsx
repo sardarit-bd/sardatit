@@ -4,14 +4,41 @@ import CustomSelect from "@/components/ui/CustomSelect";
 import emailjs from "@emailjs/browser";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useState } from "react";
-import { FiArrowUpRight, FiCheck, FiLoader } from "react-icons/fi";
+import React, { useEffect, useRef, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import {
+  FiArrowUpRight,
+  FiCheck,
+  FiLoader,
+  FiMail,
+  FiPlus,
+} from "react-icons/fi";
 import { SERVICES_OPTIONS, BUDGET_OPTIONS } from "@/data/cta";
-
-// EmailJS Credentials read from environment variables
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+
+const AVATARS = [
+  {
+    src: "/images/team/leaders/Md.-Parvej-Ahammed.webp",
+    alt: "Md. Parvej Ahammed",
+  },
+  { src: "/images/team/leaders/amena.webp", alt: "Amena" },
+  {
+    src: "/images/team/leaders/Md-Ekramul-Hasan-Sales-Manager.webp",
+    alt: "Md Ekramul Hasan",
+  },
+];
+
+const BULLETS = [
+  "We'll get back to you within 12 business hours.",
+  "We'll prepare a clear project brief and roadmap.",
+  "NDA can be signed upon request.",
+];
+const labelClass =
+  "mb-4 text-base font-medium leading-[1.3] text-white sm:mb-6 sm:text-xl";
+const inputClass =
+  "block w-full border-0 border-b border-white bg-transparent p-0 pb-3 text-base leading-[1.3] text-white placeholder:text-[#B1B1B1] focus:outline-none sm:text-lg";
 
 export default function CtaSection() {
   const [formData, setFormData] = useState({
@@ -27,7 +54,18 @@ export default function CtaSection() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [showCookies, setShowCookies] = useState(true);
+  const detailsRef = useRef<HTMLTextAreaElement>(null);
+  const DETAILS_MAX_HEIGHT = 240;
 
+  useEffect(() => {
+    const el = detailsRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const border = el.offsetHeight - el.clientHeight;
+    const next = el.scrollHeight + border;
+    el.style.height = `${Math.min(next, DETAILS_MAX_HEIGHT)}px`;
+    el.style.overflowY = next > DETAILS_MAX_HEIGHT ? "auto" : "hidden";
+  }, [formData.projectDetails]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -53,7 +91,7 @@ export default function CtaSection() {
 
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       setErrorMsg(
-        "Email service is not configured. Please set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY in your environment."
+        "Email service is not configured. Please set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY in your environment.",
       );
       setLoading(false);
       return;
@@ -64,7 +102,7 @@ export default function CtaSection() {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         templateParams,
-        EMAILJS_PUBLIC_KEY
+        EMAILJS_PUBLIC_KEY,
       );
 
       setSubmitted(true);
@@ -82,7 +120,7 @@ export default function CtaSection() {
       setErrorMsg(
         error?.text ||
           error?.message ||
-          "Failed to send inquiry. Please try again or reach out directly at info@sardarit.com."
+          "Failed to send inquiry. Please try again or reach out directly at info@sardarit.com.",
       );
     } finally {
       setLoading(false);
@@ -90,95 +128,127 @@ export default function CtaSection() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <section className="relative w-full bg-[#DCE4EC] py-16 sm:py-20 lg:py-28 transition-colors">
-      <div className="container grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* Left Column: Content & Profile */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-5 flex flex-col justify-between h-full pt-2"
-        >
-          <div>
-            {/* Section Tag */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono tracking-[0.2em] uppercase text-blue-600 font-semibold mb-4">
-              <span className="size-2 rounded-full bg-blue-600 inline-block shrink-0" />
-              <span>/ LET&apos;S BUILD TOGETHER</span>
+    <section className="relative w-full bg-[#F5F8FF] py-10 sm:py-14 lg:py-20">
+      <div className="container">
+        <div className="grid grid-cols-1 gap-10 rounded-3xl bg-black p-6 text-white sm:p-8 lg:grid-cols-[532fr_660fr] lg:gap-12 lg:p-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col gap-10 lg:justify-between lg:gap-15"
+          >
+            <div className="flex flex-col gap-8 lg:gap-12">
+              <div>
+                <div className="mb-2 flex items-center gap-2 py-2 text-sm font-medium uppercase leading-[1.4] text-[#285CFF] sm:text-base">
+                  <span className="flex size-2 shrink-0 items-center justify-center rounded-full border-[0.5px] border-[#285CFF]">
+                    <span className="size-1.5 rounded-full bg-[#285CFF]" />
+                  </span>
+                  <span>Let&apos;s Build Together</span>
+                </div>
+
+                <h2 className="text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[1.2] text-white">
+                  Have an Idea?
+                  <br />
+                  Talk Directly with
+                  <br />
+                  Our Experts
+                </h2>
+              </div>
+              <div className="flex items-center">
+                {AVATARS.map((a) => (
+                  <span
+                    key={a.src}
+                    className="relative -mx-2.5 size-12 shrink-0 overflow-hidden rounded-full border-2 border-[#C9D6FF] bg-neutral-200 sm:-mx-3.5 sm:size-16"
+                  >
+                    <Image
+                      src={a.src}
+                      alt={a.alt}
+                      fill
+                      sizes="64px"
+                      className="object-cover object-top"
+                    />
+                  </span>
+                ))}
+                <span className="relative ml-1 flex size-12 shrink-0 items-center justify-center rounded-full bg-[#1747E0] text-white sm:ml-0 sm:size-16">
+                  <FiPlus className="text-2xl sm:text-3xl" />
+                </span>
+              </div>
+
+              <ul className="m-0 w-full list-none space-y-0 p-0 text-left text-base leading-[1.6] tracking-[-0.02em] text-white sm:text-xl">
+                {BULLETS.map((b) => (
+                  <li
+                    key={b}
+                    className="flex w-full items-start justify-start! gap-3 text-left "
+                  >
+                    <span className="mt-[0.8em] size-1.5 shrink-0 rounded-full bg-white" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <h2 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-neutral-900 tracking-tight leading-[1.12] mb-6">
-              Have an Idea? Let’s<br />Make it Real.
-            </h2>
-            <p className="text-neutral-600 text-base sm:text-lg leading-relaxed max-w-lg mb-12 sm:mb-16">
-              From idea to launch — tell us what you&apos;re building, improving, or scaling. We&apos;ll architect the roadmap, assemble specialists, and engineer measurable results.
-            </p>
-          </div>
-
-          {/* Leader Profile Card */}
-          <div className="flex flex-col items-start pt-2 sm:pt-6">
-            <div className="relative w-32 h-32 sm:w-40 sm:h-44 overflow-hidden mb-4 group">
-              <Image
-                src="/images/team/leaders/Md.-Parvej-Ahammed.webp"
-                alt="Md. Parvej Ahammed - Managing Director at Sardar IT"
-                fill
-                className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-              />
+            <div className="flex flex-col gap-4 sm:gap-6">
+              <p className="text-base font-medium leading-[1.6] tracking-[-0.02em] text-white sm:text-xl">
+                Or directly connected with us
+              </p>
+              <div className="flex flex-col gap-4 text-base text-white sm:text-xl">
+                <a
+                  href="tel:+8801335111700"
+                  className="flex items-center gap-3 transition-colors hover:text-[#6C8DFF]"
+                >
+                  <FaWhatsapp className="size-6 shrink-0 text-[#1747E0]" />
+                  <span>+88 01335-111700</span>
+                </a>
+                <a
+                  href="mailto:info@sardaritbd.com"
+                  className="flex items-center gap-3 transition-colors hover:text-[#6C8DFF]"
+                >
+                  <FiMail className="size-6 shrink-0 text-[#1747E0]" />
+                  <span>info@sardaritbd.com</span>
+                </a>
+              </div>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 tracking-tight">
-              Parvej Ahammed
-            </h3>
-            <p className="text-sm text-neutral-500 font-medium max-w-[220px] mt-0.5 leading-snug">
-              General Manager
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Right Column: Form Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="lg:col-span-7 flex flex-col items-center"
-        >
-          <div className="w-full bg-white p-6 sm:p-10 shadow-lg border border-white/60">
-            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-              {/* Clean Inline Success Message */}
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col gap-8 lg:justify-between lg:px-10"
+          >
+            <form onSubmit={handleSubmit} className="space-y-8 lg:space-y-12">
               {submitted && (
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm rounded font-medium flex items-center gap-2.5"
+                  className="flex items-center gap-2.5 rounded border border-emerald-500/30 bg-emerald-500/10 p-4 text-xs font-medium text-emerald-300 sm:text-sm"
                 >
-                  <FiCheck className="text-emerald-600 text-base shrink-0" />
+                  <FiCheck className="shrink-0 text-base text-emerald-400" />
                   <span>
-                    Thank you! Your inquiry has been sent successfully. Our team will review your project requirements and reach out shortly.
+                    Thank you! Your inquiry has been sent successfully. Our team
+                    will review your project requirements and reach out shortly.
                   </span>
                 </motion.div>
               )}
 
-              {/* Clean Inline Error Message */}
               {errorMsg && (
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded font-medium"
+                  className="rounded border border-red-500/30 bg-red-500/10 p-3.5 text-xs font-medium text-red-300 sm:text-sm"
                 >
                   {errorMsg}
                 </motion.div>
               )}
-
-              {/* Full Name */}
               <div className="flex flex-col">
-                <label htmlFor="fullName" className="text-sm font-semibold text-neutral-900 mb-1">
+                <label htmlFor="fullName" className={labelClass}>
                   Full Name*
                 </label>
                 <input
@@ -187,17 +257,15 @@ export default function CtaSection() {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="Jane Cooper"
-                  className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
+                  placeholder="Jone Cooper"
+                  className={inputClass}
                   required
                 />
               </div>
-
-              {/* Company Name & Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 lg:gap-6">
                 <div className="flex flex-col">
-                  <label htmlFor="companyName" className="text-sm font-semibold text-neutral-900 mb-1">
-                    Company name
+                  <label htmlFor="companyName" className={labelClass}>
+                    Company Name
                   </label>
                   <input
                     type="text"
@@ -206,11 +274,11 @@ export default function CtaSection() {
                     value={formData.companyName}
                     onChange={handleChange}
                     placeholder="Ex. Tesla Inc"
-                    className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
+                    className={inputClass}
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="email" className="text-sm font-semibold text-neutral-900 mb-1">
+                  <label htmlFor="email" className={labelClass}>
                     Email*
                   </label>
                   <input
@@ -219,105 +287,100 @@ export default function CtaSection() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="You@Example.Com"
-                    className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base"
+                    placeholder="you@exampl.com"
+                    className={inputClass}
                     required
                   />
                 </div>
               </div>
-
-              {/* Service required & Project budget (Custom Dropdown Menus) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 lg:gap-6 [&_label]:mb-4 [&_label]:text-base [&_label]:font-medium [&_label]:leading-[1.3] [&_label]:text-white sm:[&_label]:mb-6 sm:[&_label]:text-xl">
                 <CustomSelect
+                  variant="dark"
                   id="serviceRequired"
                   name="serviceRequired"
-                  label="Service required*"
+                  label="Service Required*"
                   value={formData.serviceRequired}
                   onChange={(val) =>
                     setFormData((prev) => ({ ...prev, serviceRequired: val }))
                   }
                   options={SERVICES_OPTIONS}
-                  placeholder="Select Your Service"
+                  placeholder="Select your service"
                   required
                 />
 
                 <CustomSelect
+                  variant="dark"
                   id="projectBudget"
                   name="projectBudget"
-                  label="Project budget*"
+                  label="Project Budget*"
                   value={formData.projectBudget}
                   onChange={(val) =>
                     setFormData((prev) => ({ ...prev, projectBudget: val }))
                   }
                   options={BUDGET_OPTIONS}
-                  placeholder="Select Your Range"
+                  placeholder="Select your range"
                   required
                 />
               </div>
-
-              {/* Project details */}
               <div className="flex flex-col">
-                <label htmlFor="projectDetails" className="text-sm font-semibold text-neutral-900 mb-1">
-                  Project details*
+                <label htmlFor="projectDetails" className={labelClass}>
+                  Project Details*
                 </label>
                 <textarea
+                  ref={detailsRef}
                   id="projectDetails"
                   name="projectDetails"
-                  rows={2}
+                  rows={1}
                   value={formData.projectDetails}
                   onChange={handleChange}
                   placeholder="Tell us more about your idea"
-                  className="w-full bg-transparent border-b border-neutral-900/80 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-black transition-colors text-base resize-none"
+                  className={`${inputClass} resize-none overflow-hidden`}
                   required
                 />
               </div>
-
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="group w-full bg-[#133BD4] hover:bg-[#0f2eb0] disabled:bg-neutral-700 text-white font-medium py-3.5 px-8 rounded-full text-base sm:text-lg transition-all duration-200 shadow-lg shadow-[#133BD4]/30 hover:shadow-xl active:scale-[0.99] mt-2 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-white py-3 pl-5 pr-3 text-base font-medium leading-5 text-[#1E1E1E] transition-all duration-200 hover:bg-neutral-200 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
-                    <FiLoader className="animate-spin text-xl" />
                     <span>Sending...</span>
+                    <span className="flex size-8 items-center justify-center rounded-full bg-[#1747E0] text-white">
+                      <FiLoader className="size-5 animate-spin" />
+                    </span>
                   </>
                 ) : (
                   <>
                     <span>Send inquiry</span>
-                    <span className="flex items-center justify-center size-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-[#133BD4] transition-colors">
-                      <FiArrowUpRight className="text-base transition-transform duration-500 group-hover:rotate-45" />
+                    <span className="flex size-8 items-center justify-center rounded-full bg-[#1747E0] text-white">
+                      <FiArrowUpRight className="size-5 transition-transform duration-300 group-hover:rotate-45" />
                     </span>
                   </>
                 )}
               </button>
             </form>
-          </div>
-
-          {/* Book A Call Link */}
-          <div className="mt-8 text-center text-neutral-800 text-sm sm:text-base font-medium">
-            Not Interested to submit the form?{" "}
-            <a
-              href="https://calendly.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#10b981] font-semibold underline underline-offset-4 hover:text-[#059669] transition-colors"
-            >
-              Book A Call Directly
-            </a>
-          </div>
-        </motion.div>
+            <div className="text-center text-sm font-normal leading-[1.3] text-white sm:text-base">
+              Not Interested to submit the form?{" "}
+              <a
+                href="https://calendly.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#285CFF] underline underline-offset-2 transition-colors hover:text-[#6C8DFF]"
+              >
+                Book A Call Directly
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
-
-      {/* Cookie Consent Pill Banner */}
       <AnimatePresence>
         {showCookies && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
-            className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full shadow-xl border border-neutral-200 flex items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
+            className="fixed bottom-6 right-6 z-50 bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full shadow-xl border border-neutral-200  items-center gap-3 text-xs sm:text-sm font-medium text-neutral-800 hidden"
           >
             <span>
               This website uses <strong className="font-bold">Cookies.</strong>
