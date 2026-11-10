@@ -6,7 +6,7 @@ import { FiMail, FiMapPin } from "react-icons/fi";
 import { footerData } from "@/data/navigation";
 import type { SocialLink } from "@/types/navigation";
 import { Outfit } from "next/font/google";
-const LOGO_SRC = "/images/logo.svg";
+const LOGO_SRC = "/images/logo-white.png";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: "700",
@@ -79,13 +79,13 @@ export default function Footer() {
               priority={false}
             />
 
-            <p className="mt-9 max-w-[270px] text-[15px] leading-[22px] text-white">
+            <p className="mt-9 max-w-67.5 text-[15px] leading-5.5 text-white">
               We work with a passion for taking challenges and creating new ones
               in the Freelancing sector.
             </p>
 
             <div className="mt-6 flex items-center gap-x-3">
-              <FiMail className="h-[18px] w-[18px] shrink-0" />
+              <FiMail className="h-4.5 w-4.5 shrink-0" />
               <Link
                 href="mailto:info@sardaritbd.com"
                 className="text-[15px] font-medium"
@@ -167,7 +167,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      {/* ───────── Big faded wordmark ───────── */}
       <div
         aria-hidden="true"
         className="pointer-events-none mt-10 w-full select-none overflow-hidden @container lg:mt-11"
