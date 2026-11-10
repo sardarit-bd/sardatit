@@ -20,13 +20,13 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
 const AVATARS = [
   {
-    src: "/images/team/leaders/Md.-Parvej-Ahammed.webp",
-    alt: "Md. Parvej Ahammed",
+    src: "/images/team/leaders/sagor.webp",
+    alt: "sagor",
   },
-  { src: "/images/team/leaders/amena.webp", alt: "Amena" },
+  { src: "/images/team/leaders/Md.-Parvej-Ahammed.webp", alt: "Parvej" },
   {
-    src: "/images/team/leaders/Md-Ekramul-Hasan-Sales-Manager.webp",
-    alt: "Md Ekramul Hasan",
+    src: "/images/team/founders/Mamun-2.png",
+    alt: "Mamun",
   },
 ];
 
