@@ -1,9 +1,6 @@
 import { LeaderChapterItem } from "@/types/leader";
-
 export type { LeaderChapterItem };
-
 export const LEADERS_DATA: LeaderChapterItem[] = [
-  // 1. Founders & Executive Leadership (2 people)
   {
     id: "founder-1",
     name: "Md. Mamunur Roshid",
@@ -26,8 +23,6 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
     groupId: "founders",
     groupName: "Founders & Executive Leadership",
   },
-
-  // 2. Operations & Strategy Leadership (5 people)
   {
     id: "ops-1",
     name: "Md. Parvej Ahammed",
@@ -39,19 +34,8 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
     groupId: "operations",
     groupName: "Operations & Strategy Leadership",
   },
-  {
+    {
     id: "ops-2",
-    name: "Hossain Mahmud",
-    role: "Project Manager",
-    subLabel: "PROJECT MANAGER · TECHNICAL DELIVERY",
-    bio: "Hossain bridges client expectations with engineering sprints, coordinating full-stack teams, release deadlines, and quality benchmarks from kickoff through product launch.",
-    signature: "Hossain Mahmud",
-    imageSrc: "/images/team/leaders/Hossain-Mahmud-Project-Manager.png",
-    groupId: "operations",
-    groupName: "Operations & Strategy Leadership",
-  },
-  {
-    id: "ops-3",
     name: "Md Sagor Ali",
     role: "Operations Manager",
     subLabel: "OPERATIONS MANAGER · INFRASTRUCTURE",
@@ -61,6 +45,18 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
     groupId: "operations",
     groupName: "Operations & Strategy Leadership",
   },
+  {
+    id: "ops-3",
+    name: "Hossain Mahmud",
+    role: "Project Manager",
+    subLabel: "PROJECT MANAGER · TECHNICAL DELIVERY",
+    bio: "Hossain bridges client expectations with engineering sprints, coordinating full-stack teams, release deadlines, and quality benchmarks from kickoff through product launch.",
+    signature: "Hossain Mahmud",
+    imageSrc: "/images/team/leaders/Hossain-Mahmud-Project-Manager.png",
+    groupId: "operations",
+    groupName: "Operations & Strategy Leadership",
+  },
+
   {
     id: "ops-4",
     name: "Md Mehedi Hasan",
@@ -72,61 +68,4 @@ export const LEADERS_DATA: LeaderChapterItem[] = [
     groupId: "operations",
     groupName: "Operations & Strategy Leadership",
   },
-  {
-    id: "ops-5",
-    name: "Mst Amena Akter",
-    role: "Team Lead",
-    subLabel: "TEAM LEAD · FRONTEND ARCHITECTURE",
-    bio: "Amena mentors engineers, enforces code quality across our repositories, and architects responsive, user-friendly frontend systems that perform reliably in production.",
-    signature: "Amena Akter",
-    imageSrc: "/images/team/leaders/amena.png",
-    groupId: "operations",
-    groupName: "Operations & Strategy Leadership",
-  },
-
-  // 3. Sales & Client Relationship Management (4 people)
-  // {
-  //   id: "sales-1",
-  //   name: "Md. Ekramul Hasan",
-  //   role: "Sales Manager",
-  //   subLabel: "SALES MANAGER · CLIENT RELATIONS",
-  //   bio: "Ekramul leads our commercial relationships and international client accounts, ensuring open communication, transparent proposals, and dependable project roadmaps.",
-  //   signature: "Ekramul Hasan",
-  //   imageSrc: "/images/team/leaders/Md-Ekramul-Hasan-Sales-Manager.png",
-  //   groupId: "sales",
-  //   groupName: "Sales & Client Relationship Management",
-  // },
-  // {
-  //   id: "sales-2",
-  //   name: "Showrav",
-  //   role: "Sr. Sales Executive",
-  //   subLabel: "SR. SALES EXECUTIVE · ENTERPRISE SOLUTIONS",
-  //   bio: "Showrav advises founders and technology leaders on development budgets, resource allocations, and product scope to turn concept designs into working software.",
-  //   signature: "Showrav",
-  //   imageSrc: "/images/team/leaders/sales.png",
-  //   groupId: "sales",
-  //   groupName: "Sales & Client Relationship Management",
-  // },
-  // {
-  //   id: "sales-3",
-  //   name: "Shahidul",
-  //   role: "Sr. Sales Executive",
-  //   subLabel: "SR. SALES EXECUTIVE · CLIENT ONBOARDING",
-  //   bio: "Shahidul oversees client onboarding and account management, providing dedicated support throughout contracts, scope revisions, and ongoing delivery phases.",
-  //   signature: "Shahidul",
-  //   imageSrc: "/images/team/leaders/sales2.png",
-  //   groupId: "sales",
-  //   groupName: "Sales & Client Relationship Management",
-  // },
-  // {
-  //   id: "sales-4",
-  //   name: "Jubayer",
-  //   role: "Sales Executive",
-  //   subLabel: "SALES EXECUTIVE · CLIENT ENGAGEMENT",
-  //   bio: "Jubayer coordinates inbound client inquiries, initial discovery meetings, and requirement assessments to help new partners find the right team setup for their build.",
-  //   signature: "Jubayer",
-  //   imageSrc: "/images/team/leaders/sales3.png",
-  //   groupId: "sales",
-  //   groupName: "Sales & Client Relationship Management",
-  // },
 ];

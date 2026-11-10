@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import SectionHeader from "@/components/ui/SectionHeader";
 import { galleryImages } from "@/data/gallery";
 import FloatingLines from "@/components/ui/FloatingLines";
 
@@ -31,17 +30,17 @@ export function CompanyGallerySection() {
       </div>
       <div className="relative z-10">
         <div className="container">
-          <SectionHeader
-            tag={"Life at Sardar IT"}
-            title1="Moments & Company Culture"
-            title2=""
-            pre={
-              "Take a peek inside our company journey, everyday moments, vibrant workspace, and the awesome people behind Sardar IT."
-            }
-            isBgWhite={false}
-            link={"/"}
-            btn={"Book a call"}
-          />
+          {/* Header: block centered, text left-aligned inside it */}
+          <div className="mx-auto w-fit max-w-full text-left">
+            <div className="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#3B6BFF]">
+              <span className="size-1.5 shrink-0 rounded-full bg-[#3B6BFF]" />
+              <span>Life at Sardar IT</span>
+            </div>
+            <h2 className="text-3xl font-semibold leading-[1.2] tracking-tight text-white sm:text-4xl lg:text-6xl">
+              The People &amp; Moments
+              <br className="hidden sm:block" /> That Define Sardar IT
+            </h2>
+          </div>
         </div>
         <div className="relative w-full overflow-hidden flex items-center py-4 mt-14">
           <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 lg:w-48 bg-linear-to-r from-black via-black/80 to-transparent z-20 pointer-events-none hidden" />
